@@ -1,23 +1,39 @@
 import React from 'react';
 import { BrowserRouter as Router, Route,Routes } from 'react-router-dom';
-// import Painting from '../Component/Navbar/Painting';
 import Navigation from '../Navigation/Navigate';
-import Home from '../pages/Home/Home';
-import Painting from '../Component/Navbar/Painting';
+import Paint from '../Component/Paint/Paint';
+import Print from '../Component/Prints/Print';
+import Sculpture from '../Component/Sculpture/Sculpture';
+import Photography from '../Component/Photography/Photography';
+import Inspiration from '../Component/Insipration/Inspiration';
+import Drawing from '../Component/Drawings/Drawing';
+import Cart from '../pages/Cart/Cart';
+import Profile from '../pages/Profile/Profile';
+import ArtProtfolio from '../pages/ArtProtfolio/ArtProtfolio';
+import Signup from '../pages/Signup/Signup';
+import Login from '../pages/Login/Login';
+import About from '../pages/About/About';
 
 const AllRoutes = () => {
   return (
-    // <Router>
    <div>
      <Navigation />
       <Routes>
-      
-      <Route path="/painting" element={<Painting />} />
-      <Route path="/home" element={<Home/>}/>
-      <Route path="/paint" element={<print/>}/>
+      <Route path="/painting" element={<Paint />} />
+      <Route path="/prints" element={<Print/>}/>
+      <Route path="/sculpture" element={<Sculpture/>}/>
+      <Route path="/photography" element={<Photography />} />
+      <Route path="/inspiration" element={<Inspiration/>}/>
+      <Route path="/drawings" element={<Drawing/>}/>
+      <Route path="/cart" element={< Cart/>} />
+      <Route path="/profile" element={<Profile/>}/>
+      <Route path="/art-portfolio" element={<ArtProtfolio/>}/>
+      <Route path="/signup" element={< Signup/>} />
+      <Route path="/login" element={<Login/>}/>
+      <Route path="/about" element={<About/>}/>
       </Routes>
    </div>
-    // </Router>
+  
   );
 };
 
