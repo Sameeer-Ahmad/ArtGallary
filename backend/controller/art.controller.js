@@ -11,9 +11,17 @@ const postArt = async (req, res) => {
   }
 };
 
-
+const getArt = async (req, res) => {
+  try {
+    const getArt = await ArtModel.find();
+    res.status(200).send(getArt);
+  } catch (err) {
+    console.log(err);
+    console.log("Not able to get art");
+  }
+};
 
 module.exports = {
   postArt,
- 
+  getArt,
 };
