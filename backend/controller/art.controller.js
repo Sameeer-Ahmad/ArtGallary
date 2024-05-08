@@ -20,8 +20,18 @@ const getArt = async (req, res) => {
     console.log("Not able to get art");
   }
 };
-
+const deleteArt=async(req,res)=>{
+    const{id}=req.params
+    try{
+        const deleteArt=await ArtModel.findByIdAndDelete(id);
+        res.status(200).send(deleteArt)
+    }catch(err){
+        console.log(err);
+        console.log("Not able to delete art");
+    }
+}
 module.exports = {
   postArt,
   getArt,
+  deleteArt
 };
