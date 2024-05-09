@@ -1,5 +1,14 @@
 const { ArtModel } = require("../model/art.model");
 
+const getArtByCategory = async (req, res) => {
+  try {
+    const getArtByCategory = await ArtModel.find();
+    res.status(200).send(getArtByCategory);
+  } catch (err) {
+    console.log(err);
+  }
+};
+
 const Painting = async (req, res) => {
   try {
     const painting = await ArtModel.find({ artCategory: "paintings" });
@@ -8,6 +17,7 @@ const Painting = async (req, res) => {
     console.log(err);
   }
 };
+
 const Print = async (req, res) => {
   try {
     const print = await ArtModel.find({ artCategory: "prints" });
@@ -53,6 +63,23 @@ const Drawings = async (req, res) => {
   }
 };
 
+const addToCart = async (req, res) => {
+  // const { id } = req.params;
+  // try {
+  //   const artPiece = await ArtModel.findById(id);
+  //   if (!artPiece) {
+  //     return res.status(404).send("Art piece not found");
+  //   }
+  //   req.user.push(artPiece);
+  //   await req.user.save();
+
+  //   res.status(200).send("Art piece added to cart");
+  // } catch (err) {
+  //   console.error(err);
+  //   res.status(500).send("Failed to add art piece to cart");
+  // }
+};
+
 module.exports = {
   Painting,
   Print,
@@ -60,4 +87,6 @@ module.exports = {
   Photography,
   Inspiration,
   Drawings,
+  getArtByCategory,
+  addToCart,
 };

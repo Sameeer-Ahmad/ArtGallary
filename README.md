@@ -8,16 +8,13 @@ Artist portfolio-artwork
 
 Collector-explore and purchase; filtering, searching , transaction process
 
-
 userSchema-
-ID,
-username,
+
 email,
 password
 role:[artist,collector]
 
 versionkey:false
-
 
 artSchema-
 
@@ -31,12 +28,11 @@ artDimension,
 userID,
 username
 
-
-routes for  user-
+routes for user-
 
 ---login
 
----signup 
+---signup
 
 ---logout
 
@@ -53,7 +49,6 @@ sculpture
 photography
 architecture
 and so on
-
 
 Chatbox-with ai integeration
 
@@ -91,7 +86,7 @@ footer
 git add .
 git commit -m "footer completed"
 
-signup 
+signup
 git add .
 git commit -m "signup completed"
 
@@ -104,7 +99,6 @@ routes
 navbar
 footer
 about
-
 
 day2
 roshan
@@ -120,7 +114,6 @@ component/pages
 
 paints,prints,sculpture,photography,inspiration,drawings
 
-Cart,Profile,ArtPortfolio,Signup,Login,About 
-
+Cart,Profile,ArtPortfolio,Signup,Login,About
 
 https://masai-curriculum-framework.notion.site/ArtGallery-showcasing-and-trading-art-8928917f6ac241ee8f714b0acd22b480
