@@ -39,6 +39,7 @@ const login = async (req, res) => {
             process.env.SECRET_KEY
           );
           res.status(200).send({ msg: "Login successful", token });
+          console.log("login successfully");
         } else {
           res.status(400).send("Invalid credentials");
         }

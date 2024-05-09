@@ -2,13 +2,11 @@ import { Box, InputGroup, InputRightElement } from "@chakra-ui/react";
 import { useState } from "react";
 import {
   Button,
-  Checkbox,
   Flex,
   FormLabel,
   Heading,
   Input,
   Stack,
-  Image,
 } from "@chakra-ui/react";
 import { ViewIcon, ViewOffIcon } from "@chakra-ui/icons";
 import { useNavigate } from "react-router-dom";
@@ -73,10 +71,7 @@ function Signup() {
                   "rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 1px 3px 1px"
                 }
                 border={"none"}
-                _focus={{
 
-                  outline: "none",
-                }}
                 value={username}
                 onChange={(e) => setUsername(e.target.value)}
               />

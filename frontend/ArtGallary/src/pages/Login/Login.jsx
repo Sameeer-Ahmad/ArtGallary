@@ -1,31 +1,32 @@
+import React, { useState } from "react";
 import { ViewIcon, ViewOffIcon } from "@chakra-ui/icons";
 import {
   Flex,
   Box,
   FormLabel,
   Input,
-  Checkbox,
   Stack,
+  Heading,
   Button,
-  Text,
-  useColorModeValue,
   InputGroup,
   InputRightElement,
 } from "@chakra-ui/react";
-import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+
 function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
+
   const handleLogin = (e) => {
     e.preventDefault();
     const payload = {
       email,
       password,
     };
-    fetch("http://localhost:3000/users/login", {
+
+    fetch("http://localhost:3000/user/login", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -42,43 +43,46 @@ function Login() {
         }
       })
       .catch((err) => console.log(err));
-
   };
+
   return (
-    <Flex
+    <Stack
       minH={"100vh"}
-      align={"center"}
-      justify={"center"}
-
-      bg={useColorModeValue("gray.50", "gray.800")}
+      direction={{ base: "column", md: "row" }}
+      backgroundImage="url('https://images.unsplash.com/photo-1578926375605-eaf7559b1458?q=80&w=1963&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D')"
+      backgroundSize="cover"
+      backgroundPosition="center"
+      display="flex"
+      alignItems="center"
+      justifyContent="center"
     >
-      <Stack spacing={8} mx={"auto"} maxW={"lg"} py={12} px={6}>
-        <Stack align={"center"}>
-          <Text fontWeight={700} fontSize={"4xl"}>
+      <Flex p={8} flex={1} align={"center"} justify={"center"}>
+        <Stack spacing={4} w={"full"} maxW={"md"}>
+          <Heading fontSize={"40px"} color={"black"}>
             Sign in to your account
-          </Text>
-
-        </Stack>
-        <Box
-          rounded={"lg"}
-          bg={useColorModeValue("white", "gray.700")}
-          boxShadow={"lg"}
-          p={8}
-        >
-          <Box spacing={4} as={"form"} onSubmit={handleLogin}>
-            <FormLabel>Email address</FormLabel>
+          </Heading>
+          <Box as="form" onSubmit={handleLogin} flex={1} gap={"20px"}>
+            <FormLabel>Enter Email address</FormLabel>
             <Input
-              type="email"
+              type="text"
               placeholder="email"
               value={email}
+              boxShadow={
+                "rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 1px 3px 1px"
+              }
+              border={"none"}
               onChange={(e) => setEmail(e.target.value)}
             />
-            <FormLabel>Password</FormLabel>
+            <FormLabel> Enter Password</FormLabel>
             <InputGroup>
               <Input
                 type={showPassword ? "text" : "password"}
                 placeholder="password"
                 value={password}
+                boxShadow={
+                  "rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 1px 3px 1px"
+                }
+                border={"none"}
                 onChange={(e) => setPassword(e.target.value)}
               />
               <InputRightElement h={"full"}>
@@ -92,36 +96,33 @@ function Login() {
                 </Button>
               </InputRightElement>
             </InputGroup>
-            <Stack spacing={10}>
+
+            <Stack spacing={6}>
               <Stack
                 direction={{ base: "column", sm: "row" }}
                 align={"start"}
                 justify={"space-between"}
-              >
-                <Checkbox>Remember me</Checkbox>
-                {/* <Text color={"blue.400"}>Forgot password?</Text> */}
-              </Stack>
+              ></Stack>
+
               <Button
-                bg={"blue.400"}
+                variant={"solid"}
+                border={"2px solid #B79B54"}
+                boxShadow={
+                  "rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 1px 3px 1px"
+                }
                 color={"white"}
-                _hover={{
-                  bg: "blue.500",
-                }}
+                background={"#B79B54"}
+                borderRadius={"20px"}
                 type="submit"
               >
                 Sign in
               </Button>
             </Stack>
-            <Box>
-              <h3>sign in with</h3>
-              <Box>
-
-              </Box>
-            </Box>
           </Box>
-        </Box>
-      </Stack>
-    </Flex>
+        </Stack>
+      </Flex>
+      <Flex flex={1}></Flex>
+    </Stack>
   );
 }
 
