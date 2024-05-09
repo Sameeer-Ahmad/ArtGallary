@@ -1,7 +1,9 @@
 const express = require("express");
 const { connectToDB } = require("./config/db");
 const { UserModel } = require("./userSchema");
-const { artRouter } = require("./routes/art.routes");
+const {  artistRouter } = require("./routes/artist.routes");
+const { artCategoryRouter } = require("./routes/art.category.routes");
+
 const app = express();
 require("dotenv").config();
 const PORT = process.env.PORT;
@@ -27,7 +29,10 @@ app.post("/users", async (req, res) => {
   }
 });
 
-app.use("/art", artRouter);
+app.use("/artist", artistRouter);
+
+app.use("/art",artCategoryRouter);
+
 
 app.listen(PORT, async () => {
   try {
