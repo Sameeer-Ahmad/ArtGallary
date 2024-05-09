@@ -1,4 +1,9 @@
+// import LargeWithNewsletter from "./Component/Footer/Footer"
+
+import Footer from "./Component/Footer/Footer"
 import AllRoutes from "./Router/AllRoutes"
+
+
 
 
 function App() {
@@ -6,8 +11,8 @@ function App() {
 
   return (
     <>
-
-      <AllRoutes />
+   <AllRoutes/>
+   <Footer/>
 
     </>
   )
