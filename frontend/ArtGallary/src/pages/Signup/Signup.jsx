@@ -48,7 +48,6 @@ function Signup() {
         minH={"100vh"}
 
         direction={{ base: "column", md: "row" }}
-        // backgroundColor={"#F1F1F1"}
         backgroundImage="url('https://images.unsplash.com/photo-1578926375605-eaf7559b1458?q=80&w=1963&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D')"
         backgroundSize="cover"
         backgroundPosition="center"
@@ -59,7 +58,7 @@ function Signup() {
       >
         <Flex p={8} flex={1} align={"center"} gap={"20px"} justify={"center"}>
           <Stack spacing={4} w={"full"} maxW={"md"}>
-            <Heading fontSize={"40px"} color={"black"}>
+            <Heading fontSize={"40px"} color={"#B79B54"}>
               Sign up to your account
             </Heading>
             <Box as="form" onSubmit={handleRegister}>

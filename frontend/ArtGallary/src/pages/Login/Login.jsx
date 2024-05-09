@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { ViewIcon, ViewOffIcon } from "@chakra-ui/icons";
 import {
   Flex,
@@ -58,7 +58,7 @@ function Login() {
     >
       <Flex p={8} flex={1} align={"center"} justify={"center"}>
         <Stack spacing={4} w={"full"} maxW={"md"}>
-          <Heading fontSize={"40px"} color={"black"}>
+          <Heading fontSize={"40px"} color={"#B79B54"}>
             Sign in to your account
           </Heading>
           <Box as="form" onSubmit={handleLogin} flex={1} gap={"20px"}>
