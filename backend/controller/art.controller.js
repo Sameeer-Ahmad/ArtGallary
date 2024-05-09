@@ -32,7 +32,6 @@ const getArt = async (req, res) => {
 
 const deleteArt = async (req, res) => {
   const { id } = req.params;
-  // const { userID } = req.body;
   try {
     const art = await ArtModel.findById(id);
     console.log("art-->", art);

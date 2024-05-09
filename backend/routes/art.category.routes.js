@@ -6,22 +6,30 @@ const {
   Photography,
   Inspiration,
   Drawings,
+  getArtByCategory,
+  addToCart,
 } = require("../controller/art.category.controller");
+
+const { auth } = require("../middleware/auth.middleware");
 
 const artCategoryRouter = express.Router();
 
-artCategoryRouter.get("/painting", Painting);
+artCategoryRouter.get("/", auth, getArtByCategory);
 
-artCategoryRouter.get("/prints", Print);
+artCategoryRouter.get("/paintings", auth, Painting);
 
-artCategoryRouter.get("/sculpture", Sculpture);
+artCategoryRouter.get("/prints", auth, Print);
 
-artCategoryRouter.get("/photography", Photography);
+artCategoryRouter.get("/sculpture", auth, Sculpture);
 
-artCategoryRouter.get("/inspiration", Inspiration);
+artCategoryRouter.get("/photography", auth, Photography);
 
-artCategoryRouter.get("/drawing", Drawings);
+artCategoryRouter.get("/inspiration", auth, Inspiration);
+
+artCategoryRouter.get("/drawings", auth, Drawings);
+
+artCategoryRouter.post("/cart/:id", auth, addToCart);
 
 module.exports = {
-    artCategoryRouter,
+  artCategoryRouter,
 };

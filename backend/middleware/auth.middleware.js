@@ -12,7 +12,7 @@ const auth = (req, res, next) => {
         req.body.userID = userID;
         req.body.username = username;
         req.role = role;
-        console.log("user--",req.body.userID);
+        console.log("user--", req.body.userID);
         // console.log("user--",req.body.userID);
 
         next();
