@@ -7,12 +7,13 @@ const {
   updateArt,
   getArtById,
 } = require("../controller/art.controller");
+const { auth } = require("../middleware/auth.middleware");
 
 const artistRouter = express.Router();
 
-artistRouter.post("/add", postArt);
+artistRouter.post("/add",auth, postArt);
 
-artistRouter.get("/get", getArt);
+artistRouter.get("/get", auth, getArt);
 
 artistRouter.delete("/delete/:id", deleteArt);
 

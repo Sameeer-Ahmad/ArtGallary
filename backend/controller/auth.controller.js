@@ -1,66 +1,78 @@
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 require("dotenv").config();
-const { usermodel } = require("../model/user.model");
+const { userModel } = require("../model/user.model");
+const { tokenModel } = require("../model/token.model");
 
-const register = async (req, res) => {
+const signup = async (req, res) => {
+  const { username, email, password, role } = req.body;
+  const saltRounds = 10;
   try {
-    const { username, email, password } = req.body;
-
-    if (!username || !email || !password) {
-      return res
-        .status(400)
-        .send("Username, email, and password are required.");
+    const existingUser = await userModel.findOne({ email });
+    if (existingUser) {
+      res.status(400).send("Email already registered");
     }
-
-    const saltRounds = 10;
-    const salt = bcrypt.genSaltSync(saltRounds);
-    const hash = await bcrypt.hash(password, salt);
-
-    const newuser = new usermodel({ username, email, password: hash });
-    await newuser.save();
-
-    res.status(201).send({ msg: `User registered successfully`, newuser });
+    bcrypt.hash(password, saltRounds, async (err, hash) => {
+      if (err) {
+        res.status(200).send({ msg: err });
+      } else {
+        const user = new userModel({ username, email, password: hash, role });
+        await user.save();
+        res.status(200).send({ msg: "user registered successfully" });
+      }
+    });
   } catch (err) {
     console.error(err);
-    res.status(500).send("Internal Server Error");
+    res.status(400).send("Something went wrong");
   }
 };
 
 const login = async (req, res) => {
   const { email, password } = req.body;
-
   try {
-    const user = await usermodel.findOne({ email });
-    if (!user) {
-      return res.status(404).send("User not found");
-    }
-
-    const match = await bcrypt.compare(password, user.password);
-    if (match) {
-      const token = jwt.sign(
-        { userId: user._id, username: user.username },
-        process.env.JWT_SECRET,
-        { expiresIn: "1h" }
-      );
-      return res.status(200).send({ msg: "Login success", token });
+    const user = await userModel.findOne({ email });
+    if (user) {
+      bcrypt.compare(password, user.password, async (err, result) => {
+        if (result) {
+          const token = jwt.sign(
+            { userID: user._id, username: user.username, role: user.role },
+            process.env.SECRET_KEY
+          );
+          res.status(200).send({ msg: "Login successful", token });
+        } else {
+          res.status(400).send("Invalid credentials");
+        }
+      });
     } else {
-      return res.status(401).send("Wrong password");
+      res.status(200).send("User not found");
     }
   } catch (err) {
     console.error(err);
-    return res.status(500).send("Internal Server Error");
+    return res.status(401).send("Something went wrong");
   }
 };
 
-const logout = (req, res) => {
+const logout = async (req, res) => {
+  const header = req.headers["authorization"];
+  if (!header) {
+    return res.status(401).send({ error: "Authorization header not found" });
+  }
+  const token = header.split(" ")[1];
   try {
-    res.clearCookie("jwtToken");
-    res.status(200).send({ message: "Logout successful" });
+    if (!token) {
+      res.status(401).send({ msg: "No token provided" });
+    }
+    const userToken = new tokenModel({ token });
+    await userToken.save();
+    res.status(200).send({ msg: "Logout successful" });
   } catch (error) {
     console.error("Error during logout:", error);
     res.status(500).send({ error: "Internal Server Error" });
   }
 };
 
-module.exports = { register, login, logout };
+module.exports = {
+  signup,
+  login,
+  logout,
+};
