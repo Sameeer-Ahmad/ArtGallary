@@ -1,15 +1,18 @@
 
 
-  import {Box, Text, Input, Stack, Button, Container, SimpleGrid, Tag, Heading } from '@chakra-ui/react'
+  import {Box, Text, Input, Stack, Button, Container, SimpleGrid,  Heading  ,Image} from '@chakra-ui/react'
 import React from 'react'
 import { FaInstagram, FaTwitter, FaYoutube } from 'react-icons/fa';
 
   const Footer = () => {
     return (
-       
+        
         <Box bg='#f5f1ee' w='100%' p={4} color='white'>
  <Stack align={'flex-start'}
         alignItems={'center'}>
+
+
+      {/* <Image src='https://img.freepik.com/premium-vector/art-gallery-logo-design_92167-618.jpg' width={'140px'} alt='Dan Abramov' /> */}
         <Text fontSize={'ms'} textAlign={'center'} width={'230px'} color='black' >Subscribe for the latest updates in contemporary art & design!</Text>
         <Stack direction={'row'}>
         <Input marginTop={"20px"}
@@ -30,9 +33,10 @@ import { FaInstagram, FaTwitter, FaYoutube } from 'react-icons/fa';
 </Button>
         </Stack>
       </Stack>
+     
             <Stack direction={'row'} marginTop={"30px"} justifyContent={"center"} spacing={6}>
           <Button label={'Twitter'} href={'#'}>
-            <FaTwitter color='#169bef' />
+            <FaTwitter color='#169bef' bg />
           </Button>
           <Button label={'YouTube'} href={'#'}>
             <FaYoutube color='red' />
@@ -40,7 +44,9 @@ import { FaInstagram, FaTwitter, FaYoutube } from 'react-icons/fa';
           <Button label={'Instagram'} href={'#'}>
             <FaInstagram  color='red'/>
           </Button>
+         
         </Stack>
+        
 
     {/* footer column */}
     <Container as={Stack} maxW={'6xl'} py={10}>
