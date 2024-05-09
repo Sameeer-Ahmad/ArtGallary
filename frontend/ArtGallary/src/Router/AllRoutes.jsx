@@ -1,5 +1,5 @@
-import React from 'react';
-import { BrowserRouter as  Route,Routes } from 'react-router-dom';
+//import React from 'react';
+import { Route, Routes } from 'react-router-dom';
 import Navigation from '../Navigation/Navigate';
 import Paint from '../Component/Paint/Paint';
 import Print from '../Component/Prints/Print';
@@ -16,24 +16,24 @@ import About from '../pages/About/About';
 
 const AllRoutes = () => {
   return (
-   <div>
-     <Navigation />
+    <div>
+      <Navigation />
       <Routes>
-      <Route path="/painting" element={<Paint />} />
-      <Route path="/prints" element={<Print/>}/>
-      <Route path="/sculpture" element={<Sculpture/>}/>
-      <Route path="/photography" element={<Photography />} />
-      <Route path="/inspiration" element={<Inspiration/>}/>
-      <Route path="/drawings" element={<Drawing/>}/>
-      <Route path="/cart" element={< Cart/>} />
-      <Route path="/profile" element={<Profile/>}/>
-      <Route path="/art-portfolio" element={<ArtProtfolio/>}/>
-      <Route path="/signup" element={< Signup/>} />
-      <Route path="/login" element={<Login/>}/>
-      <Route path="/about" element={<About/>}/>
+        <Route path="/painting" element={<Paint />} />
+        <Route path="/prints" element={<Print />} />
+        <Route path="/sculpture" element={<Sculpture />} />
+        <Route path="/photography" element={<Photography />} />
+        <Route path="/inspiration" element={<Inspiration />} />
+        <Route path="/drawings" element={<Drawing />} />
+        <Route path="/cart" element={< Cart />} />
+        <Route path="/profile" element={<Profile />} />
+        <Route path="/art-portfolio" element={<ArtProtfolio />} />
+        <Route path="/signup" element={<Signup />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/about" element={<About />} />
       </Routes>
-   </div>
-  
+    </div>
+
   );
 };
 

@@ -14,11 +14,11 @@ const signup = async (req, res) => {
     }
     bcrypt.hash(password, saltRounds, async (err, hash) => {
       if (err) {
-        res.status(200).send({ msg: err });
+        res.status(200).send({ msg: `find err` });
       } else {
         const user = new userModel({ username, email, password: hash, role });
         await user.save();
-        res.status(200).send({ msg: "user registered successfully" });
+        res.status(200).send({ msg: `user registered successfully` });
       }
     });
   } catch (err) {

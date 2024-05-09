@@ -2,11 +2,13 @@ import AllRoutes from "./Router/AllRoutes"
 
 
 function App() {
- 
+
 
   return (
     <>
-   <AllRoutes/>
+
+      <AllRoutes />
+
     </>
   )
 }
