@@ -12,7 +12,7 @@ import { FaInstagram, FaTwitter, FaYoutube } from 'react-icons/fa';
         alignItems={'center'}>
 
 
-      {/* <Image src='https://img.freepik.com/premium-vector/art-gallery-logo-design_92167-618.jpg' width={'140px'} alt='Dan Abramov' /> */}
+      {/* <Image src='https://img.freepik.com/premium-vector/art-gallery-logo-design_92167-618.jpg'  width={'140px'} alt='Dan Abramov' /> */}
         <Text fontSize={'ms'} textAlign={'center'} width={'230px'} color='black' >Subscribe for the latest updates in contemporary art & design!</Text>
         <Stack direction={'row'}>
         <Input marginTop={"20px"}
@@ -25,9 +25,11 @@ import { FaInstagram, FaTwitter, FaYoutube } from 'react-icons/fa';
   size='md'
   height='38px'
   width='140px'
-  border='2px'
-  borderColor='green.500'
+  borderColor='none'
   marginTop={"20px"}
+  bg={'#b79b54'}
+  color='white'
+  _hover={{ color: 'none' }}
 >
   Subscribe
 </Button>
@@ -36,7 +38,7 @@ import { FaInstagram, FaTwitter, FaYoutube } from 'react-icons/fa';
      
             <Stack direction={'row'} marginTop={"30px"} justifyContent={"center"} spacing={6}>
           <Button label={'Twitter'} href={'#'}>
-            <FaTwitter color='#169bef' bg />
+            <FaTwitter color='#169bef'  />
           </Button>
           <Button label={'YouTube'} href={'#'}>
             <FaYoutube color='red' />
