@@ -45,8 +45,9 @@ body {
     margin-bottom: 20px;
   }
   .container {
-    max-width: 800px;
+    max-width: 1400px;
     margin: 0 auto;
+    background-color: rgb(250,248,244);
     padding: 20px;
   }
   
