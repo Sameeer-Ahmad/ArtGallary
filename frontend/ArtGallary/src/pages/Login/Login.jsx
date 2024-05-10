@@ -26,7 +26,7 @@ function Login() {
       password,
     };
 
-    fetch("http://localhost:3000/user/login", {
+    fetch("https://artgallary.onrender.com/user/login", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -37,7 +37,8 @@ function Login() {
       .then((data) => {
         console.log(data);
         if (data.token) {
-          navigate("/home");
+          localStorage.setItem('token', data.token);
+          navigate("/");
         } else {
           alert("Invalid email or password");
         }
