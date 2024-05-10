@@ -20,9 +20,6 @@ const getArt = async (req, res) => {
     if (req.role=="artist") {
       const getArt = await ArtModel.find({ userID: req.body.userID });
       res.status(200).send(getArt);
-    }else if(req.role=="collector"){
-      const getArt = await ArtModel.find();
-      res.status(200).send(getArt);
     }
   } catch (err) {
     console.log(err);

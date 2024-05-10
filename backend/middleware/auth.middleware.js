@@ -8,11 +8,11 @@ const auth = (req, res, next) => {
       if (decoded) {
         const { userID, username, role } = decoded;
         const user = await userModel.findById(userID);
-        // req.user = user;
+        req.user = user;
         req.body.userID = userID;
         req.body.username = username;
         req.role = role;
-        console.log("user--", req.body.userID);
+        // console.log("user--", req.body.userID);
         // console.log("user--",req.body.userID);
 
         next();
