@@ -117,3 +117,7 @@ paints,prints,sculpture,photography,inspiration,drawings
 Cart,Profile,ArtPortfolio,Signup,Login,About
 
 https://masai-curriculum-framework.notion.site/ArtGallery-showcasing-and-trading-art-8928917f6ac241ee8f714b0acd22b480
+
+
+day3 work-
+routes for profile,artfoliyo

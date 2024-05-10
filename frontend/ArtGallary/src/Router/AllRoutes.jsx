@@ -1,7 +1,6 @@
 
-import React from 'react';
 import {  Route,Routes } from 'react-router-dom';
-import Navigation from '../Navigation/Navigate';
+
 import Paint from '../Component/Paint/Paint';
 import Print from '../Component/Prints/Print';
 import Sculpture from '../Component/Sculpture/Sculpture';
@@ -14,13 +13,15 @@ import ArtProtfolio from '../pages/ArtProtfolio/ArtProtfolio';
 import Signup from '../pages/Signup/Signup';
 import Login from '../pages/Login/Login';
 import About from '../pages/About/About';
+import Navbar from '../Component/Navbar/Navbar';
+
 
 const AllRoutes = () => {
   return (
     <div>
-      <Navigation />
+      <Navbar />
       <Routes>
-        <Route path="/painting" element={<Paint />} />
+        <Route path="/paintings" element={<Paint />} />
         <Route path="/prints" element={<Print />} />
         <Route path="/sculpture" element={<Sculpture />} />
         <Route path="/photography" element={<Photography />} />
