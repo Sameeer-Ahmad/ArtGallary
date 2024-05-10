@@ -15,11 +15,11 @@ const artistRouter = express.Router();
 
 artistRouter.post("/add", auth, postArt);
 
-artistRouter.get("/get", auth, getArt);
+artistRouter.get("/artPortfolio", auth, getArt);
 
-artistRouter.delete("/delete/:id", auth,access("artist"), deleteArt);
+artistRouter.delete("/delete/:id", auth, access("artist"), deleteArt);
 
-artistRouter.patch("/update/:id", auth,access("artist"), updateArt);
+artistRouter.patch("/update/:id", auth, access("artist"), updateArt);
 
 artistRouter.get("/get/:id", auth, getArtById);
 

@@ -19,7 +19,7 @@ function Signup() {
   const navigate = useNavigate();
 
   const Signupbtn = () => {
-    navigate("../Login/Login.jsx");
+    navigate("/login");
   };
 
   const handleRegister = (e) => {
@@ -56,9 +56,9 @@ function Signup() {
         justifyContent="center"
 
       >
-        <Flex p={8} flex={1} align={"center"} gap={"20px"} justify={"center"}>
+        <Flex p={1} flex={1.5} align={"center"} gap={"20px"} justify={"center"}>
           <Stack spacing={4} w={"full"} maxW={"md"}>
-            <Heading fontSize={"40px"} color={"#B79B54"}>
+            <Heading fontSize={["2xl", "3xl", "4xl"]} color={"#B79B54"}>
               Sign up to your account
             </Heading>
             <Box as="form" onSubmit={handleRegister}>

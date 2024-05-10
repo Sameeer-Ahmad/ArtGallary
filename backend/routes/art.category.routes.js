@@ -33,3 +33,6 @@ artCategoryRouter.post("/cart/:id", auth, addToCart);
 module.exports = {
   artCategoryRouter,
 };
+
+//art
+//art.jsx
