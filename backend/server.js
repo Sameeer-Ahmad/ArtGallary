@@ -7,9 +7,13 @@ const { artCategoryRouter } = require("./routes/art.category.routes");
 const authRouter = require("./routes/user.routes");
 
 const app = express();
+
 app.use(cors());
+
 require("dotenv").config();
+
 const PORT = process.env.PORT;
+
 app.use(express.json());
 
 app.use("/artist", artistRouter);
