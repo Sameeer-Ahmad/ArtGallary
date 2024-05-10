@@ -39,7 +39,7 @@ const Sculpture = async (req, res) => {
 const Photography = async (req, res) => {
   try {
     const photography = await ArtModel.find({ artCategory: "photography" });
-    res.status(200).send(photography);
+    res.status(200).send({data:photography});
   } catch (err) {
     console.log(err);
   }
