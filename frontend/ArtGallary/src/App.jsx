@@ -11,8 +11,8 @@ function App() {
 
   return (
     <>
-   <AllRoutes/>
-   <Footer/>
+      <AllRoutes />
+
 
     </>
   )

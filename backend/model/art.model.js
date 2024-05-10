@@ -15,6 +15,7 @@ const artSchema = new mongoose.Schema(
         "photography",
         "inspiration",
         "drawings",
+        "Acrylic",
       ],
       required: true,
     },

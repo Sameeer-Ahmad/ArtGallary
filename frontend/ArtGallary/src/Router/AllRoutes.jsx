@@ -1,5 +1,5 @@
 
-import {  Route,Routes } from 'react-router-dom';
+import { Route, Routes } from 'react-router-dom';
 
 import Paint from '../Component/Paint/Paint';
 import Print from '../Component/Prints/Print';
@@ -14,6 +14,7 @@ import Signup from '../pages/Signup/Signup';
 import Login from '../pages/Login/Login';
 import About from '../pages/About/About';
 import Navbar from '../Component/Navbar/Navbar';
+import Art from '../pages/Art/Art';
 
 
 const AllRoutes = () => {
@@ -33,6 +34,7 @@ const AllRoutes = () => {
         <Route path="/signup" element={<Signup />} />
         <Route path="/login" element={<Login />} />
         <Route path="/about" element={<About />} />
+        <Route path="/art" element={<Art />} />
       </Routes>
     </div>
 
