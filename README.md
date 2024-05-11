@@ -120,4 +120,8 @@ https://masai-curriculum-framework.notion.site/ArtGallery-showcasing-and-trading
 
 
 day3 work-
-routes for profile,artfoliyo
+routes for profile,artfoliyo  (both are remaining)
+
+day4 work
+
+create a single id page for all arts and particular category arts

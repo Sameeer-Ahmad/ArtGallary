@@ -5,19 +5,18 @@ import {
   IconButton,
   useDisclosure,
   Stack,
-  
 } from "@chakra-ui/react";
- import "./ArtGallaryLogo.png";
+import "./ArtGallaryLogo.png";
 import { HamburgerIcon, CloseIcon } from "@chakra-ui/icons";
 import { Link } from "react-router-dom";
 
 const Links = [
-  { ids: 1, name: "PAINTING", link: "/paintings" },
-  { ids: 2, name: "PRINTS", link: "/prints" },
-  { ids: 3, name: "PHOTOGRAPHY", link: "/photography" },
-  { ids: 4, name: "SCULPTURE", link: "/sculpture" },
-  { ids: 5, name: "DRAWINGS", link: "/drawings" },
-  { ids: 6, name: "INSPIRATION", link: "/inspiration" },
+  { ids: 1, name: "PAINTING", link: "/art/paintings" },
+  { ids: 2, name: "PRINTS", link: "/art/prints" },
+  { ids: 3, name: "PHOTOGRAPHY", link: "/art/photography" },
+  { ids: 4, name: "SCULPTURE", link: "/art/sculpture" },
+  { ids: 5, name: "DRAWINGS", link: "/art/drawings" },
+  { ids: 6, name: "INSPIRATION", link: "/art/inspiration" },
   { ids: 7, name: "ABOUT", link: "/about" },
 ];
 
@@ -26,9 +25,7 @@ export default function NavBar() {
 
   return (
     <>
-      <Box>
-
-      </Box>
+      <Box></Box>
       <Box bg="rgb(250,248,244)" px={4}>
         <Flex h={16} alignItems={"center"} justifyContent={"space-between"}>
           <IconButton
@@ -41,7 +38,7 @@ export default function NavBar() {
           />
           <Box>
             <img src="./ArtGallaryLogo.png" alt="logo" />
-            </Box>
+          </Box>
           <HStack
             spacing={10}
             alignItems={"center"}
@@ -78,7 +75,6 @@ export default function NavBar() {
           </Box>
         ) : null}
       </Box>
-
     </>
   );
 }

@@ -11,13 +11,15 @@ import {
   InputGroup,
   InputRightElement,
 } from "@chakra-ui/react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { useToast } from "@chakra-ui/react";
 
 function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
+  const toast = useToast();
 
   const handleLogin = (e) => {
     e.preventDefault();
@@ -35,11 +37,15 @@ function Login() {
     })
       .then((res) => res.json())
       .then((data) => {
-        console.log(data);
+        // console.log(data);
         if (data.token) {
-
-          localStorage.setItem("token", data.token)
-
+          toast({
+            title: "Logged in successfully",
+            status: "success",
+            duration: 3000,
+            isClosable: true,
+          });
+          localStorage.setItem("token", data.token);
           navigate("/");
         } else {
           alert("Invalid email or password");
@@ -76,7 +82,7 @@ function Login() {
               border={"none"}
               onChange={(e) => setEmail(e.target.value)}
             />
-            <FormLabel> Enter Password</FormLabel>
+            <FormLabel mt={"10px"}> Enter Password</FormLabel>
             <InputGroup>
               <Input
                 type={showPassword ? "text" : "password"}
@@ -108,6 +114,7 @@ function Login() {
               ></Stack>
 
               <Button
+                _hover={{ bg: "white", color: "#B79B54" }}
                 variant={"solid"}
                 border={"2px solid #B79B54"}
                 boxShadow={
@@ -120,6 +127,23 @@ function Login() {
               >
                 Sign in
               </Button>
+              <Link to="/signup">
+                <Button
+                  _hover={{ bg: "white", color: "#B79B54" }}
+                  width={["100%", "100%"]}
+                  variant={"solid"}
+                  border={"2px solid #B79B54"}
+                  boxShadow={
+                    "rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 1px 3px 1px"
+                  }
+                  color={"white"}
+                  background={"#B79B54"}
+                  borderRadius={"20px"}
+                  type="submit"
+                >
+                  Sign Up
+                </Button>
+              </Link>
             </Stack>
           </Box>
         </Stack>

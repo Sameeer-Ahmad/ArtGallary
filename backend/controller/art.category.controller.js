@@ -39,7 +39,7 @@ const Sculpture = async (req, res) => {
 const Photography = async (req, res) => {
   try {
     const photography = await ArtModel.find({ artCategory: "photography" });
-    res.status(200).send({data:photography});
+    res.status(200).send(photography);
   } catch (err) {
     console.log(err);
   }
@@ -72,7 +72,6 @@ const addToCart = async (req, res) => {
   //   }
   //   req.user.push(artPiece);
   //   await req.user.save();
-
   //   res.status(200).send("Art piece added to cart");
   // } catch (err) {
   //   console.error(err);
