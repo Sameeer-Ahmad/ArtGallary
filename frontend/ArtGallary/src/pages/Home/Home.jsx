@@ -199,15 +199,15 @@ const Home = () => {
 
       <Box display={"flex"} flexDir={"column"} gap={"15px"} mt={12} textAlign={"center"} width={"95%"} alignItems={"center"}  >
         <Text fontSize={"35px"} fontFamily={"Addington CF"}>New Design</Text>
-        <Box display={["column", "flex"]} width={"100%"} justifyContent={"space-between"} mt={12} textAlign={"center"} >
+        <Box display={["column", "flex"]} width={"100%"} justifyContent={"space-between"} mt={12} mb={12} textAlign={"center"} >
           <Box> <Image src='https://ik.imagekit.io/theartling/prod/tr:w-520,h-520,bg-FFFFFF/dynamic_images/Image/ad497378b24f4087995bea9d4e9719d4.JPG' />
-            <Text mt={4} fontSize={"20px"}>Design Objects</Text></Box>
+            <Text mt={4} mb={12} fontSize={"20px"}>Design Objects</Text></Box>
           <Box> <Image src='https://ik.imagekit.io/theartling/prod/tr:w-520,h-520,bg-FFFFFF/dynamic_images/Image/75e6ad5d1c0840168c39f32d67a7d249.jpg' />
-            <Text mt={4} fontSize={"20px"}>Furniture</Text></Box>
+            <Text mt={4} mb={12} fontSize={"20px"}>Furniture</Text></Box>
           <Box> <Image src='https://ik.imagekit.io/theartling/prod/tr:w-520,h-520,bg-FFFFFF/dynamic_images/Image/a5cd9baac7624f15b695a1937b674f78.jpg' />
-            <Text mt={4} fontSize={"20px"}>Lighting</Text></Box>
+            <Text mt={4} mb={12} fontSize={"20px"}>Lighting</Text></Box>
           <Box> <Image src='https://ik.imagekit.io/theartling/prod/tr:w-520,h-520,bg-FFFFFF/dynamic_images/Image/7d3648d9a83f4bebbb5906d2ee60a34b.jpg' />
-            <Text mt={4} fontSize={"20px"}>Tableware</Text></Box>
+            <Text mt={4} mb={12} fontSize={"20px"}>Tableware</Text></Box>
         </Box>
       </Box>
 
