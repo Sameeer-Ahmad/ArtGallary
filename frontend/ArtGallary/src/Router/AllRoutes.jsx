@@ -15,12 +15,15 @@ import About from "../pages/About/About";
 import Navbar from "../Component/Navbar/Navbar";
 import Art from "../pages/Art/Art";
 import SingleArt from "../pages/SingleArt/singleArt";
+import Home from "../pages/Home/Home";
+
 
 const AllRoutes = () => {
   return (
     <div>
       <Navbar />
       <Routes>
+        <Route path="/" element={<Home />} />
         <Route path="/art/paintings" element={<Paint />} />
         <Route path="/art/prints" element={<Print />} />
         <Route path="/art/sculpture" element={<Sculpture />} />
@@ -34,7 +37,8 @@ const AllRoutes = () => {
         <Route path="/login" element={<Login />} />
         <Route path="/about" element={<About />} />
         <Route path="/art" element={<Art />} />
-        <Route path="/art/:id" element={<SingleArt/>} />
+        <Route  path="/art/:id" Component={SingleArt} />
+        
       </Routes>
     </div>
   );

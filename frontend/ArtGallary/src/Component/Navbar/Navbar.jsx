@@ -5,9 +5,8 @@ import {
   IconButton,
   useDisclosure,
   Stack,
-  
 } from "@chakra-ui/react";
- import "./ArtGallaryLogo.png";
+import "./ArtGallaryLogo.png";
 import { HamburgerIcon, CloseIcon } from "@chakra-ui/icons";
 import { Link } from "react-router-dom";
 
@@ -26,9 +25,7 @@ export default function NavBar() {
 
   return (
     <>
-      <Box>
-
-      </Box>
+      <Box></Box>
       <Box bg="rgb(250,248,244)" px={4}>
         <Flex h={16} alignItems={"center"} justifyContent={"space-between"}>
           <IconButton
@@ -41,7 +38,7 @@ export default function NavBar() {
           />
           <Box>
             <img src="./ArtGallaryLogo.png" alt="logo" />
-            </Box>
+          </Box>
           <HStack
             spacing={10}
             alignItems={"center"}
@@ -78,7 +75,6 @@ export default function NavBar() {
           </Box>
         ) : null}
       </Box>
-
     </>
   );
 }
