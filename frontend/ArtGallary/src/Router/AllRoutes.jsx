@@ -15,6 +15,7 @@ import Login from '../pages/Login/Login';
 import About from '../pages/About/About';
 import Navbar from '../Component/Navbar/Navbar';
 import Art from '../pages/Art/Art';
+import Home from '../pages/Home/Home';
 
 
 const AllRoutes = () => {
@@ -35,6 +36,7 @@ const AllRoutes = () => {
         <Route path="/login" element={<Login />} />
         <Route path="/about" element={<About />} />
         <Route path="/art" element={<Art />} />
+        <Route path='/home' element={<Home />} />
       </Routes>
     </div>
 
