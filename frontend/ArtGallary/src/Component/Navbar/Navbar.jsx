@@ -12,12 +12,12 @@ import { HamburgerIcon, CloseIcon } from "@chakra-ui/icons";
 import { Link } from "react-router-dom";
 
 const Links = [
-  { ids: 1, name: "PAINTING", link: "/paintings" },
-  { ids: 2, name: "PRINTS", link: "/prints" },
-  { ids: 3, name: "PHOTOGRAPHY", link: "/photography" },
-  { ids: 4, name: "SCULPTURE", link: "/sculpture" },
-  { ids: 5, name: "DRAWINGS", link: "/drawings" },
-  { ids: 6, name: "INSPIRATION", link: "/inspiration" },
+  { ids: 1, name: "PAINTING", link: "/art/paintings" },
+  { ids: 2, name: "PRINTS", link: "/art/prints" },
+  { ids: 3, name: "PHOTOGRAPHY", link: "/art/photography" },
+  { ids: 4, name: "SCULPTURE", link: "/art/sculpture" },
+  { ids: 5, name: "DRAWINGS", link: "/art/drawings" },
+  { ids: 6, name: "INSPIRATION", link: "/art/inspiration" },
   { ids: 7, name: "ABOUT", link: "/about" },
 ];
 

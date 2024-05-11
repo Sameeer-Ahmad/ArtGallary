@@ -1,25 +1,28 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { Box, Text, Stack, Image, Grid, Flex } from "@chakra-ui/react";
+import { Box, Text, Stack, Image, Grid, Flex, Skeleton } from "@chakra-ui/react";
 
 const Paint = () => {
   const [paintings, setPaintings] = useState([]);
+  const [loading, setLoading] = useState(true);
   const token = localStorage.getItem("token");
   useEffect(() => {
     axios
-      .get("http://localhost:3000/art/paintings", {
+      .get("https://artgallary.onrender.com/art/paintings", {
         headers: {
           Authorization: `Bearer ${token}`,
         },
       })
       .then((response) => {
         setPaintings(response.data);
+        setLoading(false);
       })
       .catch((error) => {
         console.error("Error fetching paintings:", error);
         setPaintings([]);
+        setLoading(false);
       });
-  }, []);
+  }, [token]);
 
   return (
     <Box bg="rgb(250,248,244)">
@@ -47,6 +50,7 @@ const Paint = () => {
               'url(\'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="%238a8a8a"><path d="M7 10l5 5 5-5z"/></svg>\') no-repeat right 10px center',
             backgroundSize: "36px 36px",
           }}
+          defaultValue=""
           onFocus={(e) => {
             e.target.style.borderColor = "green";
           }}
@@ -62,68 +66,94 @@ const Paint = () => {
           <option value="High to Low">High to Low</option>
         </select>
       </Flex>
+      {loading ? (
+        <Grid
+          gap={8}
+          p={8}
+          templateColumns={[
+            "repeat(2, 1fr)",
+            "repeat(2, 1fr)",
+            "repeat(3, 1fr)",
+            "repeat(4, 1fr)",
+          ]}
+          alignItems="center"
+        >
+          {[...Array(8)].map((_, index) => (
+            <Box
+              key={index}
+              width={"auto"}
+              height={"auto"}
+              bg="#f5f1ee"
+              borderRadius="md"
+              boxShadow="md"
+            >
+             <Skeleton height="200px" startColor="rgb(250,248,244)" endColor="rgb(150,148,144)" />
+            </Box>
+          ))}
+        </Grid>
+      ) : (
+        <Grid
+          gap={8}
+          p={8}
+          templateColumns={[
+            "repeat(2, 1fr)",
+            "repeat(2, 1fr)",
+            "repeat(3, 1fr)",
+            "repeat(4, 1fr)",
+          ]}
+          alignItems="center"
+        >
+          {paintings.map((painting) => (
+            <Box key={painting._id} width={"auto"} height={"auto"} bg="#f5f1ee"  >
+              <Image
+                objectFit="cover"
+                src={painting.artImage[0]}
+                alt={painting.artName}
+              />
 
-      <Grid
-        gap={8}
-        p={8}
-        templateColumns={[
-          "repeat(2, 1fr)",
-          "repeat(2, 1fr)",
-          "repeat(3, 1fr)",
-          "repeat(4, 1fr)",
-        ]}
-        alignItems="center"
-      >
-        {paintings.map((painting) => (
-          <Box key={painting._id} width={"auto"} height={"auto"} bg="#f5f1ee">
-            <Image
-              objectFit="cover"
-              src={painting.artImage[0]}
-              alt={painting.artName}
-            />
+              <Stack pt={5} pl={4} pb={5} gap={0} bg={"white"}>
+                <Text
+                  fontWeight={400}
+                  fontSize={"17px"}
+                  fontFamily={"Addington CF"}
+                  lineHeight={"21px"}
+                  letterSpacing={"1px"}
+                >
+                  {painting.artName}
+                </Text>
 
-            <Stack pt={5} pl={4} pb={5} gap={0} bg={"white"}>
-              <Text
-                fontWeight={400}
-                fontSize={"17px"}
-                fontFamily={"Addington CF"}
-                lineHeight={"21px"}
-                letterSpacing={"1px"}
-              >
-                {painting.artName}
-              </Text>
+                <Text
+                  fontSize={"17px"}
+                  fontFamily={"sans-serif"}
+                  color={"rgb(183, 155, 84)"}
+                  letterSpacing={"1px"}
+                >
+                  {painting.username}
+                </Text>
 
-              <Text
-                fontSize={"17px"}
-                fontFamily={"sans-serif"}
-                color={"rgb(183, 155, 84)"}
-                letterSpacing={"1px"}
-              >
-                {painting.username}
-              </Text>
+                <Text
+                  fontSize={"17"}
+                  fontFamily={"sans-serif"}
+                  color={"rgb(183, 155, 84)"}
+                  letterSpacing={"1px"}
+                >
+                  {painting.artCategory}
+                </Text>
 
-              <Text
-                fontSize={"17"}
-                fontFamily={"sans-serif"}
-                color={"rgb(183, 155, 84)"}
-                letterSpacing={"1px"}
-              >
-                {painting.artCategory}
-              </Text>
-
-              <Text
-                fontSize={"17px"}
-                fontWeight={700}
-                fontFamily={"sans-serif"}
-                color={"rgb(183, 155, 84)"}
-                letterSpacing={"1px"}
-              >
-                US$ {painting.artPrice}
-              </Text>
-            </Stack>
-          </Box>
-        ))}
-      </Grid>
+                <Text
+                  fontSize={"17px"}
+                  fontWeight={700}
+                  fontFamily={"sans-serif"}
+                  color={"rgb(183, 155, 84)"}
+                  letterSpacing={"1px"}
+                >
+                  US$ {painting.artPrice}
+                </Text>
+              </Stack>
+            </Box>
+          ))}
+        </Grid>
+      )}
       <p style={{ borderTop: "1px solid rgb(183, 155, 84)", width: "95%", margin: "0 auto", padding: "10px" }}></p>
 
       <Box p={8} pb={20} fontSize={"10px"} fontFamily={"sans-serif"} textAlign={"center"}>
