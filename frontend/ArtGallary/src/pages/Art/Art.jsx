@@ -20,7 +20,11 @@ const Art = () => {
             })
             .then((response) => {
                 let sortedArts = response.data;
-                if (sortBy === "Low to High") {
+                if (sortBy === "Newest") {
+                    sortedArts = sortedArts.sort((a, b) => a.
+                        created_at - b.created_at);
+                }
+                else if (sortBy === "Low to High") {
                     sortedArts = sortedArts.sort((a, b) => a.artPrice - b.artPrice);
                 } else if (sortBy === "High to Low") {
                     sortedArts = sortedArts.sort((a, b) => b.artPrice - a.artPrice);
@@ -194,6 +198,7 @@ const Art = () => {
                             <option value="" disabled selected hidden>
                                 Sort By
                             </option>
+                            <option value="Newest">Newest</option>
                             <option value="Low to High">Low to High</option>
                             <option value="High to Low">High to Low</option>
                         </select>
