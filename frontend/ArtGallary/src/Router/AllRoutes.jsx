@@ -1,5 +1,6 @@
 import { Route, Routes } from "react-router-dom";
 
+
 import Paint from "../Component/Paint/Paint";
 import Print from "../Component/Prints/Print";
 import Sculpture from "../Component/Sculpture/Sculpture";
@@ -16,7 +17,6 @@ import Navbar from "../Component/Navbar/Navbar";
 import Art from "../pages/Art/Art";
 import SingleArt from "../pages/SingleArt/singleArt";
 import Home from "../pages/Home/Home";
-
 
 const AllRoutes = () => {
   return (
@@ -37,8 +37,10 @@ const AllRoutes = () => {
         <Route path="/login" element={<Login />} />
         <Route path="/about" element={<About />} />
         <Route path="/art" element={<Art />} />
+
         <Route  path="/art/:id" Component={SingleArt} />
         
+
       </Routes>
     </div>
   );
