@@ -38,8 +38,8 @@ const AllRoutes = () => {
         <Route path="/about" element={<About />} />
         <Route path="/art" element={<Art />} />
 
-        <Route  path="/art/:id" Component={SingleArt} />
-        
+        <Route path="/art/:id" Component={SingleArt} />
+
 
       </Routes>
     </div>
