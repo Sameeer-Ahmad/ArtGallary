@@ -2,7 +2,9 @@
 import { Box, Flex, Image, Text } from '@chakra-ui/react'
 
 import './About.css'
+
 import { useState } from 'react';
+
 const About = () => {
 
   const images = [
@@ -19,6 +21,29 @@ const About = () => {
     setSelectedImage(image);
   };
   return (
+
+ <>
+    <header>
+        <h1>About Us</h1>
+      </header>
+      
+      <div className="hero-image">
+        <div className="hero-text">
+          <h1>Welcome to our Art Gallery</h1>
+          <p>Discover unique art experiences</p>
+        </div>
+      </div>
+
+    
+      <section className="container">
+        <h1>Our Story</h1>
+        <p>Welcome to our art gallery, where unique art experiences begin. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla accumsan magna vel enim lacinia, non varius enim aliquet. Curabitur placerat augue ut augue efficitur, quis dignissim orci interdum. Sed in ligula et arcu imperdiet auctor.</p>
+        <p>From contemporary paintings to traditional sculptures, our art gallery offers a diverse collection for every art enthusiast. Our mission is to create a space where anyone can appreciate art and be inspired by creativity.</p>
+       
+      </section>
+
+      
+
     <Box width={"100%"} display={"flex"} flexDir={"column"} gap={"30px"} justifyContent={"center"} alignItems={"center"} mt={10}>
       <Box width={"90%"}> <Text alignSelf={"flex-start"} fontSize={"30px"}>About</Text></Box>
       <Box width={"90%"}>
@@ -69,6 +94,7 @@ const About = () => {
         <Text>D-53 Defence Colony, New Delhi 110024, India | T  +91 11 46103550 / +91 11 4610355 </Text>
         <Text>E  art@vadehraart.com</Text>
       </Box>
+
       <footer>
         <p>&copy; {new Date().getFullYear()} Art Gallery. All rights reserved.</p>
       </footer>
