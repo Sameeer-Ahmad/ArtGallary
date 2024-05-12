@@ -19,6 +19,7 @@ import SingleArt from "../pages/SingleArt/singleArt";
 import Home from "../pages/Home/Home";
 import Dashboard from "../pages/Dashboard/Dashboard";
 import Footer from "../Component/Footer/Footer";
+import Contact from "../pages/ContactUs/Contact";
 
 const AllRoutes = () => {
   const location = useLocation();
@@ -55,9 +56,10 @@ const AllRoutes = () => {
         <Route path="/art" element={<Art />} />
         <Route path="/cart" element={<Cart />} />
         <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/contactus" element={<Contact />} />
         <Route path="/art/:id" element={<SingleArt />} />
       </Routes>
-      {showFooter && <Footer />}
+      {/* {showFooter && <Footer />} */}
     </div>
   );
 };

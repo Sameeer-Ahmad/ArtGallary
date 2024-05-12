@@ -9,7 +9,10 @@ const  Dashboard= () => {
         <div className="main">
             <div className="box1 box"  data-aos="flip-right">
                 <h1>ART GALLERY</h1>
-                <p>"Art is not what you see, but what you make others see." - Edgar Degas</p>
+                <p>Art is like a multifaceted gem, revealing different facets to different beholders. 
+It's not merely about capturing the external world but about stirring emotions, 
+sparking thoughts, and inciting reflection. Consider Van Gogh's swirling stars,
+ Picasso's fragmented perspectives, or the haunting depths of Frida Kahlo's self-portraits. </p>
             </div>
             <div className="box2 box" data-aos="flip-right">
                 <img src="https://c4.wallpaperflare.com/wallpaper/760/955/638/artwork-landscape-sky-mountains-wallpaper-preview.jpg" alt="" />
