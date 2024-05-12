@@ -1,127 +1,255 @@
-# ArtGallary
+# Project Title
 
-Access base role-
+LearnLang
 
-Artist- display their own work, update,delete
-Artist profile- (artist info)
-Artist portfolio-artwork
+## Introduction
 
-Collector-explore and purchase; filtering, searching , transaction process
+## Project Type
 
-userSchema-
+MERN FullStack
 
-email,
-password
-role:[artist,collector]
+## Deplolyed App
 
-versionkey:false
+Frontend: / <br>
+Backend: 
 
-artSchema-
+## Directory Structure
 
-ID,
-artImage,
-artName,
-artPrice,
-artYear
-artCategory[painting,sculpture,photography,architecture,etc],
-artDimension,
-userID,
-username
+bash
+Subansiri-Loop-034
+├── README.md
+├── backend/
+│   ├── .gitignore
+│   ├── config/
+│   │   ├── cloudinary.js
+│   │   ├── database.js
+│   │   └── rajorpay.js
+│   ├── controllers/
+│   │   ├── auth.js
+│   │   ├── category.js
+│   │   ├── course.js
+│   │   ├── courseProgress.js
+│   │   ├── payments.js
+│   │   ├── profile.js
+│   │   ├── ratingAndReview.js
+│   │   ├── resetPassword.js
+│   │   ├── section.js
+│   │   └── subSection.js
+│   ├── index.js
+│   ├── mail/
+│   │   └── templates/
+│   │   │   ├── courseEnrollmentEmail.js
+│   │   │   ├── emailVerificationTemplate.js
+│   │   │   └── passwordUpdate.js
+│   ├── middleware/
+│   │   └── auth.js
+│   ├── models/
+│   │   ├── OTP.js
+│   │   ├── category.js
+│   │   ├── course.js
+│   │   ├── courseProgress.js
+│   │   ├── profile.js
+│   │   ├── ratingAndReview.js
+│   │   ├── section.js
+│   │   ├── subSection.js
+│   │   └── user.js
+│   ├── package-lock.json
+│   ├── package.json
+│   ├── routes/
+│   │   ├── course.js
+│   │   ├── payments.js
+│   │   ├── profile.js
+│   │   └── user.js
+│   └── utils/
+│   │   ├── imageUploader.js
+│   │   ├── mailSender.js
+│   │   └── secToDuration.js
+└── frontend/
+│   ├── .eslintrc.cjs
+│   ├── .gitignore
+│   ├── README.md
+│   ├── data/
+│   │   ├── countrycode.json
+│   │   ├── dashboard-links.js
+│   │   ├── footer-links.js
+│   │   ├── homepage-explore.js
+│   │   └── navbar-links.js
+│   ├── index.html
+│   ├── package-lock.json
+│   ├── package.json
+│   ├── postcss.config.cjs
+│   ├── public/
+│   │   └── vite.svg
+│   ├── src/
+│   │   ├── App.css
+│   │   ├── App.jsx
+│   │   ├── assets/
+│   │   │   ├── Images/
+│   │   │   │   ├── Compare_with_others.png
+│   │   │   │   ├── Compare_with_others.svg
+│   │   │   │   ├── FoundingStory.png
+│   │   │   │   ├── Instructor.png
+│   │   │   │   ├── Know_your_progress.png
+│   │   │   │   ├── Know_your_progress.svg
+│   │   │   │   ├── Plan_your_lessons.png
+│   │   │   │   ├── Plan_your_lessons.svg
+│   │   │   │   ├── TimelineImage.png
+│   │   │   │   ├── aboutus1.webp
+│   │   │   │   ├── aboutus2.webp
+│   │   │   │   ├── aboutus3.webp
+│   │   │   │   ├── banner.mp4
+│   │   │   │   ├── bghome.svg
+│   │   │   │   ├── boxoffice.png
+│   │   │   │   ├── frame.png
+│   │   │   │   ├── login.png
+│   │   │   │   ├── login2.webp
+│   │   │   │   ├── login3.png
+│   │   │   │   ├── login4.png
+│   │   │   │   ├── random bg img/
+│   │   │   │   │   ├── coding bg1.jpg
+│   │   │   │   │   ├── coding bg10.jpg
+│   │   │   │   │   ├── coding bg11.jpg
+│   │   │   │   │   ├── coding bg2.jpg
+│   │   │   │   │   ├── coding bg3.jpg
+│   │   │   │   │   ├── coding bg4.jpg
+│   │   │   │   │   ├── coding bg5.jpg
+│   │   │   │   │   ├── coding bg6.jpeg
+│   │   │   │   │   ├── coding bg7.jpg
+│   │   │   │   │   ├── coding bg8.jpeg
+│   │   │   │   │   └── coding bg9.jpg
+│   │   │   │   ├── signup.png
+│   │   │   │   ├── signup2.webp
+│   │   │   │   ├── signup3.png
+│   │   │   │   ├── teacher.png
+│   │   │   │   ├── teacher2.png
+│   │   │   │   └── teacher3.png
+│   │   │   ├── Logo/
+│   │   │   │   ├── Logo-Full-Dark.png
+│   │   │   │   ├── Logo-Full-Light.png
+│   │   │   │   ├── Logo-Small-Dark.png
+│   │   │   │   ├── Logo-Small-Light.png
+│   │   │   │   ├── learnlang.png
+│   │   │   │   └── rzp_logo.png
+│   │   │   ├── TimeLineLogo/
+│   │   │   │   ├── Logo1.svg
+│   │   │   │   ├── Logo2.svg
+│   │   │   │   ├── Logo3.svg
+│   │   │   │   └── Logo4.svg
+│   │   │   └── react.svg
+│   │   ├── components/
+│   │   │   ├── common/
+│   │   │   │   ├── ConfirmationModal.jsx
+│   │   │   │   ├── Footer.jsx
+│   │   │   │   ├── IconBtn.jsx
+│   │   │   │   ├── Img.jsx
+│   │   │   │   ├── Loading.jsx
+│   │   │   │   ├── Navbar.jsx
+│   │   │   │   ├── RatingStars.jsx
+│   │   │   │   ├── ReviewSlider.jsx
+│   │   │   │   ├── Tab.jsx
+│   │   │   │   ├── chatBot.jsx
+│   │   │   │   └── motionFrameVarients.js
+│   │   │   └── core/
+│   │   │   │   ├── AboutPage/
+│   │   │   │   │   ├── ContactFormSection.jsx
+│   │   │   │   │   ├── LearningGrid.jsx
+│   │   │   │   │   ├── Quote.jsx
+│   │   │   │   │   └── Stats.jsx
+│   │   │   │   ├── Auth/
+│   │   │   │   │   ├── LoginForm.jsx
+│   │   │   │   │   ├── MobileProfileDropDown.jsx
+│   │   │   │   │   ├── OpenRoute.jsx
+│   │   │   │   │   ├── ProfileDropDown.jsx
+│   │   │   │   │   ├── ProtectedRoute.jsx
+│   │   │   │   │   ├── SignupForm.jsx
+│   │   │   │   │   └── Template.jsx
+│   │   │   │   ├── Catalog/
+│   │   │   │   │   ├── Course_Card.jsx
+│   │   │   │   │   └── Course_Slider.jsx
+│   │   │   │   ├── ContactPage/
+│   │   │   │   │   ├── ContactDetails.jsx
+│   │   │   │   │   ├── ContactForm.jsx
+│   │   │   │   │   └── ContactUsForm.jsx
+│   │   │   │   ├── Course/
+│   │   │   │   │   ├── CourseAccordionBar.jsx
+│   │   │   │   │   ├── CourseDetailsCard.jsx
+│   │   │   │   │   └── CourseSubSectionAccordion.jsx
+│   │   │   │   ├── Dashboard/
+│   │   │   │   │   ├── AddCourse/
+│   │   │   │   │   │   ├── AddCourse.jsx
+│   │   │   │   │   │   ├── CourseBuilder/
+│   │   │   │   │   │   │   ├── CourseBuilderForm.jsx
+│   │   │   │   │   │   │   ├── NestedView.jsx
+│   │   │   │   │   │   │   └── SubSectionModal.jsx
+│   │   │   │   │   │   ├── CourseInformation/
+│   │   │   │   │   │   ├── PublishCourse/
+│   │   │   │   │   │   ├── RenderSteps.jsx
+│   │   │   │   │   │   └── Upload.jsx
+│   │   │   │   │   ├── Cart/
+│   │   │   │   │   ├── EditCourse/
+│   │   │   │   │   ├── EnrolledCourses.jsx
+│   │   │   │   │   ├── Instructor.jsx
+│   │   │   │   │   ├── InstructorCourses/
+│   │   │   │   │   ├── InstructorDashboard/
+│   │   │   │   │   ├── MyCourses.jsx
+│   │   │   │   │   ├── MyProfile.jsx
+│   │   │   │   │   ├── Settings/
+│   │   │   │   │   ├── Sidebar.jsx
+│   │   │   │   │   └── SidebarLink.jsx
+│   │   │   │   ├── HomePage/
+│   │   │   │   └── ViewCourse/
+│   │   ├── hooks/
+│   │   ├── index.css
+│   │   ├── main.jsx
+│   │   ├── pages/
+│   │   ├── reducer/
+│   │   ├── services/
+│   │   ├── slices/
+│   │   └── utils/
+│   ├── tailwind.config.cjs
+│   └── vite.config.js
 
-routes for user-
 
----login
+## Video Walkthrough of the project
+<a href="" target="_blank">Presentation Video</a>
+## Features
 
----signup
+## design decisions or assumptions
 
----logout
+## Installation & Getting started
 
----profile (username,useremail,userImage),
-profile for both artist and collector but artPortfolio only for artist
+Detailed instructions on how to install, configure, and get the project running.
 
----artPortfolio (inside artPortfolio we have to showcase every art details created by that particular artist)
+bash
 
----CRUD operations only for artist
 
-routes for category-
-painting
-sculpture
-photography
-architecture
-and so on
 
-Chatbox-with ai integeration
+## Usage
 
-Prashad -frontend
-Rohan- backend
-sameer-backend
+Provide instructions and examples on how to use your project.
 
-main branch--
-
-git checkout -b"fw29_084-Day1"
-git pull origin main
-
-cd fronted/
-cd artGallary
+bash
 npm install
-
-npm run dev
-npm i react-router-dom
-npm i chakraui
-
-router
-git add .
-git commit -m "completed router in frontend"
-
-navbar
-git add .
-git commit -m""
-
-git push origin <branchname> day1
-
-git checkout -b"-day2"
-git pull oigin main
-
-footer
-git add .
-git commit -m "footer completed"
-
-signup
-git add .
-git commit -m "signup completed"
-
-login
-git add .
-git commit -m "login completed"
-
-prashad
-routes
-navbar
-footer
-about
-
-day2
-roshan
-register
-login
-
-profile
-artPortfolio
-
-routes in frontend-
-
-component/pages
-
-paints,prints,sculpture,photography,inspiration,drawings
-
-Cart,Profile,ArtPortfolio,Signup,Login,About
-
-https://masai-curriculum-framework.notion.site/ArtGallery-showcasing-and-trading-art-8928917f6ac241ee8f714b0acd22b480
+npm run server (for backend)
+npm run dev (for frontend)
 
 
-day3 work-
-routes for profile,artfoliyo  (both are remaining)
+#### Pictures
 
-day4 work
+## Credentials
 
-create a single id page for all arts and particular category arts
+Admin Credentials
+
+bash
+
+
+
+User Credential
+
+Bash
+
+
+
+## API Endpoints
+
+## Technology Stack
