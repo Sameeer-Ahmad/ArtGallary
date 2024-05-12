@@ -5,10 +5,22 @@ import {
   IconButton,
   useDisclosure,
   Stack,
+  Menu,
+  MenuButton,
+  Avatar,
+  MenuList,
+  Center,
+  MenuDivider,
+  MenuItem,
+  InputGroup,
+  InputRightElement,
+  Input,
+  Image,
 } from "@chakra-ui/react";
 import "./ArtGallaryLogo.png";
-import { HamburgerIcon, CloseIcon } from "@chakra-ui/icons";
+import { HamburgerIcon, CloseIcon, SearchIcon } from "@chakra-ui/icons";
 import { Link, useParams } from "react-router-dom";
+import { CiShoppingCart } from "react-icons/ci";
 
 const Links = [
   { ids: 1, name: "PAINTING", link: "/art/paintings" },
@@ -23,10 +35,74 @@ const Links = [
 
 export default function NavBar() {
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const { userId } = useParams();
   return (
     <>
-      <Box></Box>
+      <Box bg={"rgb(250,248,244)"}>
+        <HStack
+          spacing={10}
+          display={["flex", "flex", "flex", "flex", "flex", "flex"]}
+          justifyContent={"space-around"}
+          alignItems={"center"}
+          fontSize={["xs", "xs", "xs", "sm", "sm", "md"]}
+          pl={[0, 0, 0, 40]}
+          pr={[0, 0, 0, 40]}
+          pt={1}
+          pb={1}
+        >
+          <Menu>
+            <Link to={"/"}>
+              <Image
+                h={20}
+                w={20}
+                src="https://theartling.com/build/_assets/TheArtlingLogo-BZIAGPLW.svg"
+                alt="logo"
+                pl={[3,0,0]}
+              />
+            </Link>
+            <Center width={["60%"]}>
+              <InputGroup border={"none"}>
+                <InputRightElement pointerEvents="none">
+                  <SearchIcon color="gray.300" />
+                </InputRightElement>
+                <Input
+                  bg={"white"}
+                  border={"none"}
+                  variant="unstyled"
+                  type="text"
+                  placeholder="Search for artworks"
+                />
+              </InputGroup>
+            </Center>
+            <Link to={`/cart`}>
+              <Image
+                src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTOS21XGbmcqgL2cVVZrVFIRU1gW6KbOqh6Gedz9I6y2Vz_d2KWk_-tw_6eQw&s"
+                h={8}
+                w={8}
+              />
+            </Link>
+            <MenuButton>
+              <Avatar
+                h={8}
+                w={8}
+                pr={[3,0,0]}
+                src={"https://www.svgrepo.com/show/170633/profile-user.svg"}
+
+              />
+            </MenuButton>
+
+            <MenuList>
+              <Center>
+                <p>Username</p>
+              </Center>
+              <MenuDivider />
+              <MenuItem>Your Servers</MenuItem>
+              <MenuItem>Account Settings</MenuItem>
+              <MenuItem>Logout</MenuItem>
+            </MenuList>
+          </Menu>
+        </HStack>
+      </Box>
+      <Box width={"100%"} borderBottom="1px solid #D9D1C2"></Box>
       <Box bg="rgb(250,248,244)" px={4}>
         <Flex h={16} alignItems={"center"} justifyContent={"space-between"}>
           <IconButton
@@ -37,14 +113,7 @@ export default function NavBar() {
             display={{ md: "none" }}
             onClick={isOpen ? onClose : onOpen}
           />
-          <Box>
-            <Link to={`/cart`}>Go to Cart</Link>
-          </Box>
-          <Box>
-            <Link to={"/"}>
-              <img src="./Navbar/Untitled.png" alt="logo" />
-            </Link>
-          </Box>
+
           <HStack
             spacing={10}
             alignItems={"center"}
@@ -54,6 +123,8 @@ export default function NavBar() {
               as={"nav"}
               spacing={8}
               display={{ base: "none", md: "flex" }}
+              justify={"flex-end"}
+              pl={[0, 0, 62, 48, 72]}
             >
               {Links.map((el) => (
                 <Link to={el.link} key={el.ids}>

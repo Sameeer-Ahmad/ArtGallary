@@ -19,7 +19,7 @@ artistRouter.get("/artPortfolio", auth, getArt);
 
 artistRouter.delete("/delete/:id", auth, access("artist"), deleteArt);
 
-artistRouter.patch("/update/:id", auth, access("artist"), updateArt);
+artistRouter.patch("/update/:id", auth, updateArt);
 
 artistRouter.get("/get/:id", auth, getArtById);
 
