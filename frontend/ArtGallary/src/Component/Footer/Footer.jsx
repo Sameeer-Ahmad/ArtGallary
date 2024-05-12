@@ -7,9 +7,9 @@ import {
   Container,
   SimpleGrid,
   Heading,
-  Image,
+ 
 } from "@chakra-ui/react";
-import React from "react";
+
 import { FaInstagram, FaTwitter, FaYoutube } from "react-icons/fa";
 
 const Footer = () => {
