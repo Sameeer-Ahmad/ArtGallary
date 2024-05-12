@@ -80,6 +80,9 @@ const getArtById = async (req, res) => {
     console.log("Not able to get art by id");
   }
 };
+const searchArt = async (req, res) => {
+  const searchQuery = req.query.artName;
+
 
 module.exports = {
   postArt,
@@ -87,4 +90,5 @@ module.exports = {
   deleteArt,
   updateArt,
   getArtById,
+  searchArt,
 };
