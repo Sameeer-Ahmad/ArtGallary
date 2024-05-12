@@ -12,7 +12,7 @@ const SingleArt = () => {
   const toast = useToast();
   useEffect(() => {
     axios
-      .get(`http://localhost:3000/artist/get/${id}`, {
+      .get(`https://artgallary.onrender.com/artist/get/${id}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -31,7 +31,7 @@ const SingleArt = () => {
   const addToCart = async (userId, artId) => {
     try {
       await axios.post(
-        "http://localhost:3000/art/addToCart",
+        "https://artgallary.onrender.com/art/addToCart",
         {
           userId: userId,
           artId: artId,
