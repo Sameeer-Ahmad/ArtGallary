@@ -12,6 +12,10 @@ import {
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
+import AOS from 'aos';
+import 'aos/dist/aos.css';
+AOS.init();
+
 const images = [
   "https://ik.imagekit.io/theartling/prod/banners/Banner/245a41e41489485ca732825fc36d596a.jpeg",
   "https://ik.imagekit.io/theartling/prod/banners/Banner/457e5452c9344b34949f10a074275e91.jpeg",
@@ -73,6 +77,7 @@ const Home = () => {
       });
   }, []);
 
+  
   const renderArtCards = () => {
     return arts.slice(0, 4).map((painting) => (
       <Box
@@ -168,6 +173,8 @@ const Home = () => {
         Selected Projets
       </Text>
       <Box
+        data-aos="fade-down"
+        data-aos-anchor-placement="top"
         display={"flex"}
         width={"70%"}
         flexWrap={"wrap"}
@@ -232,6 +239,7 @@ const Home = () => {
         </Text>
       </Flex>
       <Box
+        data-aos="fade-down"
         display={"flex"}
         flexDirection={["column", "column", "row"]}
         justifyContent={["center", "center", "space-around"]}
@@ -400,9 +408,7 @@ const Home = () => {
         </Box>
       </Box>
 
-      <Box mt={6} width={"100%"} borderBottom="1px solid #D9D1C2">
-       
-      </Box>
+      <Box mt={6} width={"100%"} borderBottom="1px solid #D9D1C2"></Box>
 
       <Box
         display={"flex"}

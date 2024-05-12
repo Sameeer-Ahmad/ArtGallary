@@ -16,11 +16,14 @@ import {
   InputRightElement,
   Input,
   Image,
+  Button,
+  Text,
 } from "@chakra-ui/react";
+
 import "./ArtGallaryLogo.png";
 import { HamburgerIcon, CloseIcon, SearchIcon } from "@chakra-ui/icons";
-import { Link, useParams } from "react-router-dom";
-import { CiShoppingCart } from "react-icons/ci";
+import { Link } from "react-router-dom";
+import LogoutButton from "../../pages/Logout/Logout";
 
 const Links = [
   { ids: 1, name: "PAINTING", link: "/art/paintings" },
@@ -30,11 +33,13 @@ const Links = [
   { ids: 5, name: "DRAWINGS", link: "/art/drawings" },
   { ids: 6, name: "INSPIRATION", link: "/art/inspiration" },
   { ids: 7, name: "ABOUT", link: "/about" },
-  // { ids: 8, name: "cart", link: "/cart" },
 ];
 
 export default function NavBar() {
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const username = localStorage.getItem("username");
+
+  const initials = username ? username.charAt(0).toUpperCase() : '';
   return (
     <>
       <Box bg={"rgb(250,248,244)"}>
@@ -50,13 +55,13 @@ export default function NavBar() {
           pb={1}
         >
           <Menu>
-            <Link to={"/"}>
+            <Link to={"/home"}>
               <Image
                 h={20}
                 w={20}
                 src="https://theartling.com/build/_assets/TheArtlingLogo-BZIAGPLW.svg"
                 alt="logo"
-                pl={[3,0,0]}
+                pl={[3, 0, 0]}
               />
             </Link>
             <Center width={["60%"]}>
@@ -81,23 +86,56 @@ export default function NavBar() {
               />
             </Link>
             <MenuButton>
-              <Avatar
+              <Text
+                h={9}
+                w={9}
+                pr={[3, 0, 0]}
+                fontSize={"22px"}
+                color={"rgb(183,155,84)"}
+                fontWeight={"600"}
+                borderRadius={"50%"}
+                border={"3px solid rgb(183,155,84)"}
+                bg={"rgb(230,228,224)"}
+                name={username}
+              >
+                {initials}
+              </Text>
+              {/* <Avatar
                 h={8}
                 w={8}
-                pr={[3,0,0]}
+                pr={[3, 0, 0]}
+                name={username}
                 src={"https://www.svgrepo.com/show/170633/profile-user.svg"}
-
-              />
+                
+              /> */}
             </MenuButton>
 
-            <MenuList>
+            <MenuList bg={"rgb(250,248,244)"}>
               <Center>
-                <p>Username</p>
+                <Text align={"flex-start"} fontSize={16} fontWeight={700}>{username}</Text>
               </Center>
               <MenuDivider />
-              <MenuItem>Your Servers</MenuItem>
-              <MenuItem>Account Settings</MenuItem>
-              <MenuItem>Logout</MenuItem>
+              <MenuItem _hover={{ bg: "#f5f1ee" }} bg={"rgb(250,248,244)"}>
+                Your Profile
+              </MenuItem>
+              <MenuItem _hover={{ bg: "#f5f1ee" }} bg={"rgb(250,248,244)"}>
+                Account Settings
+              </MenuItem>
+              <MenuItem _hover={{ bg: "#f5f1ee" }} bg={"rgb(250,248,244)"}>
+                <Button
+                  _hover={{ bg: "#f5f1ee" }}
+                  bg={"rgb(250,248,244)"}
+                  width={"100%"}
+                  pr={24}
+                >
+                  <Image
+                    h={8}
+                    w={8}
+                    src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSGOVXjlJMidDtZrU0mrXlHzHdFE9_gVlvCGw&s"
+                  />
+                  <LogoutButton />
+                </Button>
+              </MenuItem>
             </MenuList>
           </Menu>
         </HStack>
