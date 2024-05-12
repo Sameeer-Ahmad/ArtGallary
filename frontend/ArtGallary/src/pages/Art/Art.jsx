@@ -14,7 +14,7 @@ import AOS from 'aos';
 import 'aos/dist/aos.css'; // You can also use <link> for styles
 // ..
 AOS.init();
-const Inspiration = () => {
+const Art = () => {
   const [arts, setArts] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage] = useState(15);
@@ -25,7 +25,7 @@ const Inspiration = () => {
 
   useEffect(() => {
     axios
-      .get("https://artgallary.onrender.com/art/inspiration", {
+      .get("https://artgallary.onrender.com/art", {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -161,7 +161,7 @@ const Inspiration = () => {
         Original Contemporary Artworks for Sale
       </Text>
       <Flex marginRight={4} justifyContent="flex-end" pt={4} pr={6}>
-        {/* Your sorting select input */}
+       
       </Flex>
       {loading ? (
         <Grid
@@ -354,4 +354,4 @@ const Inspiration = () => {
   );
 };
 
-export default Inspiration;
+export default Art;

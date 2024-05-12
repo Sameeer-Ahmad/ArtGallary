@@ -8,6 +8,7 @@ const {
   Drawings,
   getArtByCategory,
   addToCart,
+  getArtInCart,
 } = require("../controller/art.category.controller");
 
 const { auth } = require("../middleware/auth.middleware");
@@ -28,11 +29,11 @@ artCategoryRouter.get("/inspiration", auth, Inspiration);
 
 artCategoryRouter.get("/drawings", auth, Drawings);
 
-artCategoryRouter.post("/cart/:id", auth, addToCart);
+artCategoryRouter.post("/addToCart", auth, addToCart);
+
+artCategoryRouter.get("/cart", auth, getArtInCart);
 
 module.exports = {
   artCategoryRouter,
 };
 
-//art
-//art.jsx
