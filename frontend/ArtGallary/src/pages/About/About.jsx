@@ -14,6 +14,8 @@ const About = () => {
   ];
   const [selectedImage, setSelectedImage] = useState(images[0]);
 
+
+
   const handleImageClick = (image) => {
     setSelectedImage(image);
   };

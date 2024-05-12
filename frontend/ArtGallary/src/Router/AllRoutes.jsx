@@ -20,27 +20,37 @@ import Home from "../pages/Home/Home";
 import Dashboard from "../pages/Dashboard/Dashboard";
 import Footer from "../Component/Footer/Footer";
 import Contact from "../pages/ContactUs/Contact";
-
+import DashNav from "../pages/Dashboard/Dashbordnav";
 const AllRoutes = () => {
   const location = useLocation();
   const [showNavbar, setShowNavbar] = useState(true);
   const [showFooter, setShowFooter] = useState(true);
+  const [showDashNav, setDashNav] = useState(false)
   useEffect(() => {
     // Check if the current path is login or signup
     if (location.pathname === "/login" || location.pathname === "/signup") {
       setShowNavbar(false);
       setShowFooter(false);
-    } else {
+      setDashNav(false)
+    }
+    else if (location.pathname === "/" || location.pathname === '/about' || location.pathname === '/contactus') {
+      setShowNavbar(false)
+      setShowFooter(true)
+      setDashNav(true)
+    }
+    else {
       setShowNavbar(true);
       setShowFooter(true);
+      setDashNav(false)
     }
   }, [location]);
 
   return (
     <div>
       {showNavbar && <Navbar />}
+      {showDashNav && <DashNav />}
       <Routes>
-        <Route path="/" element={<Home />} />
+        <Route path="/" element={<Dashboard />} />
         <Route path="/art/paintings" element={<Paint />} />
         <Route path="/art/prints" element={<Print />} />
         <Route path="/art/sculpture" element={<Sculpture />} />
@@ -55,11 +65,11 @@ const AllRoutes = () => {
         <Route path="/about" element={<About />} />
         <Route path="/art" element={<Art />} />
         <Route path="/cart" element={<Cart />} />
-        <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/home" element={<Home />} />
         <Route path="/contactus" element={<Contact />} />
         <Route path="/art/:id" element={<SingleArt />} />
       </Routes>
-      {/* {showFooter && <Footer />} */}
+      {showFooter && <Footer />}
     </div>
   );
 };
