@@ -37,7 +37,7 @@ function Login() {
     })
       .then((res) => res.json())
       .then((data) => {
-        // console.log(data);
+        console.log("data",data);
         if (data.token) {
           toast({
             title: "Logged in successfully",
@@ -46,6 +46,7 @@ function Login() {
             isClosable: true,
           });
           localStorage.setItem("token", data.token);
+          localStorage.setItem("username",data.username)
           navigate("/home");
         } else {
           alert("Invalid email or password");
