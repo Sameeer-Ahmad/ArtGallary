@@ -8,7 +8,7 @@ import {
 } from "@chakra-ui/react";
 import "./ArtGallaryLogo.png";
 import { HamburgerIcon, CloseIcon } from "@chakra-ui/icons";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 
 const Links = [
   { ids: 1, name: "PAINTING", link: "/art/paintings" },
@@ -18,11 +18,12 @@ const Links = [
   { ids: 5, name: "DRAWINGS", link: "/art/drawings" },
   { ids: 6, name: "INSPIRATION", link: "/art/inspiration" },
   { ids: 7, name: "ABOUT", link: "/about" },
+  // { ids: 8, name: "cart", link: "/cart" },
 ];
 
 export default function NavBar() {
   const { isOpen, onOpen, onClose } = useDisclosure();
-
+  const { userId } = useParams();
   return (
     <>
       <Box></Box>
@@ -37,7 +38,12 @@ export default function NavBar() {
             onClick={isOpen ? onClose : onOpen}
           />
           <Box>
-            <img src="./ArtGallaryLogo.png" alt="logo" />
+            <Link to={`/cart`}>Go to Cart</Link>
+          </Box>
+          <Box>
+            <Link to={"/"}>
+              <img src="./Navbar/Untitled.png" alt="logo" />
+            </Link>
           </Box>
           <HStack
             spacing={10}

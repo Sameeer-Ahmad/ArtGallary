@@ -1,4 +1,5 @@
 const { ArtModel } = require("../model/art.model");
+const { CartModel } = require("../model/cart.model");
 
 const getArtByCategory = async (req, res) => {
   try {
@@ -64,20 +65,56 @@ const Drawings = async (req, res) => {
 };
 
 const addToCart = async (req, res) => {
-  // const { id } = req.params;
-  // try {
-  //   const artPiece = await ArtModel.findById(id);
-  //   if (!artPiece) {
-  //     return res.status(404).send("Art piece not found");
-  //   }
-  //   req.user.push(artPiece);
-  //   await req.user.save();
-  //   res.status(200).send("Art piece added to cart");
-  // } catch (err) {
-  //   console.error(err);
-  //   res.status(500).send("Failed to add art piece to cart");
-  // }
+  const { userId, artId } = req.body;
+  try {
+    let cartItem = await CartModel.findOne({ userId, artId });
+
+    if (cartItem) {
+      cartItem.quantity += 1;
+      await cartItem.save();
+    } else {
+      cartItem = new CartModel({ userId, artId, quantity: 1 });
+      await cartItem.save();
+    }
+
+    res.status(200).send(cartItem);
+  } catch (error) {
+    console.error("Error adding item to cart:", error);
+    res.status(500).json({ error: "Could not add item to cart" });
+  }
 };
+
+const getArtInCart = async (req, res) => {
+  const { userID } = req.body;
+
+  console.log("req.body--", req.body);
+  try {
+    let userId = userID;
+    const cartItems = await CartModel.find({ userId });
+
+    const artDetails = cartItems.map((item) => ({
+      artId: item.artId,
+      quantity: item.quantity,
+    }));
+
+    const arts = await ArtModel.find({
+      _id: { $in: artDetails.map((item) => item.artId) },
+    });
+
+    const artsWithQuantity = arts.map((art) => ({
+      ...art.toObject(),
+      quantity: artDetails.find(
+        (item) => item.artId.toString() === art._id.toString()
+      ).quantity,
+    }));
+
+    res.status(200).send(artsWithQuantity);
+  } catch (err) {
+    console.error("Error getting cart items:", err);
+    res.status(500).json({ error: "Could not get cart items" });
+  }
+};
+
 
 module.exports = {
   Painting,
@@ -88,4 +125,5 @@ module.exports = {
   Drawings,
   getArtByCategory,
   addToCart,
+  getArtInCart,
 };

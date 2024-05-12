@@ -8,6 +8,8 @@ const SingleArt = () => {
   const [art, setArt] = useState(null);
   const [imageIndex, setImageIndex] = useState(0);
   const token = localStorage.getItem("token");
+  
+  // console.log("id",id);
 
   useEffect(() => {
     axios
@@ -18,7 +20,7 @@ const SingleArt = () => {
       })
       .then((response) => {
         setArt(response.data);
-        console.log("data", response.data);
+        // console.log("data", response.data);
       })
       .catch((error) => {
         console.error("Error fetching art:", error);
@@ -26,7 +28,25 @@ const SingleArt = () => {
       });
   }, [id, token]);
 
-  console.log("art", art);
+  const addToCart = async (userId, artId) => {
+    try {
+      const response = await axios.post(
+        "http://localhost:3000/art/addToCart",
+        {
+          userId: userId,
+          artId: artId,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      console.log(response.data); 
+    } catch (error) {
+      console.error("Error adding item to cart:", error);
+    }
+  };
 
   useEffect(() => {
     if (art) {
@@ -192,6 +212,7 @@ const SingleArt = () => {
               width={"80%"}
               bg={"rgb(183,155,84)"}
               _hover={{ bg: "rgb(183,155,84)" }}
+              onClick={() => addToCart(art.userID, art._id)}
             >
               Add to Cart
             </Button>
@@ -230,3 +251,4 @@ const SingleArt = () => {
 };
 
 export default SingleArt;
+//663e4859d40fae5e59a3f467
