@@ -9,6 +9,7 @@ const {
   getArtByCategory,
   addToCart,
   getArtInCart,
+  removeFromCart,
 } = require("../controller/art.category.controller");
 
 const { auth } = require("../middleware/auth.middleware");
@@ -33,7 +34,8 @@ artCategoryRouter.post("/addToCart", auth, addToCart);
 
 artCategoryRouter.get("/cart", auth, getArtInCart);
 
+artCategoryRouter.delete("/removeFromCart/:id",auth, removeFromCart)
+
 module.exports = {
   artCategoryRouter,
 };
-

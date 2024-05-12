@@ -72,6 +72,7 @@ const logout = async (req, res) => {
   }
 };
 
+
 module.exports = {
   signup,
   login,

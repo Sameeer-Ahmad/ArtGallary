@@ -70,14 +70,20 @@ const updateArt = async (req, res) => {
 
 const getArtById = async (req, res) => {
   const { id } = req.params;
+  const {userID}=req.body;
+  console.log(userID);
+
   try {
     const getArtById = await ArtModel.findById(id);
-    res.status(200).send(getArtById);
+    res.status(200).json({getArtById,userID});
   } catch (err) {
     console.log(err);
     console.log("Not able to get art by id");
   }
 };
+
+
+
 
 module.exports = {
   postArt,
