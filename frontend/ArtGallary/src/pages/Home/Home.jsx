@@ -276,6 +276,8 @@ const Home = () => {
               "repeat(3, 1fr)",
               "repeat(4, 1fr)",
               "repeat(4,1fr)",
+              "repeat(4,1fr)",
+
             ]}
             mt={5}
             justifyContent={"center"}
@@ -285,7 +287,7 @@ const Home = () => {
             {renderArtCards()}
           </Grid>
         </Box>
-        <Box display={"flex"} justifyContent={"center"} alignItems={"center"} width={"350px"} height={"60px"} textAlign={"center"} borderRadius={"10px"} backgroundColor={"#B79B54"} fontSize={["20px", "25px", "30px"]} fontFamily={"sans-serif"} mt={5} cursor={"pointer"} onClick={handleExploreClick}  ><Text>Explore</Text></Box>
+        <Box display={"flex"} justifyContent={"center"} alignItems={"center"} width={["150px", "250px", "350px"]} height={"60px"} textAlign={"center"} borderRadius={"10px"} backgroundColor={"#B79B54"} fontSize={["20px", "25px", "30px"]} fontFamily={"sans-serif"} mt={5} cursor={"pointer"} onClick={handleExploreClick}  ><Text>Explore</Text></Box>
       </Box>
 
 
