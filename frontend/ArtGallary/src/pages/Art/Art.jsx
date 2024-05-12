@@ -161,7 +161,7 @@ const Art = () => {
         Original Contemporary Artworks for Sale
       </Text>
       <Flex marginRight={4} justifyContent="flex-end" pt={4} pr={6}>
-        {/* Your sorting select input */}
+       
       </Flex>
       {loading ? (
         <Grid
