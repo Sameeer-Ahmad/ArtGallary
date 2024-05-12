@@ -13,7 +13,7 @@ import { FaInstagram, FaTwitter, FaYoutube } from 'react-icons/fa';
 
 
       {/* <Image src='https://img.freepik.com/premium-vector/art-gallery-logo-design_92167-618.jpg'  width={'140px'} alt='Dan Abramov' /> */}
-        <Text fontSize={'ms'} textAlign={'center'} width={'230px'} color='black' >Subscribe for the latest updates in contemporary art & design!</Text>
+        <Text fontSize={'ms'} textAlign={'center'} width={'230px'} fontWeight={'bold'} minWidth={'300px'} color='black' >Subscribe for the latest updates in contemporary art & design!</Text>
         <Stack direction={'row'}>
         <Input marginTop={"20px"}
     color='tomato'
@@ -55,7 +55,7 @@ import { FaInstagram, FaTwitter, FaYoutube } from 'react-icons/fa';
         <SimpleGrid columns={{ base: 2, sm: 3, md: 6}} spacing={7}>
           <Stack align={'flex-start'}>
             <Heading fontSize={'xl'} color={"#1e0e00"}>The Artling</Heading>
-            <Box as='a' color='#685253' href='#inner-link' > Art Consulatancy</Box>
+            <Box as='a' color='#685253' href='#inner-link'> Art Consulatancy</Box>
             <Box as='a' color='#685253' href='#inner-link' > About us</Box>
             <Box as='a' color='#685253' href='#inner-link' > The Team</Box>
             <Box as='a' color='#685253' href='#inner-link' >Press</Box> 
