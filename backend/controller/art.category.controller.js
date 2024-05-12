@@ -68,7 +68,7 @@ const addToCart = async (req, res) => {
   const { userId, artId } = req.body;
   try {
     let cartItem = await CartModel.findOne({ userId, artId });
-      console.log(cartItem);
+    console.log(cartItem);
     if (cartItem) {
       cartItem.quantity += 1;
       await cartItem.save();
@@ -125,8 +125,21 @@ const removeFromCart = async (req, res) => {
     res.status(500).json({ error: "Could not remove item from cart" });
   }
 };
+const searchArt = async (req, res) => {
+  const searchQuery = req.query.artName;
 
+  try {
+    const searchResults = await Artwork.find({
+      artName: { $regex: searchQuery, $options: "i" },
+    });
 
+    res.json(searchResults);
+  } catch (error) {
+    res
+      .status(500)
+      .json({ message: "Error fetching data", error: error.message });
+  }
+};
 
 module.exports = {
   Painting,
@@ -138,5 +151,5 @@ module.exports = {
   getArtByCategory,
   addToCart,
   getArtInCart,
-  removeFromCart
+  removeFromCart,
 };

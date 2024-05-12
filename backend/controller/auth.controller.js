@@ -38,7 +38,9 @@ const login = async (req, res) => {
             { userID: user._id, username: user.username, role: user.role },
             process.env.SECRET_KEY
           );
-          res.status(200).send({ msg: "Login successful", token });
+          res
+            .status(200)
+            .send({ msg: "Login successful", token, username: user.username });
           console.log("login successfully");
         } else {
           res.status(400).send("Invalid credentials");
@@ -71,7 +73,6 @@ const logout = async (req, res) => {
     res.status(500).send({ error: "Internal Server Error" });
   }
 };
-
 
 module.exports = {
   signup,

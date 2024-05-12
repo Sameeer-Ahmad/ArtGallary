@@ -17,7 +17,7 @@ const postArt = async (req, res) => {
 
 const getArt = async (req, res) => {
   try {
-    if (req.role=="artist") {
+    if (req.role == "artist") {
       const getArt = await ArtModel.find({ userID: req.body.userID });
       res.status(200).send(getArt);
     }
@@ -35,7 +35,6 @@ const deleteArt = async (req, res) => {
     if (!art) {
       return res.status(404).send("Art not found");
     }
-    console.log(art.userID, req.body.userID);
     if (art.userID == req.body.userID) {
       const deletedArt = await ArtModel.findByIdAndDelete(id);
       if (deletedArt) {
@@ -70,20 +69,17 @@ const updateArt = async (req, res) => {
 
 const getArtById = async (req, res) => {
   const { id } = req.params;
-  const {userID}=req.body;
+  const { userID } = req.body;
   console.log(userID);
 
   try {
     const getArtById = await ArtModel.findById(id);
-    res.status(200).json({getArtById,userID});
+    res.status(200).json({ getArtById, userID });
   } catch (err) {
     console.log(err);
     console.log("Not able to get art by id");
   }
 };
-
-
-
 
 module.exports = {
   postArt,
