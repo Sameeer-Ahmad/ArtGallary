@@ -10,7 +10,7 @@ const Dashboard = () => {
     <>
 
       <Box display={"flex"} flexDir={"column"} alignItems={"center"} mt={10} fontFamily={"Addington CF"}>
-        <Box display={"flex"} flexDir={["column", "column", "row"]} width={"90%"} gap={"20px"} >
+        <Box display={"flex"} flexDir={["column", "column", "row"]} width={"90%"} gap={"20px"}  >
           <Box flex="1">
             <Heading as="h1" fontSize={["18px", "22px", "25px"]}>ART GALLERY</Heading>
             <Box mt={10}>

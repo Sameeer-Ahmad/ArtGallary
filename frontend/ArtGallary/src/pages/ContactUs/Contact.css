@@ -4,6 +4,7 @@
     flex-wrap: wrap;
     justify-content: space-around;
     padding: 20px;
+    font-family:Verdana, Geneva, Tahoma, sans-serif;
 }
 
 .contact-us{
@@ -12,6 +13,7 @@
    flex-wrap: wrap;
    width: 100%;
 }
+/* contact */
 .contact-us>p{
     text-align: center;
     line-height: 2;
@@ -46,6 +48,10 @@
 .info, .form {
     width: 45%;
     margin-bottom: 20px;
+    background-image: url(https://img.freepik.com/free-vector/watercolor-oil-painting-background_23-2150146387.jpg);
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
 }
 
 .info {
@@ -54,7 +60,17 @@
     border-radius: 10px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
+.info>p{
+    margin-top: 20px;
+    color: rgb(0, 0, 0);
+}
+.info>p>img{
+   width: 50px;
 
+}
+.info>p>strong{
+    font-size: 30px;
+}
 .form {
     background-color: #fff;
     padding: 20px;
@@ -64,6 +80,9 @@
 
 h2 {
     margin-top: 0;
+}
+h3{
+    font-weight: bold;
 }
 
 input[type="text"], input[type="email"], textarea {

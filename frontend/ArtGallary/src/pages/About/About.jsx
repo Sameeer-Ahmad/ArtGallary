@@ -19,6 +19,9 @@ const About = () => {
   const handleImageClick = (image) => {
     setSelectedImage(image);
   };
+
+ 
+
   return (
     <>
       <Box
