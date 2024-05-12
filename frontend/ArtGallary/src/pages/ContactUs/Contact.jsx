@@ -1,6 +1,10 @@
 import React from 'react'
 import { useState } from 'react';
 import './Contact.css'
+import AOS from 'aos';
+import 'aos/dist/aos.css'; // You can also use <link> for styles
+// ..
+AOS.init();
 const Contact = () => {
     const [formData, setFormData] = useState({
         name: '',
@@ -31,8 +35,9 @@ const Contact = () => {
     }
 
     return (
+      <>
         <div className="container">
-            <div className="contact-us">
+            <div className="contact-us" data-aos="flip-up">
                 <h1>Contact us</h1>
                 <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit.
                      Inventore commodi laboriosam quos maxime, soluta quia <br />
@@ -41,15 +46,15 @@ const Contact = () => {
                      incidunt eius ex consectetur assumenda ipsa quod voluptates  </p>
             </div>
             {/* Company Info */}
-            <div className="info">
+            <div className="info" data-aos="flip-down">
                 <h1>Our Company</h1>
-                <p><strong>Address:</strong> Building No.45,Main Street,Mumbai </p>
-                <p><strong>Phone:</strong> +1234567890</p>
-                <p><strong>Email:</strong> ArtGallery123@gmail.com</p>
+                <p><strong>Address:</strong> <h3>Building No.45,Main Street,Mumbai</h3> </p>
+                <p><strong>Phone:</strong> <h3>+1234567890</h3></p>
+                <p><strong>Email:</strong><h3> ArtGallery123@gmail.com</h3></p>
             </div>
             {/* Contact Form */}
             <div className="form">
-                <h2>Contact Us</h2>
+                <h1>Contact Us</h1>
                 <form onSubmit={handleSubmit}>
                     <input type="text" name="name" placeholder="Your Name" value={formData.name} onChange={handleChange} required />
                     <input type="email" name="email" placeholder="Your Email" value={formData.email} onChange={handleChange} required />
@@ -57,7 +62,11 @@ const Contact = () => {
                     <input type="submit" value="Submit" />
                 </form>
             </div>
+
         </div>
+      
+        </>
+        
     );
 }
 
