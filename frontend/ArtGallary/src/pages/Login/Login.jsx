@@ -28,7 +28,7 @@ function Login() {
       password,
     };
 
-    fetch("https://artgallary.onrender.com/user/login", {
+    fetch("http://localhost:3000/user/login", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
