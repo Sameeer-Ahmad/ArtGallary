@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
-import { Box, Image, Text, Flex, Button } from "@chakra-ui/react";
+import { Box, Image, Text, Flex, Button, useToast } from "@chakra-ui/react";
 
 const SingleArt = () => {
   const { id } = useParams();
@@ -9,8 +9,7 @@ const SingleArt = () => {
   const [imageIndex, setImageIndex] = useState(0);
   const token = localStorage.getItem("token");
   const [currentUserID, setUserID] = useState(null);
-  // console.log("id",id);
-
+  const toast = useToast();
   useEffect(() => {
     axios
       .get(`http://localhost:3000/artist/get/${id}`, {
@@ -21,7 +20,7 @@ const SingleArt = () => {
       .then((response) => {
         setArt(response.data.getArtById);
         setUserID(response.data.userID);
-        console.log("data", response.data);
+        // console.log("data", response.data);
       })
       .catch((error) => {
         console.error("Error fetching art:", error);
@@ -31,7 +30,7 @@ const SingleArt = () => {
 
   const addToCart = async (userId, artId) => {
     try {
-      const response = await axios.post(
+      await axios.post(
         "http://localhost:3000/art/addToCart",
         {
           userId: userId,
@@ -43,8 +42,12 @@ const SingleArt = () => {
           },
         }
       );
-
-      console.log(response.data);
+      toast({
+        title: "Item added to cart",
+        status: "success",
+        isClosable: true,
+      });
+      // console.log(response.data);
     } catch (error) {
       console.error("Error adding item to cart:", error);
     }
@@ -213,7 +216,7 @@ const SingleArt = () => {
               color={"white"}
               width={"80%"}
               bg={"rgb(183,155,84)"}
-              _hover={{ bg: "rgb(183,155,84)" }}
+              _hover={{ bg: "#B79B19" }}
               onClick={() => addToCart(currentUserID, art._id)}
             >
               Add to Cart
@@ -243,7 +246,7 @@ const SingleArt = () => {
           color={"white"}
           w={["950px", "900px", "60%", "60%", "60%"]}
           bg={"rgb(183,155,84)"}
-          _hover={{ bg: "rgb(183,155,84)" }}
+          _hover={{ bg: "#B79B19" }}
         >
           Join our Trade Program
         </Button>
@@ -253,4 +256,3 @@ const SingleArt = () => {
 };
 
 export default SingleArt;
-//663e4859d40fae5e59a3f467

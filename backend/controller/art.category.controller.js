@@ -68,7 +68,7 @@ const addToCart = async (req, res) => {
   const { userId, artId } = req.body;
   try {
     let cartItem = await CartModel.findOne({ userId, artId });
-
+      console.log(cartItem);
     if (cartItem) {
       cartItem.quantity += 1;
       await cartItem.save();
@@ -115,6 +115,18 @@ const getArtInCart = async (req, res) => {
   }
 };
 
+const removeFromCart = async (req, res) => {
+  const { itemId } = req.body;
+  try {
+    await CartModel.findByIdAndDelete(itemId);
+    res.status(200).json({ message: "Item removed from cart" });
+  } catch (error) {
+    console.error("Error deleting item from cart:", error);
+    res.status(500).json({ error: "Could not remove item from cart" });
+  }
+};
+
+
 
 module.exports = {
   Painting,
@@ -126,4 +138,5 @@ module.exports = {
   getArtByCategory,
   addToCart,
   getArtInCart,
+  removeFromCart
 };
