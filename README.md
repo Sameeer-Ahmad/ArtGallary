@@ -16,7 +16,7 @@ Backend:
 ## Directory Structure
 
 bash
-Subansiri-Loop-034
+
 ├── README.md
 ├── backend/
 │   ├── .gitignore
