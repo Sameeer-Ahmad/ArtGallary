@@ -27,7 +27,7 @@ const Cart = () => {
   const removeFromCart = async (itemId) => {
     try {
       const response = await axios.delete(
-        `http://localhost:3000/art/removeFromCart/${itemId}`,
+        `https://artgallary.onrender.com/art/removeFromCart/${itemId}`,
         {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`,
