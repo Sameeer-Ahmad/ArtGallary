@@ -20,25 +20,35 @@ import Home from "../pages/Home/Home";
 import Dashboard from "../pages/Dashboard/Dashboard";
 import Footer from "../Component/Footer/Footer";
 import Contact from "../pages/ContactUs/Contact";
-
+import DashNav from "../pages/Dashboard/Dashbordnav";
 const AllRoutes = () => {
   const location = useLocation();
   const [showNavbar, setShowNavbar] = useState(true);
-  const [showFooter, setShowFooter] = useState(true)
+  const [showFooter, setShowFooter] = useState(true);
+  const [showDashNav, setDashNav] = useState(false)
   useEffect(() => {
     // Check if the current path is login or signup
     if (location.pathname === "/login" || location.pathname === "/signup") {
       setShowNavbar(false);
       setShowFooter(false);
-    } else {
+      setDashNav(false)
+    }
+    else if (location.pathname === "/dashboard" || location.pathname === '/about') {
+      setShowNavbar(false)
+      setShowFooter(true)
+      setDashNav(true)
+    }
+    else {
       setShowNavbar(true);
       setShowFooter(true);
+      setDashNav(false)
     }
   }, [location]);
 
   return (
     <div>
       {showNavbar && <Navbar />}
+      {showDashNav && <DashNav />}
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/art/paintings" element={<Paint />} />
@@ -59,7 +69,7 @@ const AllRoutes = () => {
         <Route path="/contactus" element={<Contact />} />
         <Route path="/art/:id" element={<SingleArt />} />
       </Routes>
-      {/* {showFooter && <Footer />} */}
+      {showFooter && <Footer />}
     </div>
   );
 };
