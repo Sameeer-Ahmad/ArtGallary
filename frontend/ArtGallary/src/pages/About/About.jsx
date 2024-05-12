@@ -33,7 +33,7 @@ const About = () => {
           >
             {selectedImage && <Image src={selectedImage} alt="Selected Image" width={"100%"} />}
           </Box>
-          <Flex width={"60%"}>
+          <Flex width={["90%", "60%"]}>
             {images.map((image, index) => (
               <Box key={index} m={2} cursor="pointer" >
                 <Image
