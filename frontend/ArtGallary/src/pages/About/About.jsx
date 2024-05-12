@@ -2,8 +2,20 @@
 
 
 import './About.css'
+
+import { useState } from 'react';
+
 const About = () => {
 
+  const images = [
+    "https://artlogic-res.cloudinary.com/w_1240,h_620,c_limit,f_auto,fl_lossy,q_auto/ws-artlogicwebsite0399/usr/library/images/main/pages/24/_mg_9507.jpg",
+    "https://artlogic-res.cloudinary.com/w_1240,h_620,c_limit,f_auto,fl_lossy,q_auto/ws-artlogicwebsite0399/usr/library/images/main/pages/24/07_dsc5126.jpg",
+    "https://artlogic-res.cloudinary.com/w_1240,h_620,c_limit,f_auto,fl_lossy,q_auto/ws-artlogicwebsite0399/usr/library/images/main/pages/24/07_dsc5126.jpg",
+    "https://artlogic-res.cloudinary.com/w_1240,h_620,c_limit,f_auto,fl_lossy,q_auto/ws-artlogicwebsite0399/usr/library/images/main/pages/24/xt3b907652357509551o_1600_1066.jpeg",
+    "https://artlogic-res.cloudinary.com/w_1240,h_620,c_limit,f_auto,fl_lossy,q_auto/ws-artlogicwebsite0399/usr/library/images/main/pages/24/dsc_9189.jpg",
+    "https://artlogic-res.cloudinary.com/w_1240,h_620,c_limit,f_auto,fl_lossy,q_auto/ws-artlogicwebsite0399/usr/library/images/main/pages/24/_mg_9335.jpg"
+  ]
+  const [selectedImage, setSelectedImage] = useState(images[0]);
   // const images = [
   //   "https://artlogic-res.cloudinary.com/w_1240,h_620,c_limit,f_auto,fl_lossy,q_auto/ws-artlogicwebsite0399/usr/library/images/main/pages/24/_mg_9507.jpg",
   //   "https://artlogic-res.cloudinary.com/w_1240,h_620,c_limit,f_auto,fl_lossy,q_auto/ws-artlogicwebsite0399/usr/library/images/main/pages/24/07_dsc5126.jpg",
