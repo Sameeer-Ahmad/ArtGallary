@@ -35,7 +35,6 @@ const deleteArt = async (req, res) => {
     if (!art) {
       return res.status(404).send("Art not found");
     }
-    console.log(art.userID, req.body.userID);
     if (art.userID == req.body.userID) {
       const deletedArt = await ArtModel.findByIdAndDelete(id);
       if (deletedArt) {
@@ -84,22 +83,6 @@ const getArtById = async (req, res) => {
 const searchArt = async (req, res) => {
   const searchQuery = req.query.artName;
 
-  try {
-    // Perform the search based on artName
-    const searchResults = await ArtModel.find({
-      searchQuery,
-    });
-    if (!searchResults) {
-      res.json("no data found");
-    }
-
-    res.json(searchResults);
-  } catch (error) {
-    res
-      .status(500)
-      .json({ message: "Error fetching data", error: error.message });
-  }
-};
 
 module.exports = {
   postArt,

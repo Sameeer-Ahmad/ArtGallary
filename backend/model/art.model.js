@@ -9,12 +9,12 @@ const artSchema = new mongoose.Schema(
     artCategory: {
       type: String,
       enum: [
-        "paintings",
-        "prints",
-        "sculpture",
-        "photography",
-        "inspiration",
-        "drawings",
+        "Painting",
+        "Print",
+        "Sculpture",
+        "Photography",
+        "Inspiration",
+        "Drawing",
         "Acrylic",
       ],
       required: true,
