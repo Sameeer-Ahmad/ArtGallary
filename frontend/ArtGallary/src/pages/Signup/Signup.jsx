@@ -19,7 +19,9 @@ function Signup() {
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const navigate = useNavigate();
   const toast = useToast();
 
@@ -30,8 +32,19 @@ function Signup() {
   const handleRole = (e) => {
     setRole(e);
   };
+
   const handleRegister = (e) => {
     e.preventDefault();
+    if (password !== confirmPassword) {
+      toast({
+        title: "Passwords do not match",
+        status: "error",
+        duration: 3000,
+        isClosable: true,
+      });
+      return;
+    }
+
     const payload = {
       username,
       email,
@@ -47,22 +60,21 @@ function Signup() {
       body: JSON.stringify(payload),
     })
       .then((res) => res.json())
-      // .then((data) => console.log(data))
-      .then(
+      .then(() => {
         toast({
           title: "Account created successfully",
           status: "success",
           duration: 3000,
           isClosable: true,
-        })
-      )
-      .then(navigate("/login"))
+        });
+        navigate("/login");
+      })
       .catch((err) => console.log(err));
   };
 
   return (
     <>
-      <Stack 
+      <Stack
         minH={"100vh"}
         direction={{ base: "column", md: "row" }}
         backgroundImage="url('https://images.unsplash.com/photo-1578926375605-eaf7559b1458?q=80&w=1963&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D')"
@@ -72,7 +84,7 @@ function Signup() {
         alignItems="center"
         justifyContent="center"
       >
-        <Flex  p={1} flex={1.5} align={"center"} gap={"20px"} justify={"center"}>
+        <Flex p={1} flex={1.5} align={"center"} gap={"20px"} justify={"center"}>
           <Stack spacing={4} w={"full"} maxW={"md"}>
             <Heading fontSize={["2xl", "3xl", "4xl"]} color={"#B79B54"}>
               Sign up to your account
@@ -104,8 +116,8 @@ function Signup() {
                 </Stack>
               </RadioGroup>
 
-              <FormLabel >Enter Email address</FormLabel>
-              <Input 
+              <FormLabel>Enter Email address</FormLabel>
+              <Input
                 required
                 type="text"
                 placeholder="email"
@@ -116,7 +128,7 @@ function Signup() {
                 border={"none"}
                 onChange={(e) => setEmail(e.target.value)}
               />
-              <FormLabel pt={4}> Enter Password</FormLabel>
+              <FormLabel pt={4}>Enter Password</FormLabel>
               <InputGroup>
                 <Input
                   required
@@ -137,6 +149,33 @@ function Signup() {
                     }
                   >
                     {showPassword ? <ViewIcon /> : <ViewOffIcon />}
+                  </Button>
+                </InputRightElement>
+              </InputGroup>
+
+              <FormLabel pt={4}>Confirm Password</FormLabel>
+              <InputGroup>
+                <Input
+                  required
+                  type={showConfirmPassword ? "text" : "password"}
+                  placeholder="confirm password"
+                  value={confirmPassword}
+                  boxShadow={
+                    "rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 1px 3px 1px"
+                  }
+                  border={"none"}
+                  onChange={(e) => setConfirmPassword(e.target.value)}
+                />
+                <InputRightElement h={"full"}>
+                  <Button
+                    variant={"ghost"}
+                    onClick={() =>
+                      setShowConfirmPassword((showConfirmPassword) =>
+                        !showConfirmPassword
+                      )
+                    }
+                  >
+                    {showConfirmPassword ? <ViewIcon /> : <ViewOffIcon />}
                   </Button>
                 </InputRightElement>
               </InputGroup>
@@ -171,7 +210,7 @@ function Signup() {
                   background={"white"}
                   borderRadius={"20px"}
                   onClick={Signupbtn}
-                  type="button" 
+                  type="button"
                 >
                   Sign in
                 </Button>

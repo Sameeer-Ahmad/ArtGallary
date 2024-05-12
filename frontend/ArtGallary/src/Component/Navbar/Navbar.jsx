@@ -25,6 +25,10 @@ import { HamburgerIcon, CloseIcon, SearchIcon } from "@chakra-ui/icons";
 import { Link } from "react-router-dom";
 import LogoutButton from "../../pages/Logout/Logout";
 
+import PropTypes from 'prop-types';
+NavBar.propTypes = {
+  onSearch: PropTypes.func.isRequired,
+};
 const Links = [
   { ids: 1, name: "PAINTING", link: "/art/paintings" },
   { ids: 2, name: "PRINTS", link: "/art/prints" },

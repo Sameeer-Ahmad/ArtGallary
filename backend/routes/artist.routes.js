@@ -6,6 +6,7 @@ const {
   deleteArt,
   updateArt,
   getArtById,
+  searchArt,
 } = require("../controller/art.controller");
 
 const { auth } = require("../middleware/auth.middleware");
@@ -22,6 +23,7 @@ artistRouter.delete("/delete/:id", auth, access("artist"), deleteArt);
 artistRouter.patch("/update/:id", auth, updateArt);
 
 artistRouter.get("/get/:id", auth, getArtById);
+artistRouter.get("/search", auth, searchArt);
 
 module.exports = {
   artistRouter,
