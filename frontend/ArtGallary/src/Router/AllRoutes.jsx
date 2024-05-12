@@ -59,7 +59,7 @@ const AllRoutes = () => {
         <Route path="/contactus" element={<Contact />} />
         <Route path="/art/:id" element={<SingleArt />} />
       </Routes>
-      {/* {showFooter && <Footer />} */}
+      {showFooter && <Footer />}
     </div>
   );
 };
