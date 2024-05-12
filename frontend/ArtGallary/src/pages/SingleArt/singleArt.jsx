@@ -8,19 +8,20 @@ const SingleArt = () => {
   const [art, setArt] = useState(null);
   const [imageIndex, setImageIndex] = useState(0);
   const token = localStorage.getItem("token");
-  
+  const [currentUserID, setUserID] = useState(null);
   // console.log("id",id);
 
   useEffect(() => {
     axios
-      .get(`https://artgallary.onrender.com/artist/get/${id}`, {
+      .get(`http://localhost:3000/artist/get/${id}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
       })
       .then((response) => {
-        setArt(response.data);
-        // console.log("data", response.data);
+        setArt(response.data.getArtById);
+        setUserID(response.data.userID);
+        console.log("data", response.data);
       })
       .catch((error) => {
         console.error("Error fetching art:", error);
@@ -42,7 +43,8 @@ const SingleArt = () => {
           },
         }
       );
-      console.log(response.data); 
+
+      console.log(response.data);
     } catch (error) {
       console.error("Error adding item to cart:", error);
     }
@@ -212,7 +214,7 @@ const SingleArt = () => {
               width={"80%"}
               bg={"rgb(183,155,84)"}
               _hover={{ bg: "rgb(183,155,84)" }}
-              onClick={() => addToCart(art.userID, art._id)}
+              onClick={() => addToCart(currentUserID, art._id)}
             >
               Add to Cart
             </Button>
