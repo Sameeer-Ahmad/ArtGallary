@@ -1,10 +1,11 @@
-import { Box, Flex, Image, Text, useBreakpointValue, VStack } from '@chakra-ui/react'
-
+import { border, Box, Flex, Grid, Image, Stack, Text, useBreakpointValue, VStack } from '@chakra-ui/react'
+import axios from 'axios';
+import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from 'react'
 const images = ["https://ik.imagekit.io/theartling/prod/banners/Banner/245a41e41489485ca732825fc36d596a.jpeg", "https://ik.imagekit.io/theartling/prod/banners/Banner/457e5452c9344b34949f10a074275e91.jpeg", "https://ik.imagekit.io/theartling/prod/banners/Banner/88f5df715f784aa9b005c9d49de17072.jpeg"]
 const Home = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
-
+  const navigate = useNavigate();
   useEffect(() => {
     const intervalId = setInterval(() => {
       setCurrentIndex((prevIndex) => (prevIndex + 1) % images.length);
@@ -31,6 +32,79 @@ const Home = () => {
       p: "singapore"
     }
   ]
+
+  const handleExploreClick = () => {
+    // Navigate to the desired page when the Box is clicked
+    navigate("/art");
+  };
+  /**
+   * 
+   */
+
+  const [arts, setArts] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const token = localStorage.getItem("token");
+
+  useEffect(() => {
+    axios
+      .get("https://artgallary.onrender.com/art?_limit=4", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      .then((response) => {
+        let sortedArts = response.data;
+
+        setArts(sortedArts);
+        setLoading(false);
+      })
+      .catch((error) => {
+        console.error("Error fetching paintings:", error);
+        setArts([]);
+        setLoading(false);
+      });
+  }, []);
+
+  const renderArtCards = () => {
+
+    return arts.slice(0, 4).map((painting) => (
+
+      <Box
+        data-aos="fade-down"
+        data-aos-anchor-placement="top"
+        key={painting._id}
+        width={"auto"}
+        height={"auto"}
+        bg="#f5f1ee"
+        borderRadius="md"
+        boxShadow="md"
+        textAlign={"center"}
+        fontSize={"22px"}
+        fontFamily={"sans-serif"}
+      >
+        <Image
+          width={"100%"}
+          objectFit="cover"
+          src={painting.artImage[0]}
+          alt={painting.artName}
+        />
+
+        <Stack pt={5} pl={4} pb={5} gap={0} bg={"white"}>
+          <Text
+            fontWeight={400}
+            fontSize={"17px"}
+            fontFamily={"Addington CF"}
+            lineHeight={"21px"}
+            letterSpacing={"1px"}
+          >
+            {painting.artName}
+          </Text>
+          <Text>{painting.artCategory}</Text>
+        </Stack>
+      </Box>
+
+    ));
+  };
 
   return (
     <Box display={"flex"} flexDir={"column"} alignItems={"center"} padding={4} bg="rgb(250,248,244)">
@@ -193,12 +267,45 @@ const Home = () => {
         </Box>
       </Box>
 
+
+      {/* {"art card content here"} */}
+
+
+      <Box display={"flex"} justifyContent={"center"} mt={6} flexDir={"column"} alignItems={"center"}>
+        <Text fontSize={["18px", "25px", "30px"]} fontFamily={"Addington CF"} fontWeight={"400"}>Browse trending artworks</Text>
+        <Box>
+          <Grid
+            gap={8}
+            p={8}
+            templateColumns={[
+              "repeat(2, 1fr)",
+              "repeat(2, 1fr)",
+              "repeat(3, 1fr)",
+              "repeat(4, 1fr)",
+              "repeat(4,1fr)",
+              "repeat(4,1fr)",
+
+            ]}
+            mt={5}
+            justifyContent={"center"}
+            alignContent={"center"}
+            alignItems="center"
+          >
+            {renderArtCards()}
+          </Grid>
+        </Box>
+        <Box display={"flex"} justifyContent={"center"} alignItems={"center"} width={["150px", "250px", "350px"]} height={"60px"} textAlign={"center"} borderRadius={"10px"} backgroundColor={"#B79B54"} fontSize={["20px", "25px", "30px"]} fontFamily={"sans-serif"} mt={5} cursor={"pointer"} onClick={handleExploreClick}  ><Text>Explore</Text></Box>
+      </Box>
+
+
       <Box w={"100%"} mt={20} display={"flex"} flexDir={"column"} justifyContent={"center"} alignItems={"center"}>
         <Text fontSize={"30px"} textAlign={"center"} mt={4} fontFamily={"Addington CF"}>Our clients</Text>
         <Box width={"80%"}>
           <Box>< Image  src='https://ik.imagekit.io/theartling/prod/dynamic_images/Image/f070b9e459bf42dca2d7f8febfe264fc.png?tr=w-2220' /></Box>
         </Box>
       </Box>
+
+
 
       <Box mt={6} width={"100%"} borderBottom="1px solid #D9D1C2">
        

@@ -112,7 +112,6 @@ function Login() {
                 align={"start"}
                 justify={"space-between"}
               ></Stack>
-
               <Button
                 _hover={{ bg: "white", color: "#B79B54" }}
                 variant={"solid"}
