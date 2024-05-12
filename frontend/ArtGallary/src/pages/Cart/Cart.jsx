@@ -114,7 +114,13 @@ const Cart = () => {
                       <Text>{item.artCategory}</Text>
                       <Text>US$ {item.artPrice}</Text>
                       <Text>quantity: {item.quantity}</Text>
-                      <Button mr={8} bg={"none"} border={"2px solid #f5f1ee "} _hover={{textDecoration:"underline" ,bg:" #f5f1ee"}} onClick={() => removeFromCart(item._id)}>
+                      <Button
+                        mr={8}
+                        bg={"none"}
+                        border={"2px solid #f5f1ee "}
+                        _hover={{ textDecoration: "underline", bg: " #f5f1ee" }}
+                        onClick={() => removeFromCart(item._id)}
+                      >
                         remove
                       </Button>
                     </Box>

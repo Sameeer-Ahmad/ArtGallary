@@ -24,7 +24,7 @@ import Contact from "../pages/ContactUs/Contact";
 const AllRoutes = () => {
   const location = useLocation();
   const [showNavbar, setShowNavbar] = useState(true);
-  const [showFooter, setShowFooter] = useState(true)
+  const [showFooter, setShowFooter] = useState(true);
   useEffect(() => {
     // Check if the current path is login or signup
     if (location.pathname === "/login" || location.pathname === "/signup") {

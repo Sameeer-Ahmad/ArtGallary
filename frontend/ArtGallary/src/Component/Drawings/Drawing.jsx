@@ -10,9 +10,8 @@ import {
   Skeleton,
 } from "@chakra-ui/react";
 import { Link } from "react-router-dom";
-import AOS from 'aos';
-import 'aos/dist/aos.css'; // You can also use <link> for styles
-// ..
+import AOS from "aos";
+import "aos/dist/aos.css"; 
 AOS.init();
 const Drawing = () => {
   const [arts, setArts] = useState([]);
@@ -85,63 +84,63 @@ const Drawing = () => {
     const startIndex = (currentPage - 1) * itemsPerPage;
     const endIndex = startIndex + itemsPerPage;
     return arts.slice(startIndex, endIndex).map((painting) => (
-        <Link key={painting._id} to={`/art/${painting._id}`}>
-      <Box
-      data-aos="fade-down"
-      data-aos-anchor-placement="top"
-        key={painting._id}
-        width={"auto"}
-        height={"auto"}
-        bg="#f5f1ee"
-        borderRadius="md"
-        boxShadow="md"
-      >
-        <Image
-          width={"100%"}
-          objectFit="cover"
-          src={painting.artImage[0]}
-          alt={painting.artName}
-        />
+      <Link key={painting._id} to={`/art/${painting._id}`}>
+        <Box
+          data-aos="fade-down"
+          data-aos-anchor-placement="top"
+          key={painting._id}
+          width={"auto"}
+          height={"auto"}
+          bg="#f5f1ee"
+          borderRadius="md"
+          boxShadow="md"
+        >
+          <Image
+            width={"100%"}
+            objectFit="cover"
+            src={painting.artImage[0]}
+            alt={painting.artName}
+          />
 
-        <Stack pt={5} pl={4} pb={5} gap={0} bg={"white"}>
-          <Text
-            fontWeight={400}
-            fontSize={"17px"}
-            fontFamily={"Addington CF"}
-            lineHeight={"21px"}
-            letterSpacing={"1px"}
-          >
-            {painting.artName}
-          </Text>
-          <Text
-            fontSize={"17px"}
-            fontFamily={"sans-serif"}
-            color={"rgb(183, 155, 84)"}
-            letterSpacing={"1px"}
-          >
-            {painting.username}
-          </Text>
+          <Stack pt={5} pl={4} pb={5} gap={0} bg={"white"}>
+            <Text
+              fontWeight={400}
+              fontSize={"17px"}
+              fontFamily={"Addington CF"}
+              lineHeight={"21px"}
+              letterSpacing={"1px"}
+            >
+              {painting.artName}
+            </Text>
+            <Text
+              fontSize={"17px"}
+              fontFamily={"sans-serif"}
+              color={"rgb(183, 155, 84)"}
+              letterSpacing={"1px"}
+            >
+              {painting.username}
+            </Text>
 
-          <Text
-            fontSize={"17"}
-            fontFamily={"sans-serif"}
-            color={"rgb(183, 155, 84)"}
-            letterSpacing={"1px"}
-          >
-            {painting.artCategory}
-          </Text>
+            <Text
+              fontSize={"17"}
+              fontFamily={"sans-serif"}
+              color={"rgb(183, 155, 84)"}
+              letterSpacing={"1px"}
+            >
+              {painting.artCategory}
+            </Text>
 
-          <Text
-            fontSize={"17px"}
-            fontWeight={700}
-            fontFamily={"sans-serif"}
-            color={"rgb(183, 155, 84)"}
-            letterSpacing={"1px"}
-          >
-            US$ {painting.artPrice}
-          </Text>
-        </Stack>
-      </Box>
+            <Text
+              fontSize={"17px"}
+              fontWeight={700}
+              fontFamily={"sans-serif"}
+              color={"rgb(183, 155, 84)"}
+              letterSpacing={"1px"}
+            >
+              US$ {painting.artPrice}
+            </Text>
+          </Stack>
+        </Box>
       </Link>
     ));
   };
