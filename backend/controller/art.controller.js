@@ -17,7 +17,7 @@ const postArt = async (req, res) => {
 
 const getArt = async (req, res) => {
   try {
-    if (req.role=="artist") {
+    if (req.role == "artist") {
       const getArt = await ArtModel.find({ userID: req.body.userID });
       res.status(200).send(getArt);
     }
@@ -70,20 +70,36 @@ const updateArt = async (req, res) => {
 
 const getArtById = async (req, res) => {
   const { id } = req.params;
-  const {userID}=req.body;
+  const { userID } = req.body;
   console.log(userID);
 
   try {
     const getArtById = await ArtModel.findById(id);
-    res.status(200).json({getArtById,userID});
+    res.status(200).json({ getArtById, userID });
   } catch (err) {
     console.log(err);
     console.log("Not able to get art by id");
   }
 };
+const searchArt = async (req, res) => {
+  const searchQuery = req.query.artName;
 
+  try {
+    // Perform the search based on artName
+    const searchResults = await ArtModel.find({
+      searchQuery,
+    });
+    if (!searchResults) {
+      res.json("no data found");
+    }
 
-
+    res.json(searchResults);
+  } catch (error) {
+    res
+      .status(500)
+      .json({ message: "Error fetching data", error: error.message });
+  }
+};
 
 module.exports = {
   postArt,
@@ -91,4 +107,5 @@ module.exports = {
   deleteArt,
   updateArt,
   getArtById,
+  searchArt,
 };
