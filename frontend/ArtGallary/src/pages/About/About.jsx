@@ -1,6 +1,7 @@
 
 
 
+import { Box, Flex, Image, Text } from '@chakra-ui/react';
 import './About.css'
 
 import { useState } from 'react';
