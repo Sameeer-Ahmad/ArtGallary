@@ -20,8 +20,11 @@ import {
 import "./ArtGallaryLogo.png";
 import { HamburgerIcon, CloseIcon, SearchIcon } from "@chakra-ui/icons";
 import { Link, useParams } from "react-router-dom";
-import { CiShoppingCart } from "react-icons/ci";
 
+import PropTypes from 'prop-types';
+NavBar.propTypes = {
+  onSearch: PropTypes.func.isRequired,
+};
 const Links = [
   { ids: 1, name: "PAINTING", link: "/art/paintings" },
   { ids: 2, name: "PRINTS", link: "/art/prints" },
@@ -35,6 +38,7 @@ const Links = [
 
 export default function NavBar() {
   const { isOpen, onOpen, onClose } = useDisclosure();
+
   return (
     <>
       <Box bg={"rgb(250,248,244)"}>
@@ -56,7 +60,7 @@ export default function NavBar() {
                 w={20}
                 src="https://theartling.com/build/_assets/TheArtlingLogo-BZIAGPLW.svg"
                 alt="logo"
-                pl={[3,0,0]}
+                pl={[3, 0, 0]}
               />
             </Link>
             <Center width={["60%"]}>
@@ -84,7 +88,7 @@ export default function NavBar() {
               <Avatar
                 h={8}
                 w={8}
-                pr={[3,0,0]}
+                pr={[3, 0, 0]}
                 src={"https://www.svgrepo.com/show/170633/profile-user.svg"}
 
               />

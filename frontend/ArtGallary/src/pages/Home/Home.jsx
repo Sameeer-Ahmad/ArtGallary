@@ -55,15 +55,19 @@ const Home = () => {
 
   useEffect(() => {
     axios
-      .get("https://artgallary.onrender.com/art?_limit=4", {
+      .get("https://artgallary.onrender.com/art", {
         headers: {
           Authorization: `Bearer ${token}`,
         },
       })
       .then((response) => {
-        let sortedArts = response.data;
-
-        setArts(sortedArts);
+        const numberOfArtworks = 4;
+        const randomArtworks = [];
+        for (let i = 0; i < numberOfArtworks; i++) {
+          const randomIndex = Math.floor(Math.random() * response.data.length);
+          randomArtworks.push(response.data[randomIndex]);
+        }
+        setArts(randomArtworks);
         setLoading(false);
       })
       .catch((error) => {
@@ -401,7 +405,7 @@ const Home = () => {
       </Box>
 
       <Box mt={6} width={"100%"} borderBottom="1px solid #D9D1C2">
-       
+
       </Box>
 
       <Box
