@@ -103,7 +103,7 @@ const DesktopNav = () => {
     return (
         <Stack direction={'row'} spacing={4} ml={"auto"} >
             {NAV_ITEMS.map((navItem) => (
-                <Box key={navItem.label} ml={"20px"} >
+                <Box key={navItem.label} ml={"20px"} fontSize={"20px"} >
                     <Popover trigger={'hover'} placement={'bottom-start'}>
                         <PopoverTrigger>
                             <RouterLink // Use RouterLink instead of anchor tag
@@ -126,6 +126,7 @@ const DesktopNav = () => {
                                 boxShadow={'xl'}
                                 bg={popoverContentBgColor}
                                 p={4}
+
                                 rounded={'xl'}
                                 minW={'sm'}>
                                 <Stack  >
