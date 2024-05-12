@@ -1,5 +1,6 @@
 
 import './About.css'
+
 const About = () => {
   return (
  <>
@@ -21,6 +22,8 @@ const About = () => {
         <p>From contemporary paintings to traditional sculptures, our art gallery offers a diverse collection for every art enthusiast. Our mission is to create a space where anyone can appreciate art and be inspired by creativity.</p>
        
       </section>
+
+      
       <footer>
         <p>&copy; {new Date().getFullYear()} Art Gallery. All rights reserved.</p>
       </footer>
