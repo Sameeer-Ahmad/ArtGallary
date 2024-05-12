@@ -33,7 +33,7 @@ const AllRoutes = () => {
       setShowFooter(false);
       setDashNav(false)
     }
-    else if (location.pathname === "/dashboard" || location.pathname === '/about') {
+    else if (location.pathname === "/dashboard" || location.pathname === '/about' || location.pathname === '/contactus') {
       setShowNavbar(false)
       setShowFooter(true)
       setDashNav(true)

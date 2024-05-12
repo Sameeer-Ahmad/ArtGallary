@@ -101,7 +101,7 @@ const DesktopNav = () => {
     const popoverContentBgColor = useColorModeValue('white', 'gray.800');
 
     return (
-        <Stack direction={'row'} spacing={4} >
+        <Stack direction={'row'} spacing={4} ml={"auto"} >
             {NAV_ITEMS.map((navItem) => (
                 <Box key={navItem.label} ml={"20px"} >
                     <Popover trigger={'hover'} placement={'bottom-start'}>
@@ -233,6 +233,10 @@ const MobileNavItem = ({ label, children, href }) => {
 
 const NAV_ITEMS = [
     {
+        label: 'Home',
+        href: '/dashboard',
+    },
+    {
         label: 'Inspiration',
         children: [
             {
@@ -249,8 +253,8 @@ const NAV_ITEMS = [
     },
 
     {
-        label: 'Home',
-        href: '/dashboard',
+        label: 'Contact',
+        href: '/contactus',
     },
     {
         label: 'About',
