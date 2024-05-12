@@ -66,3 +66,9 @@ button:focus-visible {
     background-color: #f9f9f9;
   }
 } */ 
+
+body{
+  padding: 0;
+  margin: 0;
+  font-family: Addington CF;
+}

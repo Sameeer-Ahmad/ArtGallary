@@ -7,30 +7,39 @@ import {
   Heading,
   Input,
   Stack,
+  Text,
 } from "@chakra-ui/react";
 import { ViewIcon, ViewOffIcon } from "@chakra-ui/icons";
 import { useNavigate } from "react-router-dom";
+import { Radio, RadioGroup } from "@chakra-ui/react";
+import { useToast } from "@chakra-ui/react";
 
 function Signup() {
+  const [role, setRole] = useState("");
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
+  const toast = useToast();
 
   const Signupbtn = () => {
     navigate("/login");
   };
 
+  const handleRole = (e) => {
+    setRole(e);
+  };
   const handleRegister = (e) => {
     e.preventDefault();
     const payload = {
       username,
       email,
       password,
+      role,
     };
 
-    fetch("http://localhost:3000/user/signup", {
+    fetch("https://artgallary.onrender.com/user/signup", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -38,15 +47,23 @@ function Signup() {
       body: JSON.stringify(payload),
     })
       .then((res) => res.json())
-      .then((data) => console.log(data))
+      // .then((data) => console.log(data))
+      .then(
+        toast({
+          title: "Account created successfully",
+          status: "success",
+          duration: 3000,
+          isClosable: true,
+        })
+      )
+      .then(navigate("/login"))
       .catch((err) => console.log(err));
   };
 
   return (
     <>
-      <Stack
+      <Stack 
         minH={"100vh"}
-
         direction={{ base: "column", md: "row" }}
         backgroundImage="url('https://images.unsplash.com/photo-1578926375605-eaf7559b1458?q=80&w=1963&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D')"
         backgroundSize="cover"
@@ -54,9 +71,8 @@ function Signup() {
         display="flex"
         alignItems="center"
         justifyContent="center"
-
       >
-        <Flex p={1} flex={1.5} align={"center"} gap={"20px"} justify={"center"}>
+        <Flex  p={1} flex={1.5} align={"center"} gap={"20px"} justify={"center"}>
           <Stack spacing={4} w={"full"} maxW={"md"}>
             <Heading fontSize={["2xl", "3xl", "4xl"]} color={"#B79B54"}>
               Sign up to your account
@@ -64,19 +80,33 @@ function Signup() {
             <Box as="form" onSubmit={handleRegister}>
               <FormLabel>Enter Your Name</FormLabel>
               <Input
+                required
                 type="text"
                 placeholder="username"
                 boxShadow={
                   "rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 1px 3px 1px"
                 }
                 border={"none"}
-
                 value={username}
                 onChange={(e) => setUsername(e.target.value)}
               />
+              <Text mt={"20px"} fontSize={"15px"} fontWeight={"600"}>
+                Signup As:
+              </Text>
+              <RadioGroup onChange={handleRole} value={role}>
+                <Stack direction="column">
+                  <Radio value="artist">
+                    Creator (Individual: Artist or Artisans)
+                  </Radio>
+                  <Radio pb={4} value="collector">
+                    Explorer
+                  </Radio>
+                </Stack>
+              </RadioGroup>
 
-              <FormLabel>Enter Email address</FormLabel>
-              <Input
+              <FormLabel >Enter Email address</FormLabel>
+              <Input 
+                required
                 type="text"
                 placeholder="email"
                 value={email}
@@ -86,9 +116,10 @@ function Signup() {
                 border={"none"}
                 onChange={(e) => setEmail(e.target.value)}
               />
-              <FormLabel> Enter Password</FormLabel>
+              <FormLabel pt={4}> Enter Password</FormLabel>
               <InputGroup>
                 <Input
+                  required
                   type={showPassword ? "text" : "password"}
                   placeholder="password"
                   value={password}
@@ -115,9 +146,9 @@ function Signup() {
                   direction={{ base: "column", sm: "row" }}
                   align={"start"}
                   justify={"space-between"}
-                >
-                </Stack>
+                ></Stack>
                 <Button
+                  _hover={{ bg: "white", color: "#B79B54" }}
                   backgroundColor={"#B79B54"}
                   variant={"solid"}
                   boxShadow={
@@ -130,6 +161,7 @@ function Signup() {
                   Sign Up
                 </Button>
                 <Button
+                  _hover={{ bg: "#B79B54", color: "white" }}
                   variant={"solid"}
                   border={"2px solid #B79B54"}
                   boxShadow={
@@ -139,7 +171,7 @@ function Signup() {
                   background={"white"}
                   borderRadius={"20px"}
                   onClick={Signupbtn}
-                  type="button" // Changed to type="button"
+                  type="button" 
                 >
                   Sign in
                 </Button>
@@ -147,9 +179,7 @@ function Signup() {
             </Box>
           </Stack>
         </Flex>
-        <Flex flex={1}>
-
-        </Flex>
+        <Flex flex={1}></Flex>
       </Stack>
     </>
   );
