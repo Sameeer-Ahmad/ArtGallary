@@ -17,16 +17,13 @@ const About = () => {
     "https://artlogic-res.cloudinary.com/w_1240,h_620,c_limit,f_auto,fl_lossy,q_auto/ws-artlogicwebsite0399/usr/library/images/main/pages/24/_mg_9335.jpg"
   ]
   const [selectedImage, setSelectedImage] = useState(images[0]);
- 
- 
+
+
 
   const handleImageClick = (image) => {
-     setSelectedImage(image);
+    setSelectedImage(image);
   };
   return (
-
-
-
     <>
       <Box width={"100%"} display={"flex"} flexDir={"column"} gap={"30px"} justifyContent={"center"} alignItems={"center"} mt={10}>
         <Box width={"90%"}> <Text alignSelf={"flex-start"} fontSize={"30px"}>About</Text></Box>

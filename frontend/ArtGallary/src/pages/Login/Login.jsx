@@ -46,7 +46,7 @@ function Login() {
             isClosable: true,
           });
           localStorage.setItem("token", data.token);
-          navigate("/");
+          navigate("/home");
         } else {
           alert("Invalid email or password");
         }

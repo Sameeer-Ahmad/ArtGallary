@@ -101,9 +101,9 @@ const DesktopNav = () => {
     const popoverContentBgColor = useColorModeValue('white', 'gray.800');
 
     return (
-        <Stack direction={'row'} spacing={4} >
+        <Stack direction={'row'} spacing={4} ml={"auto"} >
             {NAV_ITEMS.map((navItem) => (
-                <Box key={navItem.label} ml={"20px"} >
+                <Box key={navItem.label} ml={"20px"} fontSize={"20px"} >
                     <Popover trigger={'hover'} placement={'bottom-start'}>
                         <PopoverTrigger>
                             <RouterLink // Use RouterLink instead of anchor tag
@@ -126,6 +126,7 @@ const DesktopNav = () => {
                                 boxShadow={'xl'}
                                 bg={popoverContentBgColor}
                                 p={4}
+
                                 rounded={'xl'}
                                 minW={'sm'}>
                                 <Stack  >
@@ -233,6 +234,10 @@ const MobileNavItem = ({ label, children, href }) => {
 
 const NAV_ITEMS = [
     {
+        label: 'Home',
+        href: '/dashboard',
+    },
+    {
         label: 'Inspiration',
         children: [
             {
@@ -249,8 +254,8 @@ const NAV_ITEMS = [
     },
 
     {
-        label: 'Home',
-        href: '/dashboard',
+        label: 'Contact',
+        href: '/contactus',
     },
     {
         label: 'About',

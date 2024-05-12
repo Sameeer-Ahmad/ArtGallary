@@ -33,7 +33,7 @@ const AllRoutes = () => {
       setShowFooter(false);
       setDashNav(false)
     }
-    else if (location.pathname === "/dashboard" || location.pathname === '/about') {
+    else if (location.pathname === "/dashboard" || location.pathname === '/about' || location.pathname === '/contactus') {
       setShowNavbar(false)
       setShowFooter(true)
       setDashNav(true)
@@ -50,7 +50,7 @@ const AllRoutes = () => {
       {showNavbar && <Navbar />}
       {showDashNav && <DashNav />}
       <Routes>
-        <Route path="/" element={<Home />} />
+        <Route path="/" element={<Dashboard />} />
         <Route path="/art/paintings" element={<Paint />} />
         <Route path="/art/prints" element={<Print />} />
         <Route path="/art/sculpture" element={<Sculpture />} />
@@ -65,7 +65,7 @@ const AllRoutes = () => {
         <Route path="/about" element={<About />} />
         <Route path="/art" element={<Art />} />
         <Route path="/cart" element={<Cart />} />
-        <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/home" element={<Home />} />
         <Route path="/contactus" element={<Contact />} />
         <Route path="/art/:id" element={<SingleArt />} />
       </Routes>
