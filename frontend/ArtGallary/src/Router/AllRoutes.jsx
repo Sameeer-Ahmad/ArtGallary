@@ -17,7 +17,7 @@ import Navbar from "../Component/Navbar/Navbar";
 import Art from "../pages/Art/Art";
 import SingleArt from "../pages/SingleArt/singleArt";
 import Home from "../pages/Home/Home";
-
+import Dashboard from "../pages/Dashboard/Dashboard";
 const AllRoutes = () => {
   return (
     <div>
@@ -37,7 +37,11 @@ const AllRoutes = () => {
         <Route path="/login" element={<Login />} />
         <Route path="/about" element={<About />} />
         <Route path="/art" element={<Art />} />
+
         <Route path="/cart" element={<Cart/>} />
+
+        <Route path="/dashboard" element={<Dashboard/>}/>
+
 
         <Route  path="/art/:id" element={<SingleArt/>} />
         
