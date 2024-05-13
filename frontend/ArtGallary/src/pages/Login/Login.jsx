@@ -10,6 +10,7 @@ import {
   Button,
   InputGroup,
   InputRightElement,
+  Spinner // Import Spinner component
 } from "@chakra-ui/react";
 import { Link, useNavigate } from "react-router-dom";
 import { useToast } from "@chakra-ui/react";
@@ -19,17 +20,18 @@ function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
+  const [isLoading, setIsLoading] = useState(false); // State to track loading
   const navigate = useNavigate();
   const toast = useToast();
 
   const handleLogin = (e) => {
     e.preventDefault();
+    setIsLoading(true); // Set loading to true when login process starts
     const payload = {
       email,
       password,
     };
 
-    
     fetch(`${API}/user/login`, {
       method: "POST",
       headers: {
@@ -39,7 +41,7 @@ function Login() {
     })
       .then((res) => res.json())
       .then((data) => {
-        // console.log("data",data);
+        setIsLoading(false); // Set loading to false when login process completes
         if (data.token) {
           toast({
             title: "Logged in successfully",
@@ -48,13 +50,16 @@ function Login() {
             isClosable: true,
           });
           localStorage.setItem("token", data.token);
-          localStorage.setItem("username",data.username)
+          localStorage.setItem("username", data.username);
           navigate("/home");
         } else {
           alert("Invalid email or password");
         }
       })
-      .catch((err) => console.log(err));
+      .catch((err) => {
+        setIsLoading(false); // Set loading to false if login process encounters an error
+        console.log(err);
+      });
   };
 
   return (
@@ -126,8 +131,13 @@ function Login() {
                 background={"#B79B54"}
                 borderRadius={"20px"}
                 type="submit"
+                disabled={isLoading}
               >
-                Sign in
+                {isLoading ? (
+                  <Spinner color="white" size="sm" />
+                ) : (
+                  "Sign in"
+                )}
               </Button>
               <Link to="/signup">
                 <Button
