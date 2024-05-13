@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { Box, Text, Image, Flex, Button } from "@chakra-ui/react";
+import { API } from "../../API/api";
 // import { useParams } from "react-router-dom";
 
 const Cart = () => {
@@ -9,7 +10,7 @@ const Cart = () => {
   useEffect(() => {
     const fetchCartItems = async () => {
       try {
-        const response = await axios.get(`http://localhost:3000/art/cart`, {
+        const response = await axios.get(`${API}/art/cart`, {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`,
           },
@@ -27,7 +28,7 @@ const Cart = () => {
   const removeFromCart = async (itemId) => {
     try {
       const response = await axios.delete(
-        `https://artgallary.onrender.com/art/removeFromCart/${itemId}`,
+        `${API}/art/removeFromCart/${itemId}`,
         {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`,

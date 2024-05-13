@@ -12,6 +12,7 @@ import {
 import { Link } from "react-router-dom";
 import AOS from 'aos';
 import 'aos/dist/aos.css'; // You can also use <link> for styles
+import { API } from "../../API/api";
 // ..
 AOS.init();
 const Photography = () => {
@@ -25,7 +26,7 @@ const Photography = () => {
 
   useEffect(() => {
     axios
-      .get("http://localhost:3000/art/photography", {
+      .get(`${API}/art/photography`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },

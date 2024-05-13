@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
 import { Box, Image, Text, Flex, Button, useToast } from "@chakra-ui/react";
+import { API } from "../../API/api";
 
 const SingleArt = () => {
   const { id } = useParams();
@@ -31,7 +32,7 @@ const SingleArt = () => {
   const addToCart = async (userId, artId) => {
     try {
       await axios.post(
-        "https://artgallary.onrender.com/art/addToCart",
+        `${API}/art/addToCart`,
         {
           userId: userId,
           artId: artId,

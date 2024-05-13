@@ -3,7 +3,6 @@ const { connectToDB } = require("./config/db");
 const cors = require("cors");
 const { artistRouter } = require("./routes/artist.routes");
 const { artCategoryRouter } = require("./routes/art.category.routes");
-
 const authRouter = require("./routes/user.routes");
 const fileUpload = require("express-fileupload");
 

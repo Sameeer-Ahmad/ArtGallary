@@ -13,6 +13,7 @@ import { ViewIcon, ViewOffIcon } from "@chakra-ui/icons";
 import { useNavigate } from "react-router-dom";
 import { Radio, RadioGroup } from "@chakra-ui/react";
 import { useToast } from "@chakra-ui/react";
+import { API } from "../../API/api";
 
 function Signup() {
   const [role, setRole] = useState("");
@@ -52,7 +53,7 @@ function Signup() {
       role,
     };
 
-    fetch("https://artgallary.onrender.com/user/signup", {
+    fetch(`${API}/user/signup`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

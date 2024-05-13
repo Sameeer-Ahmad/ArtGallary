@@ -14,6 +14,7 @@ import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import AOS from 'aos';
 import 'aos/dist/aos.css';
+import { API } from "../../API/api";
 AOS.init();
 
 const images = [
@@ -59,7 +60,7 @@ const Home = () => {
 
   useEffect(() => {
     axios
-      .get("https://artgallary.onrender.com/art", {
+      .get(`${API}/art`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },

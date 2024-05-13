@@ -1,5 +1,6 @@
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { API } from "../../API/api";
 // import { useHistory } from "react-router-dom";
 
 const LogoutButton = () => {
@@ -7,7 +8,7 @@ const LogoutButton = () => {
   const handleLogout = async () => {
     try {
       const response = await axios.post(
-        "https://artgallary.onrender.com/user/logout",
+        `${API}/user/logout`,
         {},
         {
           headers: {
