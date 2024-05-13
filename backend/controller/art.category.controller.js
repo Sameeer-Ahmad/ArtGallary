@@ -12,7 +12,7 @@ const getArtByCategory = async (req, res) => {
 
 const Painting = async (req, res) => {
   try {
-    const painting = await ArtModel.find({ artCategory: "paintings" });
+    const painting = await ArtModel.find({ artCategory: "Painting" });
     res.status(200).send(painting);
   } catch (err) {
     console.log(err);
@@ -21,7 +21,7 @@ const Painting = async (req, res) => {
 
 const Print = async (req, res) => {
   try {
-    const print = await ArtModel.find({ artCategory: "prints" });
+    const print = await ArtModel.find({ artCategory: "Print" });
     res.status(200).send(print);
   } catch (err) {
     console.log(err);
@@ -30,7 +30,7 @@ const Print = async (req, res) => {
 
 const Sculpture = async (req, res) => {
   try {
-    const sculpture = await ArtModel.find({ artCategory: "sculpture" });
+    const sculpture = await ArtModel.find({ artCategory: "Sculpture" });
     res.status(200).send(sculpture);
   } catch (err) {
     console.log(err);
@@ -39,7 +39,7 @@ const Sculpture = async (req, res) => {
 
 const Photography = async (req, res) => {
   try {
-    const photography = await ArtModel.find({ artCategory: "photography" });
+    const photography = await ArtModel.find({ artCategory: "Photography" });
     res.status(200).send(photography);
   } catch (err) {
     console.log(err);
@@ -48,7 +48,7 @@ const Photography = async (req, res) => {
 
 const Inspiration = async (req, res) => {
   try {
-    const Inspiration = await ArtModel.find({ artCategory: "inspiration" });
+    const Inspiration = await ArtModel.find({ artCategory: "Inspiration" });
     res.status(200).send(Inspiration);
   } catch (err) {
     console.log(err);
@@ -57,7 +57,7 @@ const Inspiration = async (req, res) => {
 
 const Drawings = async (req, res) => {
   try {
-    const Drawings = await ArtModel.find({ artCategory: "drawings" });
+    const Drawings = await ArtModel.find({ artCategory: "Drawing" });
     res.status(200).send(Drawings);
   } catch (err) {
     console.log(err);
@@ -87,7 +87,7 @@ const addToCart = async (req, res) => {
 const getArtInCart = async (req, res) => {
   const { userID } = req.body;
 
-  console.log("req.body--", req.body);
+  // console.log("req.body--", req.body);
   try {
     let userId = userID;
     const cartItems = await CartModel.find({ userId });
