@@ -7,7 +7,6 @@ import {
   Stack,
   Menu,
   MenuButton,
-  Avatar,
   MenuList,
   Center,
   MenuDivider,
@@ -16,19 +15,14 @@ import {
   InputRightElement,
   Input,
   Image,
-  Button,
+  
   Text,
 } from "@chakra-ui/react";
 
-import "./ArtGallaryLogo.png";
 import { HamburgerIcon, CloseIcon, SearchIcon } from "@chakra-ui/icons";
 import { Link, useNavigate } from "react-router-dom";
 import LogoutButton from "../../pages/Logout/Logout";
 
-import PropTypes from "prop-types";
-NavBar.propTypes = {
-  onSearch: PropTypes.func.isRequired,
-};
 const Links = [
   { ids: 1, name: "PAINTING", link: "/art/paintings" },
   { ids: 2, name: "PRINTS", link: "/art/prints" },
@@ -42,7 +36,7 @@ const Links = [
 export default function NavBar() {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const username = localStorage.getItem("username");
-  const navigate=useNavigate()
+  const navigate = useNavigate();
   const initials = username ? username.charAt(0).toUpperCase() : "";
   return (
     <>
@@ -89,6 +83,7 @@ export default function NavBar() {
                 w={8}
               />
             </Link>
+            
             <MenuButton>
               <Text
                 h={9}
@@ -113,26 +108,33 @@ export default function NavBar() {
                 </Text>
               </Center>
               <MenuDivider />
-              <MenuItem onClick={()=>{navigate("/art-portfolio")}} _hover={{ bg: "#f5f1ee" }} bg={"rgb(250,248,244)"}>
+              <MenuItem
+                onClick={() => {
+                  navigate("/art-portfolio");
+                }}
+                _hover={{ bg: "#f5f1ee" }}
+                bg={"rgb(250,248,244)"}
+              >
                 Your Profile
               </MenuItem>
               <MenuItem _hover={{ bg: "#f5f1ee" }} bg={"rgb(250,248,244)"}>
                 Account Settings
               </MenuItem>
               <MenuItem _hover={{ bg: "#f5f1ee" }} bg={"rgb(250,248,244)"}>
-                <Button
+                <Flex  flexDir={"row"}
                   _hover={{ bg: "#f5f1ee" }}
                   bg={"rgb(250,248,244)"}
                   width={"100%"}
-                  pr={24}
+                  // pr={24}
                 >
                   <Image
                     h={8}
                     w={8}
                     src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSGOVXjlJMidDtZrU0mrXlHzHdFE9_gVlvCGw&s"
-                  />
+                  />{" "}
+                  
                   <LogoutButton />
-                </Button>
+                </Flex>
               </MenuItem>
             </MenuList>
           </Menu>

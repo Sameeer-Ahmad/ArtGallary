@@ -39,7 +39,7 @@ function Login() {
     })
       .then((res) => res.json())
       .then((data) => {
-        console.log("data",data);
+        // console.log("data",data);
         if (data.token) {
           toast({
             title: "Logged in successfully",

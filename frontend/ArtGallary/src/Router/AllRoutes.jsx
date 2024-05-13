@@ -28,7 +28,7 @@ const AllRoutes = () => {
   const [showFooter, setShowFooter] = useState(true);
   const [showDashNav, setDashNav] = useState(false)
   useEffect(() => {
-    // Check if the current path is login or signup
+    
     if (location.pathname === "/login" || location.pathname === "/signup") {
       setShowNavbar(false);
       setShowFooter(false);

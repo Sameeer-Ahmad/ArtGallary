@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import  { useState } from "react";
 import {
   Box,
   Flex,
@@ -8,12 +8,10 @@ import {
   Stack,
   Collapse,
   Icon,
-  Link,
   Popover,
   PopoverTrigger,
   PopoverContent,
   useColorModeValue,
-  useBreakpointValue,
   useDisclosure,
   Image,
 } from "@chakra-ui/react";
@@ -23,7 +21,7 @@ import {
   ChevronDownIcon,
   ChevronRightIcon,
 } from "@chakra-ui/icons";
-import { Link as RouterLink } from "react-router-dom"; // Import Link from react-router-dom
+import { Link as RouterLink } from "react-router-dom"; 
 
 export default function DashNav() {
   const { isOpen, onToggle } = useDisclosure();
