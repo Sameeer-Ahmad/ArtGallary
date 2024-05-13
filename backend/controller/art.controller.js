@@ -40,7 +40,7 @@ const getArt = async (req, res) => {
   try {
     if (req.role == "artist") {
       const getArt = await ArtModel.find({ userID: req.body.userID });
-      console.log("---", req.role);
+      // console.log("---", req.role);
       res.status(200).json({ getArt, role: req.role });
     }
   } catch (err) {
@@ -53,7 +53,7 @@ const deleteArt = async (req, res) => {
   const { id } = req.params;
   try {
     const art = await ArtModel.findById(id);
-    console.log("art-->", art);
+    // console.log("art-->", art);
     if (!art) {
       return res.status(404).send("Art not found");
     }

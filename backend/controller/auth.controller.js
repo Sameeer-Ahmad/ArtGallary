@@ -46,7 +46,7 @@ const login = async (req, res) => {
               username: user.username,
               email: user.email,
             });
-          console.log("login successfully");
+          // console.log("login successfully");
         } else {
           res.status(400).send("Invalid credentials");
         }
