@@ -3,6 +3,7 @@ const jwt = require("jsonwebtoken");
 require("dotenv").config();
 const { userModel } = require("../model/user.model");
 const { tokenModel } = require("../model/token.model");
+const nodemailer = require("nodemailer");
 
 const signup = async (req, res) => {
   const { username, email, password, role } = req.body;
@@ -38,14 +39,12 @@ const login = async (req, res) => {
             { userID: user._id, username: user.username, role: user.role },
             process.env.SECRET_KEY
           );
-          res
-            .status(200)
-            .send({
-              msg: "Login successful",
-              token,
-              username: user.username,
-              email: user.email,
-            });
+          res.status(200).send({
+            msg: "Login successful",
+            token,
+            username: user.username,
+            email: user.email,
+          });
           // console.log("login successfully");
         } else {
           res.status(400).send("Invalid credentials");
@@ -79,8 +78,48 @@ const logout = async (req, res) => {
   }
 };
 
+const transporter = nodemailer.createTransport({
+  host: process.env.SMTP_HOST,
+  port: process.env.SMTP_PORT,
+  secure: false, // Use `true` for port 465, `false` for all other ports
+  auth: {
+    user: process.env.SMTP_MAIL,
+    pass: "jn7jnAPss4f63QBp6D",
+  },
+});
+
+const sentMail = async (req, res) => {
+  const { email } = req.body;
+  console.log(email);
+  var mailOption = {
+    from: process.env.SMTP_MAIL,
+    to: email,
+    subject: "Sending Email using Node.js",
+    text: "That was easy!",
+  };
+  transporter.sendMail(mailOption, (err, info) => {
+    if(err){
+      console.log(err);
+    }else{
+      console.log(info);
+      res.status(200).send({ msg: "Email sent" });
+    }
+  })
+};
+
+const sendOtp = async (req, res) => {
+  try {
+    const userData = await userModel.findOne({ email: req.body.email });
+    if (!userData) {
+      res.status(400).send("Email doesn't exist");
+    }
+  } catch (err) {}
+};
+
 module.exports = {
   signup,
   login,
   logout,
+  sentMail,
+  sendOtp,
 };
