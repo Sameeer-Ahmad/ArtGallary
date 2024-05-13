@@ -49,7 +49,7 @@ function Login() {
           });
           localStorage.setItem("token", data.token);
           localStorage.setItem("username",data.username)
-          navigate("/");
+          navigate("/home");
         } else {
           alert("Invalid email or password");
         }

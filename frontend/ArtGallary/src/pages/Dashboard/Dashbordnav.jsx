@@ -21,7 +21,7 @@ import {
   ChevronDownIcon,
   ChevronRightIcon,
 } from "@chakra-ui/icons";
-import { Link as RouterLink } from "react-router-dom"; 
+import { Link as RouterLink } from "react-router-dom"; // Import Link from react-router-dom
 
 export default function DashNav() {
   const { isOpen, onToggle } = useDisclosure();
@@ -251,8 +251,8 @@ const MobileNavItem = ({ label, children, href }) => {
 
 const NAV_ITEMS = [
   {
-    label: "dashboard",
-    href: "/dashboard",
+    label: "Home",
+    href: "/",
   },
   {
     label: "Inspiration",
