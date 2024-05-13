@@ -53,7 +53,7 @@ export default function NavBar() {
           pb={1}
         >
           <Menu>
-            <Link to={"/home"}>
+            <Link to={"/"}>
               <Image
                 h={20}
                 w={20}
