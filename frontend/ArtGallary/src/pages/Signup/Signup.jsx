@@ -33,7 +33,6 @@ function Signup() {
   const handleRole = (e) => {
     setRole(e);
   };
-
   const handleRegister = (e) => {
     e.preventDefault();
     if (password !== confirmPassword) {
@@ -70,7 +69,15 @@ function Signup() {
         });
         navigate("/login");
       })
-      .catch((err) => console.log(err));
+      .catch((err) => {
+        console.log(err);
+        toast({
+          title: "Failed to create account",
+          status: "error",
+          duration: 3000,
+          isClosable: true,
+        });
+      })
   };
 
   return (
@@ -212,6 +219,7 @@ function Signup() {
                   borderRadius={"20px"}
                   onClick={Signupbtn}
                   type="button"
+                  _loading={"please wait.."}
                 >
                   Sign in
                 </Button>

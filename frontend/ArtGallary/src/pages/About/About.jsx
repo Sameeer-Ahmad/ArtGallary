@@ -35,9 +35,9 @@ const About = () => {
       >
         <Box width={"90%"}>
           {" "}
-          <Text alignSelf={"flex-start"} fontSize={"30px"}>
+          {/* <Text alignSelf={"center"} fontSize={"30px"}>
             About
-          </Text>
+          </Text> */}
         </Box>
         <Box width={"90%"}>
           <Flex direction="column" alignItems="center">

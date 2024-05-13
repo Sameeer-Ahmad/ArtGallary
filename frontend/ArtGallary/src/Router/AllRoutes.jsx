@@ -48,7 +48,7 @@ const AllRoutes = () => {
 
   return (
     <div>
-      {showNavbar && <Navbar />}
+      {showNavbar && <Navbar isDashboardNavbar={false}  />}
       {showDashNav && <DashNav />}
       <Routes>
         <Route path="/" element={<Dashboard />} />

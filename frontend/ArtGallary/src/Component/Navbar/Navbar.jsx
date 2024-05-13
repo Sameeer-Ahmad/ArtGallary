@@ -30,14 +30,16 @@ const Links = [
   { ids: 4, name: "SCULPTURE", link: "/art/sculpture" },
   { ids: 5, name: "DRAWINGS", link: "/art/drawings" },
   { ids: 6, name: "INSPIRATION", link: "/art/inspiration" },
-  { ids: 7, name: "ABOUT", link: "/about" },
+  // { ids: 7, name: "ABOUT", link: "/about" },
 ];
 
-export default function NavBar() {
+export default function NavBar( ) {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const username = localStorage.getItem("username");
   const navigate = useNavigate();
   const initials = username ? username.charAt(0).toUpperCase() : "";
+
+  
   return (
     <>
       <Box bg={"rgb(250,248,244)"}>
@@ -62,7 +64,7 @@ export default function NavBar() {
                 pl={[3, 0, 0]}
               />
             </Link>
-            <Center width={["60%"]}>
+            <Center width={["55%"]}>
               <InputGroup border={"none"}>
                 <InputRightElement pointerEvents="none">
                   <SearchIcon color="gray.300" />
@@ -161,7 +163,8 @@ export default function NavBar() {
               spacing={8}
               display={{ base: "none", md: "flex" }}
               justify={"flex-end"}
-              pl={[0, 0, 62, 48, 72]}
+              pl={[0, 0, 36, 52, 72,72]}
+              pr={[0, 0, 36, 52, 72,72]}
             >
               {Links.map((el) => (
                 <Link to={el.link} key={el.ids}>
