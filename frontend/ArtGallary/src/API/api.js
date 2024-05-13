@@ -1,1 +1,1 @@
-export const API="https://artgallary.onrender.com"
+export const API="http://localhost:3000"
