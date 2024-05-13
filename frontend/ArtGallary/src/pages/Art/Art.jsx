@@ -12,6 +12,7 @@ import {
 import { Link } from "react-router-dom";
 import AOS from 'aos';
 import 'aos/dist/aos.css';
+import { API } from "../../API/api";
 
 AOS.init();
 const Art = () => {
@@ -25,7 +26,7 @@ const Art = () => {
 
   useEffect(() => {
     axios
-      .get("https://artgallary.onrender.com/art", {
+      .get(`${API}/art`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },

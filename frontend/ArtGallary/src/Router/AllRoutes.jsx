@@ -21,6 +21,7 @@ import Dashboard from "../pages/Dashboard/Dashboard";
 import Footer from "../Component/Footer/Footer";
 import Contact from "../pages/ContactUs/Contact";
 import DashNav from "../pages/Dashboard/Dashbordnav";
+import ChatBotComponent from "../Component/ChatBot/chatBot";
 const AllRoutes = () => {
   const location = useLocation();
   const [showNavbar, setShowNavbar] = useState(true);
@@ -70,6 +71,7 @@ const AllRoutes = () => {
         <Route path="/art/:id" element={<SingleArt />} />
       </Routes>
       {showFooter && <Footer />}
+      <ChatBotComponent/>
     </div>
   );
 };

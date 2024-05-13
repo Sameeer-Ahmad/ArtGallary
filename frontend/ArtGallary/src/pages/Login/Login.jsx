@@ -13,6 +13,7 @@ import {
 } from "@chakra-ui/react";
 import { Link, useNavigate } from "react-router-dom";
 import { useToast } from "@chakra-ui/react";
+import { API } from "../../API/api";
 
 function Login() {
   const [email, setEmail] = useState("");
@@ -28,7 +29,7 @@ function Login() {
       password,
     };
 
-    fetch("http://localhost:3000/user/login", {
+    fetch(`${API}/user/login`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

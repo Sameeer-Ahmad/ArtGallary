@@ -81,8 +81,8 @@ export default function DashNav() {
           spacing={6}
         >
           <Button
-            as={RouterLink} // Use RouterLink instead of anchor tag
-            to="/login" // Specify the path
+            as={RouterLink} 
+            to="/login" 
             fontSize={"sm"}
             fontWeight={400}
             variant={"link"}
@@ -122,8 +122,8 @@ const DesktopNav = () => {
         <Box key={navItem.label} ml={"20px"} fontSize={"20px"}>
           <Popover trigger={"hover"} placement={"bottom-start"}>
             <PopoverTrigger>
-              <RouterLink // Use RouterLink instead of anchor tag
-                to={navItem.href ?? "#"} // Specify the path
+              <RouterLink
+                to={navItem.href ?? "#"} 
                 p={2}
                 fontSize={"22px"}
                 fontWeight={400}
@@ -162,8 +162,8 @@ const DesktopNav = () => {
 
 const DesktopSubNav = ({ label, href, subLabel }) => {
   return (
-    <RouterLink // Use RouterLink instead of anchor tag
-      to={href} // Specify the path
+    <RouterLink 
+      to={href} 
       role={"group"}
       display={"block"}
       p={2}

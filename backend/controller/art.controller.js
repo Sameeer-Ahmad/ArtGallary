@@ -2,10 +2,10 @@ const { ArtModel } = require("../model/art.model");
 const { uploadImage } = require("./uploadImage");
 const cloudinary = require("cloudinary").v2;
 
-cloudinary.config({ 
-  cloud_name: 'dwetm19fr', 
-  api_key: '276842751399855', 
-  api_secret: 'ZauqP9k0AFc9PoLpEpK2_J_KVhw' 
+cloudinary.config({
+  cloud_name: "dwetm19fr",
+  api_key: "276842751399855",
+  api_secret: "ZauqP9k0AFc9PoLpEpK2_J_KVhw",
 });
 
 const postArt = async (req, res) => {
@@ -15,7 +15,9 @@ const postArt = async (req, res) => {
     }
 
     const files = req.files.artImage;
-    const uploadedImages = await Promise.all(files.map(file => uploadImage(file.tempFilePath)));
+    const uploadedImages = await Promise.all(
+      files.map((file) => uploadImage(file.tempFilePath))
+    );
 
     const newArt = new ArtModel({
       artImage: uploadedImages,
@@ -34,12 +36,12 @@ const postArt = async (req, res) => {
   }
 };
 
-
 const getArt = async (req, res) => {
   try {
     if (req.role == "artist") {
       const getArt = await ArtModel.find({ userID: req.body.userID });
-      res.status(200).send(getArt);
+      console.log("---", req.role);
+      res.status(200).json({ getArt, role: req.role });
     }
   } catch (err) {
     console.log(err);
@@ -101,13 +103,10 @@ const getArtById = async (req, res) => {
   }
 };
 
-
-
 module.exports = {
   postArt,
   getArt,
   deleteArt,
   updateArt,
   getArtById,
-  
 };

@@ -22,7 +22,7 @@ import {
 
 import "./ArtGallaryLogo.png";
 import { HamburgerIcon, CloseIcon, SearchIcon } from "@chakra-ui/icons";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import LogoutButton from "../../pages/Logout/Logout";
 
 import PropTypes from "prop-types";
@@ -42,7 +42,7 @@ const Links = [
 export default function NavBar() {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const username = localStorage.getItem("username");
-
+  const navigate=useNavigate()
   const initials = username ? username.charAt(0).toUpperCase() : "";
   return (
     <>
@@ -113,7 +113,7 @@ export default function NavBar() {
                 </Text>
               </Center>
               <MenuDivider />
-              <MenuItem _hover={{ bg: "#f5f1ee" }} bg={"rgb(250,248,244)"}>
+              <MenuItem onClick={()=>{navigate("/art-portfolio")}} _hover={{ bg: "#f5f1ee" }} bg={"rgb(250,248,244)"}>
                 Your Profile
               </MenuItem>
               <MenuItem _hover={{ bg: "#f5f1ee" }} bg={"rgb(250,248,244)"}>
