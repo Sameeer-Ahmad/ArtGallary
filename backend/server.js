@@ -5,6 +5,7 @@ const { artistRouter } = require("./routes/artist.routes");
 const { artCategoryRouter } = require("./routes/art.category.routes");
 
 const authRouter = require("./routes/user.routes");
+const fileUpload = require("express-fileupload");
 
 const app = express();
 
@@ -15,6 +16,12 @@ require("dotenv").config();
 const PORT = process.env.PORT;
 
 app.use(express.json());
+
+app.use(
+  fileUpload({
+    useTempFiles: true,
+  })
+);
 
 app.use("/artist", artistRouter);
 
