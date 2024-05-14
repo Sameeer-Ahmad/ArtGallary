@@ -10,7 +10,7 @@ MERN FullStack
 
 ## Deplolyed App
 
-Frontend: <a href="https://art-gallary-do7i.vercel.app/" target="_blank">Presentation Video</a>
+Frontend: <a href="https://art-gallary-do7i.vercel.app/" target="_blank">The Artline</a>
 
 
 ## Usage
