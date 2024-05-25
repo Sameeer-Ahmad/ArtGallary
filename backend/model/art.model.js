@@ -14,7 +14,7 @@ const artSchema = new mongoose.Schema(
         "Sculpture",
         "Photography",
         "Inspiration",
-        "Drawings",
+        "Drawing",
         "Acrylic",
       ],
       required: true,
@@ -25,6 +25,7 @@ const artSchema = new mongoose.Schema(
   },
   {
     versionKey: false,
+    timestamps: true,
   }
 );
 

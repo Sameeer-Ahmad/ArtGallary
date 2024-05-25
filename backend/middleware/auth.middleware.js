@@ -7,7 +7,7 @@ const auth = (req, res, next) => {
   if (token) {
     jwt.verify(token, process.env.SECRET_KEY, async (err, decoded) => {
       if (decoded) {
-        console.log(decoded);
+        // console.log(decoded);
         const { userID, username, role } = decoded;
         const user = await userModel.findById(userID);
         req.user = user;

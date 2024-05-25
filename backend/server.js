@@ -3,24 +3,22 @@ const { connectToDB } = require("./config/db");
 const cors = require("cors");
 const { artistRouter } = require("./routes/artist.routes");
 const { artCategoryRouter } = require("./routes/art.category.routes");
+const fileUpload = require('express-fileupload');
 const authRouter = require("./routes/user.routes");
-const fileUpload = require("express-fileupload");
 
 const app = express();
 
 app.use(cors());
 
+app.use(fileUpload({
+  useTempFiles: true,
+  tempFileDir: '/tmp/'
+}));
 require("dotenv").config();
 
 const PORT = process.env.PORT;
 
 app.use(express.json());
-
-app.use(
-  fileUpload({
-    useTempFiles: true,
-  })
-);
 
 app.use("/artist", artistRouter);
 

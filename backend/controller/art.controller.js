@@ -1,5 +1,5 @@
 const { ArtModel } = require("../model/art.model");
-const { uploadImage } = require("./uploadImage");
+const {  uploadImageToCloudinary } = require("./uploadImage");
 const cloudinary = require("cloudinary").v2;
 
 cloudinary.config({
@@ -10,25 +10,30 @@ cloudinary.config({
 
 const postArt = async (req, res) => {
   try {
-    if (!req.files || !req.files.artImage) {
-      return res.status(400).json({ error: "No images uploaded" });
-    }
+// console.log(req.files);
+if (!req.files || !req.files.artImage) {
+  return res.status(400).json({ error: "No images uploaded" });
+}
 
-    const files = req.files.artImage;
-    const uploadedImages = await Promise.all(
-      files.map((file) => uploadImage(file.tempFilePath))
-    );
+const file = req.files.artImage;
 
+const uploadedImage = await uploadImageToCloudinary(file.tempFilePath, "artImages");
+
+if (!uploadedImage) {
+  return res.status(500).json({ error: "Image upload failed" });
+}
     const newArt = new ArtModel({
-      artImage: uploadedImages,
+      artImage: uploadedImage.secure_url,
       artName: req.body.artName,
       artCategory: req.body.artCategory,
       artPrice: req.body.artPrice,
       artDimension: req.body.artDimension,
       created_at: req.body.created_at,
+      userID: req.body.userID,
+      username: req.body.username,
     });
-
     const savedArt = await newArt.save();
+    // setArts((prevArts) => [savedArt, ...prevArts]);
     res.status(201).json(savedArt);
   } catch (error) {
     console.error("Error uploading images:", error);
@@ -39,7 +44,7 @@ const postArt = async (req, res) => {
 const getArt = async (req, res) => {
   try {
     if (req.role == "artist") {
-      const getArt = await ArtModel.find({ userID: req.body.userID });
+      const getArt = await ArtModel.find({ userID: req.body.userID }).sort({ createdAt: -1 });
       // console.log("---", req.role);
       res.status(200).json({ getArt, role: req.role });
     }
@@ -92,7 +97,7 @@ const updateArt = async (req, res) => {
 const getArtById = async (req, res) => {
   const { id } = req.params;
   const { userID } = req.body;
-  console.log(userID);
+  
 
   try {
     const getArtById = await ArtModel.findById(id);

@@ -45,7 +45,6 @@ const login = async (req, res) => {
             username: user.username,
             email: user.email,
           });
-          // console.log("login successfully");
         } else {
           res.status(400).send("Invalid credentials");
         }
@@ -81,7 +80,7 @@ const logout = async (req, res) => {
 const transporter = nodemailer.createTransport({
   host: process.env.SMTP_HOST,
   port: process.env.SMTP_PORT,
-  secure: false, // Use `true` for port 465, `false` for all other ports
+  secure: false, 
   auth: {
     user: process.env.SMTP_MAIL,
     pass: "jn7jnAPss4f63QBp6D",

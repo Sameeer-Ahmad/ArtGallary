@@ -209,6 +209,7 @@ const Home = () => {
                 height={"100%"}
                 opacity={hoveredBox === index ? 0.7 : 1}
                 transition="opacity 0.3s ease"
+                p={[1,0,0]}
               />
               {hoveredBox === index && (
                 <VStack
@@ -355,8 +356,8 @@ const Home = () => {
             gap={8}
             p={8}
             templateColumns={[
-              "repeat(2, 1fr)",
-              "repeat(2, 1fr)",
+              "repeat(1, 1fr)",
+              "repeat(1, 1fr)",
               "repeat(3, 1fr)",
               "repeat(4, 1fr)",
               "repeat(4,1fr)",
