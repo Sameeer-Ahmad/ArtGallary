@@ -17,6 +17,24 @@ Frontend: <a href="https://art-gallary-do7i.vercel.app/" target="_blank">The Art
 ## Usage
 
 Provide instructions and examples on how to use your project.
+## Sign Up Page
+- The application offers a sign-up page where users can create new accounts quickly and securely. Users can register by providing basic information such as email, username, and password , Date of Birth , gender. The sign-up process is intuitive and user-friendly, encouraging seamless onboarding for new users.
+
+<img src="">
+
+## Login Page
+- The application provides a login page for existing users to securely access their accounts. Users can log in using their registered email address and password. The login page ensures a streamlined authentication process, allowing users to quickly access their personalized content and features .
+
+<img src="">
+
+## Home page
+-Art is like a multifaceted gem, revealing different facets to different beholders. It's not merely about capturing the external world but about stirring emotions, sparking thoughts, and inciting reflection.
+
+<img src="https://github.com/Sameeer-Ahmad/Facebook-Clone/blob/main/facebook-clone/src/Images/Screensort/Search.jpg">
+
+
+
+<img src="">
 
 bash
 npm install
