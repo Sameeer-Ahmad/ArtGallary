@@ -31,6 +31,7 @@ Provide instructions and examples on how to use your project.
 -Art is like a multifaceted gem, revealing different facets to different beholders. It's not merely about capturing the external world but about stirring emotions, sparking thoughts, and inciting reflection.
 
 <img src="">
+
 ## ART CATEGORY
 <img src="">
 
