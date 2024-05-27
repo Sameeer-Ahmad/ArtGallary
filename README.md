@@ -3,7 +3,8 @@
 The ArtLine
 
 ## Introduction
-
+The Artline is  a vibrant marketplace for showcasing, discovering, and trading art pieces.
+This project allowed us to practically apply the coding skills that we learned during our Masai journey.
 ## Project Type
 
 MERN FullStack
