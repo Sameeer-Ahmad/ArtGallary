@@ -30,7 +30,7 @@ Provide instructions and examples on how to use your project.
 ## Home page
 -Art is like a multifaceted gem, revealing different facets to different beholders. It's not merely about capturing the external world but about stirring emotions, sparking thoughts, and inciting reflection.
 
-<img src="https://github.com/Sameeer-Ahmad/Facebook-Clone/blob/main/facebook-clone/src/Images/Screensort/Search.jpg">
+<img src="">
 
 
 
