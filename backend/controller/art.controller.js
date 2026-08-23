@@ -28,6 +28,7 @@ if (!uploadedImage) {
       artCategory: req.body.artCategory,
       artPrice: req.body.artPrice,
       artDimension: req.body.artDimension,
+      stock: req.body.stock,
       created_at: req.body.created_at,
       userID: req.body.userID,
       username: req.body.username,
@@ -45,8 +46,9 @@ const getArt = async (req, res) => {
   try {
     if (req.role == "artist") {
       const getArt = await ArtModel.find({ userID: req.body.userID }).sort({ createdAt: -1 });
-      // console.log("---", req.role);
       res.status(200).json({ getArt, role: req.role });
+    } else {
+      res.status(200).json({ getArt: [], role: req.role });
     }
   } catch (err) {
     console.log(err);
@@ -101,6 +103,9 @@ const getArtById = async (req, res) => {
 
   try {
     const getArtById = await ArtModel.findById(id);
+    if (!getArtById) {
+      return res.status(404).json({ error: "Art not found" });
+    }
     res.status(200).json({ getArtById, userID });
   } catch (err) {
     console.log(err);

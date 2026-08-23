@@ -10,10 +10,6 @@ import {
   Flex,
   Skeleton,
   Button,
-  Badge,
-  useColorModeValue,
-  Center,
-  Avatar,
   Heading,
   Modal,
   ModalOverlay,
@@ -24,91 +20,87 @@ import {
   useDisclosure,
   FormLabel,
   Input,
+  Spinner,
 } from "@chakra-ui/react";
 
 import { AddIcon } from "@chakra-ui/icons";
+import { FiUpload } from "react-icons/fi";
 
 import AOS from "aos";
 
 import "aos/dist/aos.css";
 import { API } from "../../API/api";
 AOS.init();
+const PAGE_SIZE = 16;
 const ArtPortfolio = () => {
   const toast = useToast();
   const [showModal, setShowModal] = useState(false);
 
   const [arts, setArts] = useState([]);
-  const [currentPage, setCurrentPage] = useState(1);
-  const [itemsPerPage] = useState(16);
-  const [totalPages, setTotalPages] = useState(0);
+  const [visibleCount, setVisibleCount] = useState(PAGE_SIZE);
   const [sortBy, setSortBy] = useState("");
   const [loading, setLoading] = useState(true);
   const token = localStorage.getItem("token");
   const [username, setUsername] = useState("");
   const { isOpen, onOpen, onClose } = useDisclosure();
   const initialRef = useRef(null);
+  const sentinelRef = useRef(null);
+  const fileInputRef = useRef(null);
 
   const finalRef = useRef(null);
   const [artName, setName] = useState("");
   const [artPrice, setPrice] = useState(0);
+  const [editCategory, setEditCategory] = useState("");
+  const [editDimension, setEditDimension] = useState("");
+  const [editStock, setEditStock] = useState(0);
+  const [savingEdit, setSavingEdit] = useState(false);
   const [artId, setArtId] = useState(null);
   const [artNamePost, setArtName] = useState("");
   const [artPricePost, setArtPrice] = useState("");
   const [artCategory, setArtCategory] = useState("");
   const [artDimension, setArtDimension] = useState("");
-  const [artImage, setSelectedFiles] = useState([]);
-  const [created_at, setCreatedAt] = useState(0);
+  const [stock, setStock] = useState(1);
+  const [artImage, setSelectedFiles] = useState(null);
+  const [submitting, setSubmitting] = useState(false);
   const [role, setRole] = useState();
-  const [show, setShow] = useState(false);
-  const handleArtNameChange = (e) => {
-    setArtName(e.target.value);
-    console.log(artNamePost);
-  };
-
-  const handleCreatedAtChange = (e) => {
-    setCreatedAt(e.target.value);
-    console.log(created_at);
-  };
-  const handleArtPriceChange = (e) => {
-    setArtPrice(e.target.value);
-    console.log(artPricePost);
-  };
-
-  const handleArtCategoryChange = (e) => {
-    setArtCategory(e.target.value);
-    console.log(artCategory);
-  };
-
-  const handleArtDimensionChange = (e) => {
-    setArtDimension(e.target.value);
-    console.log(artDimension);
-  };
 
   const handleFileChange = (e) => {
-    console.log(e);
-    console.log(e.target.files[0]);
-    setSelectedFiles(e.target.files[0]);
+    setSelectedFiles(e.target.files[0] || null);
+  };
+
+  const resetPostForm = () => {
+    setArtName("");
+    setArtPrice("");
+    setArtCategory("");
+    setArtDimension("");
+    setStock(1);
+    setSelectedFiles(null);
   };
 
   const handleSubmitPostForm = async (e) => {
     e.preventDefault();
+    if (!artImage) {
+      toast({ title: "Please choose an image", status: "error", duration: 3000, isClosable: true });
+      return;
+    }
+    setSubmitting(true);
     try {
       const formData = new FormData();
       formData.append("artImage", artImage);
       formData.append("artName", artNamePost);
       formData.append("artPrice", artPricePost);
       formData.append("artCategory", artCategory);
-      formData.append("created_at", created_at);
+      formData.append("created_at", Date.now());
       formData.append("artDimension", artDimension);
+      formData.append("stock", stock);
 
-      const response = await axios.post(`${API}/artist/add`, formData, {
+      await axios.post(`${API}/artist/add`, formData, {
         headers: {
           Authorization: `Bearer ${token}`,
           "Content-Type": "multipart/form-data",
         },
       });
       getAllArt();
-      console.log(response.data);
 
       toast({
         title: "Art added successfully",
@@ -116,6 +108,7 @@ const ArtPortfolio = () => {
         duration: 3000,
         isClosable: true,
       });
+      resetPostForm();
       setShowModal(false);
     } catch (error) {
       console.error(error);
@@ -125,14 +118,19 @@ const ArtPortfolio = () => {
         duration: 3000,
         isClosable: true,
       });
+    } finally {
+      setSubmitting(false);
     }
   };
 
-  const handleModalOpen = (id, name, price) => {
+  const handleModalOpen = (painting) => {
     onOpen();
-    setName(name);
-    setPrice(price);
-    setArtId(id);
+    setName(painting.artName);
+    setPrice(painting.artPrice);
+    setEditCategory(painting.artCategory);
+    setEditDimension(painting.artDimension);
+    setEditStock(painting.stock);
+    setArtId(painting._id);
   };
   function getAllArt() {
     axios
@@ -142,18 +140,18 @@ const ArtPortfolio = () => {
         },
       })
       .then((response) => {
-        setUsername(response.data.getArt[0].username);
         setRole(response.data.role);
 
         let sortedArts = response.data.getArt;
         if (sortBy === "Newest") {
-          sortedArts = sortedArts.sort((a, b) => a.created_at - b.created_at);
+          sortedArts = sortedArts.sort((a, b) => b.created_at - a.created_at);
         } else if (sortBy === "Low to High") {
           sortedArts = sortedArts.sort((a, b) => a.artPrice - b.artPrice);
         } else if (sortBy === "High to Low") {
           sortedArts = sortedArts.sort((a, b) => b.artPrice - a.artPrice);
         }
         setArts(sortedArts);
+        setVisibleCount(PAGE_SIZE);
         setLoading(false);
       })
       .catch((error) => {
@@ -164,8 +162,30 @@ const ArtPortfolio = () => {
   }
   useEffect(() => {
     getAllArt();
-  }, [currentPage, token, sortBy, setArts]);
-  // console.log("role", role);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [token, sortBy]);
+
+  useEffect(() => {
+    axios
+      .get(`${API}/user/me`, { headers: { Authorization: `Bearer ${token}` } })
+      .then((response) => setUsername(response.data.username))
+      .catch((error) => console.error("Error fetching current user:", error));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [token]);
+
+  useEffect(() => {
+    if (!sentinelRef.current || loading) return;
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries[0].isIntersecting) {
+          setVisibleCount((prev) => Math.min(prev + PAGE_SIZE, arts.length));
+        }
+      },
+      { rootMargin: "200px" }
+    );
+    observer.observe(sentinelRef.current);
+    return () => observer.disconnect();
+  }, [loading, arts.length]);
 
   const handleDelete = async (id) => {
     try {
@@ -194,67 +214,43 @@ const ArtPortfolio = () => {
   };
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setSavingEdit(true);
     try {
-      const response = await axios.patch(
-        `${API}/artist/update/${artId}`,
-        {
-          artName,
-          artPrice,
+      const updates = {
+        artName,
+        artPrice,
+        artCategory: editCategory,
+        artDimension: editDimension,
+        stock: editStock,
+      };
+      await axios.patch(`${API}/artist/update/${artId}`, updates, {
+        headers: {
+          Authorization: `Bearer ${token}`,
         },
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
-      console.log(response.data);
+      });
       setArts(
-        arts.map((art) =>
-          art._id === artId ? { ...art, artName, artPrice } : art
-        )
+        arts.map((art) => (art._id === artId ? { ...art, ...updates } : art))
       );
+      toast({ title: "Art updated", status: "success", duration: 2500, isClosable: true });
+      onClose();
     } catch (error) {
-      console.log(error);
+      console.error(error);
+      toast({
+        title: error.response?.data?.error || "Could not update art",
+        status: "error",
+        duration: 3000,
+        isClosable: true,
+      });
+    } finally {
+      setSavingEdit(false);
     }
   };
 
-  useEffect(() => {
-    setTotalPages(Math.ceil(arts.length / itemsPerPage));
-  }, [arts, itemsPerPage]);
+  const visibleArts = arts.slice(0, visibleCount);
+  const hasMore = visibleCount < arts.length;
 
-  const goToPage = (page) => {
-    setCurrentPage(page);
-  };
-
-  const renderPaginationButtons = () => {
-    const buttons = [];
-    for (let i = 1; i <= totalPages; i++) {
-      buttons.push(
-        <button
-          key={i}
-          onClick={() => goToPage(i)}
-          style={{
-            margin: "0 5px",
-            fontWeight: currentPage === i ? "bold" : "normal",
-            width: "50px",
-            height: "50px",
-            borderRadius: "50%",
-            color: "white",
-            backgroundColor: "#B79B54",
-          }}
-        >
-          {i}
-        </button>
-      );
-    }
-    return buttons;
-  };
-
-  
   const renderArtCards = () => {
-    const startIndex = (currentPage - 1) * itemsPerPage;
-    const endIndex = startIndex + itemsPerPage;
-    return arts.slice(startIndex, endIndex).map((painting) => (
+    return visibleArts.map((painting) => (
       <Box
         data-aos="fade-down"
         data-aos-anchor-placement="top"
@@ -307,72 +303,20 @@ const ArtPortfolio = () => {
             color={"rgb(183, 155, 84)"}
             letterSpacing={"1px"}
           >
-            US$ {painting.artPrice}
+            ₹{painting.artPrice}
           </Text>
           <Button
-            bg={"rgb(183,155,84)"}
-            color={"white"}
-            _hover={{ bg: "#48BB78" }}
+            w="100%"
             onClick={() =>
-              handleModalOpen(painting._id, painting.artName, painting.artPrice)
+              handleModalOpen(painting)
             }
           >
             Edit Details
           </Button>
-
-          <Modal
-            initialFocusRef={initialRef}
-            finalFocusRef={finalRef}
-            isOpen={isOpen}
-            onClose={onClose}
-          >
-            <ModalOverlay
-              backdropFilter="auto"
-              backdropInvert="80%"
-              backdropBlur="2px"
-            />
-            <ModalContent>
-              <ModalHeader>Edit Details</ModalHeader>
-              <ModalCloseButton />
-              <ModalBody pb={6}>
-                <form onSubmit={handleSubmit}>
-                  <FormLabel>Name</FormLabel>
-                  <Input
-                    value={artName}
-                    onChange={handleNameChange}
-                    ref={initialRef}
-                    placeholder="Name of your art"
-                  />
-
-                  <FormLabel>Price</FormLabel>
-                  <Input
-                    value={artPrice}
-                    onChange={handlePriceChange}
-                    placeholder="Enter your price"
-                  />
-
-                  <Button
-                    onClick={onClose}
-                    mt={4}
-                    type="submit"
-                    colorScheme="blue"
-                    mr={3}
-                  >
-                    Save
-                  </Button>
-                  <Button mt={4} onClick={onClose}>
-                    Cancel
-                  </Button>
-                </form>
-              </ModalBody>
-            </ModalContent>
-          </Modal>
           <Button
-            margin={"auto"}
-            width={"100%"}
-            bg={"#B79B19"}
-            color={"white"}
-            _hover={{ bg: "#E53E3E" }}
+            w="100%"
+            variant="outline"
+            colorScheme="red"
             onClick={() => handleDelete(painting._id)}
             mt={2}
           >
@@ -388,159 +332,116 @@ const ArtPortfolio = () => {
   };
   return (
     <Box bg="rgb(250,248,244)">
-      <Center py={6}>
-        <Box
-          maxW={"320px"}
-          w={"full"}
-          bg={"rgb(250,248,244)"}
-          rounded={"lg"}
-          p={6}
-          textAlign={"center"}
-        >
-          <Avatar size="xl" name={username} />
-          {role === "artist" ? (
-            <Heading
-              pt={4}
-              fontSize={["sm", "xl", "2xl"]}
-              fontWeight={600}
-              fontFamily={"body"}
-            >
-              {username}'s Art Portfolio
-            </Heading>
-          ) : (
-            <Heading
-              pt={4}
-              fontSize={["sm", "xl", "2xl"]}
-              fontWeight={600}
-              fontFamily={"body"}
-            >
-              {username}
-            </Heading>
-          )}
+      <Modal
+        initialFocusRef={initialRef}
+        finalFocusRef={finalRef}
+        isOpen={isOpen}
+        onClose={onClose}
+        scrollBehavior="inside"
+        size={["full", "md"]}
+      >
+        <ModalOverlay />
+        <ModalContent maxH="90vh">
+          <ModalHeader>Edit Details</ModalHeader>
+          <ModalCloseButton />
+          <ModalBody pb={6}>
+            <form onSubmit={handleSubmit}>
+              <Stack spacing={4}>
+                <Box>
+                  <FormLabel>Name</FormLabel>
+                  <Input
+                    bg="white"
+                    value={artName}
+                    onChange={handleNameChange}
+                    ref={initialRef}
+                    placeholder="Name of your art"
+                  />
+                </Box>
+                <Box>
+                  <FormLabel>Price (₹)</FormLabel>
+                  <Input
+                    bg="white"
+                    type="number"
+                    min={0}
+                    value={artPrice}
+                    onChange={handlePriceChange}
+                    placeholder="Enter your price"
+                  />
+                </Box>
+                <Box>
+                  <FormLabel>Category</FormLabel>
+                  <Select
+                    bg="white"
+                    value={editCategory}
+                    onChange={(e) => setEditCategory(e.target.value)}
+                  >
+                    {[
+                      "Painting",
+                      "Print",
+                      "Sculpture",
+                      "Photography",
+                      "Inspiration",
+                      "Drawing",
+                      "Acrylic",
+                    ].map((category) => (
+                      <option key={category} value={category}>
+                        {category}
+                      </option>
+                    ))}
+                  </Select>
+                </Box>
+                <Box>
+                  <FormLabel>Dimension</FormLabel>
+                  <Input
+                    bg="white"
+                    value={editDimension}
+                    onChange={(e) => setEditDimension(e.target.value)}
+                    placeholder="e.g. 40 x 50 cm"
+                  />
+                </Box>
+                <Box>
+                  <FormLabel>Stock</FormLabel>
+                  <Input
+                    bg="white"
+                    type="number"
+                    min={0}
+                    value={editStock}
+                    onChange={(e) => setEditStock(e.target.value)}
+                  />
+                </Box>
+                <Stack direction="row">
+                  <Button type="submit" isDisabled={savingEdit}>
+                    {savingEdit ? <Spinner size="sm" color="white" /> : "Save"}
+                  </Button>
+                  <Button variant="outline" onClick={onClose} isDisabled={savingEdit}>
+                    Cancel
+                  </Button>
+                </Stack>
+              </Stack>
+            </form>
+          </ModalBody>
+        </ModalContent>
+      </Modal>
 
-          <Stack align={"center"} justify={"center"} direction={"row"} mt={4}>
-            <Badge
-              px={2}
-              py={1}
-              bg={useColorModeValue("gray.50", "gray.800")}
-              fontWeight={"400"}
-            >
-              #artist
-            </Badge>
-            <Badge
-              px={2}
-              py={1}
-              bg={useColorModeValue("gray.50", "gray.800")}
-              fontWeight={"400"}
-            >
-              #drawing
-            </Badge>
-            <Badge
-              px={2}
-              py={1}
-              bg={useColorModeValue("gray.50", "gray.800")}
-              fontWeight={"400"}
-            >
-              #sketch
-            </Badge>
-          </Stack>
+      <Flex
+        justify="space-between"
+        align="center"
+        wrap="wrap"
+        gap={4}
+        px={[4, 8]}
+        pt={8}
+        pb={4}
+      >
+        <Heading fontSize={["20px", "24px", "28px"]} fontWeight={600} fontFamily="body">
+          {role === "artist" ? <>{username}&apos;s Art Portfolio</> : username}
+        </Heading>
 
-          {role == "artist" && (
-            <Stack mt={8} direction={"row"} spacing={4}>
-              <Button
-                flex={1}
-                fontSize={"sm"}
-                rounded={"full"}
-                bg={"blue.400"}
-                color={"white"}
-                boxShadow={
-                  "0px 1px 25px -5px rgb(66 153 225 / 48%), 0 10px 10px -5px rgb(66 153 225 / 43%)"
-                }
-                _hover={{
-                  bg: "blue.500",
-                }}
-                _focus={{
-                  bg: "blue.500",
-                }}
-                onClick={() => setShowModal(true)}
-              >
-                Add Art <AddIcon ml={2} />
-              </Button>
-            </Stack>
-          )}
-          {role == "artist" && show && (
-            <Box>
-              <form
-                onSubmit={handleSubmitPostForm}
-                style={{
-                  marginTop: "30px",
-                  display: "flex",
-                  flexDirection: "column",
-                  gap: "10px",
-                }}
-              >
-                <input
-                  type="text"
-                  placeholder="Enter art name"
-                  value={artNamePost}
-                  onChange={handleArtNameChange}
-                />
-                <input
-                  type="number"
-                  placeholder="Enter price"
-                  value={artPricePost}
-                  onChange={handleArtPriceChange}
-                />
-                <input
-                  type="file"
-                  name="artImage"
-                  onChange={handleFileChange}
-                />
-                <input
-                  onChange={handleCreatedAtChange}
-                  value={created_at}
-                  type="number"
-                  id="yearInput"
-                  name="year"
-                  min="1900"
-                  max="2099"
-                  placeholder="Year of creation"
-                />
-
-                <select
-                  id="artCategory"
-                  name="artCategory"
-                  value={artCategory}
-                  onChange={handleArtCategoryChange}
-                >
-                  <option value="">Select an option</option>
-                  {[
-                    "Paintings",
-                    "Prints",
-                    "Sculpture",
-                    "Photography",
-                    "Inspiration",
-                    "Drawings",
-                  ].map((category) => (
-                    <option key={category} value={category}>
-                      {category}
-                    </option>
-                  ))}
-                </select>
-                <input
-                  type="text"
-                  id="artDimension"
-                  name="artDimension"
-                  value={artDimension}
-                  onChange={handleArtDimensionChange}
-                  placeholder="Enter art dimensions"
-                />
-                <button type="submit">Submit</button>
-              </form>
-            </Box>
-          )}
-        </Box>
-      </Center>
+        {role === "artist" && (
+          <Button fontSize="sm" onClick={() => setShowModal(true)}>
+            Add Art <AddIcon ml={2} />
+          </Button>
+        )}
+      </Flex>
 
       {role !== "artist" ? (
         ""
@@ -559,7 +460,7 @@ const ArtPortfolio = () => {
           ]}
           alignItems="center"
         >
-          {Array.from({ length: itemsPerPage }).map((_, index) => (
+          {Array.from({ length: PAGE_SIZE }).map((_, index) => (
             <Box
               key={index}
               width={"auto"}
@@ -628,9 +529,16 @@ const ArtPortfolio = () => {
           >
             {renderArtCards()}
           </Grid>
-          <Flex justifyContent="center" alignItems="center" mt={4} p={3}>
-            {renderPaginationButtons()}
-          </Flex>
+          {hasMore && (
+            <Flex ref={sentinelRef} justifyContent="center" py={8}>
+              <Spinner color="brand.500" />
+            </Flex>
+          )}
+          {!hasMore && arts.length > PAGE_SIZE && (
+            <Text textAlign="center" py={8} color="gray.500">
+              You&apos;ve reached the end — {arts.length} pieces
+            </Text>
+          )}
         </>
       )}
 
@@ -650,168 +558,119 @@ const ArtPortfolio = () => {
         fontFamily={"sans-serif"}
         textAlign={"center"}
       >
-        <Modal isOpen={showModal} onClose={() => setShowModal(false)}>
+        <Modal
+          isOpen={showModal}
+          onClose={() => setShowModal(false)}
+          scrollBehavior="inside"
+          size={["full", "md"]}
+        >
           <ModalOverlay />
-          <ModalContent>
+          <ModalContent maxH="90vh">
             <ModalHeader>Add New Art</ModalHeader>
             <ModalCloseButton />
             <ModalBody>
               <form onSubmit={handleSubmitPostForm}>
-                <FormControl>
-                  <FormLabel>Name</FormLabel>
-                  <Input
-                    type="text"
-                    placeholder="Enter art name"
-                    value={artNamePost}
-                    onChange={(e) => setArtName(e.target.value)}
-                  />
-                </FormControl>
-                <FormControl>
-                  <FormLabel>Price</FormLabel>
-                  <Input
-                    type="number"
-                    placeholder="Enter price"
-                    value={artPricePost}
-                    onChange={(e) => setArtPrice(e.target.value)}
-                  />
-                </FormControl>
-                <FormControl>
-                  <FormLabel>Category</FormLabel>
-                  <Select
-                    value={artCategory}
-                    onChange={(e) => setArtCategory(e.target.value)}
-                    placeholder="Select category"
-                  >
-                    {[
-                      "Painting",
-                      "Print",
-                      "Sculpture",
-                      "Photography",
-                      "Inspiration",
-                      "Drawing",
-                      "Acrylic",
-                    ].map((category) => (
-                      <option key={category} value={category}>
-                        {category}
-                      </option>
-                    ))}
-                  </Select>
-                </FormControl>
-                <FormControl>
-                  <FormLabel>Created_At</FormLabel>
-                  <Input
-                    type="number"
-                    value={created_at}
-                    onChange={(e) => setCreatedAt(e.target.value)}
-                  />
-                </FormControl>
-                <FormControl>
-                  <FormLabel>Dimension</FormLabel>
-                  <Input
-                    type="text"
-                    placeholder="Enter art dimensions"
-                    value={artDimension}
-                    onChange={(e) => setArtDimension(e.target.value)}
-                  />
-                </FormControl>
-                <FormControl>
-                  <FormLabel>Image</FormLabel>
-                  <Input
-                    type="file"
-                    accept="image/*"
-                    onChange={handleFileChange}
-                  />
-                </FormControl>
-                <Button type="submit" mt={4} colorScheme="blue">
-                  Submit
-                </Button>
+                <Stack spacing={4}>
+                  <FormControl>
+                    <FormLabel>Name</FormLabel>
+                    <Input
+                      bg="white"
+                      type="text"
+                      placeholder="Enter art name"
+                      value={artNamePost}
+                      onChange={(e) => setArtName(e.target.value)}
+                      required
+                    />
+                  </FormControl>
+                  <FormControl>
+                    <FormLabel>Price (₹)</FormLabel>
+                    <Input
+                      bg="white"
+                      type="number"
+                      min={0}
+                      placeholder="Enter price"
+                      value={artPricePost}
+                      onChange={(e) => setArtPrice(e.target.value)}
+                      required
+                    />
+                  </FormControl>
+                  <FormControl>
+                    <FormLabel>Category</FormLabel>
+                    <Select
+                      bg="white"
+                      value={artCategory}
+                      onChange={(e) => setArtCategory(e.target.value)}
+                      placeholder="Select category"
+                      required
+                    >
+                      {[
+                        "Painting",
+                        "Print",
+                        "Sculpture",
+                        "Photography",
+                        "Inspiration",
+                        "Drawing",
+                        "Acrylic",
+                      ].map((category) => (
+                        <option key={category} value={category}>
+                          {category}
+                        </option>
+                      ))}
+                    </Select>
+                  </FormControl>
+                  <FormControl>
+                    <FormLabel>Dimension</FormLabel>
+                    <Input
+                      bg="white"
+                      type="text"
+                      placeholder="e.g. 40 x 50 cm"
+                      value={artDimension}
+                      onChange={(e) => setArtDimension(e.target.value)}
+                      required
+                    />
+                  </FormControl>
+                  <FormControl>
+                    <FormLabel>Stock</FormLabel>
+                    <Input
+                      bg="white"
+                      type="number"
+                      min={0}
+                      placeholder="Enter available stock"
+                      value={stock}
+                      onChange={(e) => setStock(e.target.value)}
+                      required
+                    />
+                  </FormControl>
+                  <FormControl>
+                    <FormLabel>Image</FormLabel>
+                    <Input
+                      ref={fileInputRef}
+                      type="file"
+                      accept="image/*"
+                      onChange={handleFileChange}
+                      display="none"
+                    />
+                    <Flex align="center" gap={3}>
+                      <Button
+                        variant="outline"
+                        leftIcon={<FiUpload />}
+                        onClick={() => fileInputRef.current?.click()}
+                      >
+                        Choose image
+                      </Button>
+                      <Text fontSize="sm" color="gray.600" noOfLines={1}>
+                        {artImage ? artImage.name : "No file selected"}
+                      </Text>
+                    </Flex>
+                  </FormControl>
+                  <Button type="submit" isDisabled={submitting}>
+                    {submitting ? <Spinner size="sm" color="white" /> : "Submit"}
+                  </Button>
+                </Stack>
               </form>
             </ModalBody>
           </ModalContent>
         </Modal>
-
-        <Text pb={4}>
-          Original, hand-picked contemporary paintings for sale from the finest
-          artists around the world. The Artling offers a curated selection of
-          paintings, including{" "}
-          <span style={{ color: "rgb(115,164,253)", cursor: "pointer" }}>
-            abstract paintings
-          </span>
-          ,{" "}
-          <span style={{ color: "rgb(115,164,253)", cursor: "pointer" }}>
-            figurative paintings
-          </span>
-          ,{" "}
-          <span style={{ color: "rgb(115,164,253)", cursor: "pointer" }}>
-            geometric paintings
-          </span>
-          ,{" "}
-          <span style={{ color: "rgb(115,164,253)", cursor: "pointer" }}>
-            minimalist paintings
-          </span>
-          ,{" "}
-          <span style={{ color: "rgb(115,164,253)", cursor: "pointer" }}>
-            nature paintings
-          </span>
-          , and{" "}
-          <span style={{ color: "rgb(115,164,253)", cursor: "pointer" }}>
-            pop paintings
-          </span>
-          . If you are looking for even more styles, you can look forward to
-          <span style={{ color: "rgb(115,164,253)", cursor: "pointer" }}>
-            portraiture paintings
-          </span>
-          ,{" "}
-          <span style={{ color: "rgb(115,164,253)", cursor: "pointer" }}>
-            stil life paintings
-          </span>
-          ,{" "}
-          <span style={{ color: "rgb(115,164,253)", cursor: "pointer" }}>
-            street art paintings
-          </span>
-          ,
-          <span style={{ color: "rgb(115,164,253)", cursor: "pointer" }}>
-            surrealist paintings
-          </span>
-          ,
-          <span style={{ color: "rgb(115,164,253)", cursor: "pointer" }}>
-            typography paintings
-          </span>{" "}
-          and{" "}
-          <span style={{ color: "rgb(115,164,253)", cursor: "pointer" }}>
-            urban paintings
-          </span>{" "}
-          in a range of price, colour and size to suit your preference.
-        </Text>
-        <Text pb={4}>
-          Whether you are looking for paintings for your bedroom, kitchen,
-          living room, or even your office, we have you covered with thousands
-          of paintings from popular and emerging artists and galleries from
-          around the world. Dont forget to look at our{" "}
-          <span style={{ color: "rgb(115,164,253)", cursor: "pointer" }}>
-            exclusive paintings
-          </span>{" "}
-          and{" "}
-          <span style={{ color: "rgb(115,164,253)", cursor: "pointer" }}>
-            framed paintings
-          </span>{" "}
-          - available only on The Artling.
-        </Text>
-        <Text pb={4}>
-          Take your pick from our expertly-curated selection of paintings and
-          get the works that you love delivered right to your doorstep. When you
-          buy contemporary paintings from The Artling, you can buy with
-          confidence as each item comes with a Certificate of Authenticity and a
-          3-day return window.
-        </Text>
-        <Text pb={4}>
-          If you have particular or specific requirements, use our{" "}
-          <span style={{ color: "rgb(115,164,253)", cursor: "pointer" }}>
-            Art Advisory service{" "}
-          </span>{" "}
-          and get personalized recommendations from an expert art curator to
-          find the perfect artwork for you.
-        </Text>
       </Box>
     </Box>
   );
