@@ -87,19 +87,9 @@ npm run dev
 
 By default the frontend talks to `http://localhost:3000`. To point it at a deployed backend, set `VITE_API_URL` (e.g. in a `.env.production` file or your hosting platform's environment variables) before building.
 
-## Deploying the backend (Render)
-
-A `render.yaml` blueprint at the repo root defines the service. In the
-Render dashboard: **New +** → **Blueprint** → connect this repo. Render
-reads `render.yaml` and creates a web service rooted at `backend/`,
-building with `npm install` and running `npm start`. `SECRET_KEY` is
-generated automatically; you'll be prompted to fill in the rest
-(`MONGO_URL`, `SMTP_MAIL`, `SMTP_PASSWORD`, `RAZORPAY_KEY_ID`,
-`RAZORPAY_KEY_SECRET`, and optionally `CORS_ORIGIN` once you know your
-frontend's deployed domain).
-
 ## Deployed App
 
 Frontend: [art-gallary-do7i.vercel.app](https://art-gallary-do7i.vercel.app/)
+Backend: `https://artgallary.onrender.com` (auto-deploys on push to `main`)
 
-The deployed instance may be out of date relative to `main` — redeploy both the frontend (with `VITE_API_URL` set to the live backend) and backend to pick up the latest changes.
+The frontend needs `VITE_API_URL` set to the backend URL above and redeployed to actually reach it — until then the deployed frontend may still be pointed at `localhost`.
