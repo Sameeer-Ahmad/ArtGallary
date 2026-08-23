@@ -20,6 +20,7 @@ const artSchema = new mongoose.Schema(
       required: true,
     },
     artDimension: { type: String, required: true },
+    stock: { type: Number, required: true, default: 0 },
     userID: { type: String, required: true },
     username: { type: String, required: true },
   },
