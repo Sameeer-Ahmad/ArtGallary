@@ -10,31 +10,47 @@ const {
   addToCart,
   getArtInCart,
   removeFromCart,
+  updateCartQuantity,
+  addToWishlist,
+  getWishlist,
+  removeFromWishlist,
+  searchArt,
 } = require("../controller/art.category.controller");
 
 const { auth } = require("../middleware/auth.middleware");
+const { optionalAuth } = require("../middleware/optionalAuth.middleware");
 
 const artCategoryRouter = express.Router();
 
-artCategoryRouter.get("/", auth, getArtByCategory);
+artCategoryRouter.get("/", optionalAuth, getArtByCategory);
 
-artCategoryRouter.get("/paintings", auth, Painting);
+artCategoryRouter.get("/search", optionalAuth, searchArt);
 
-artCategoryRouter.get("/prints", auth, Print);
+artCategoryRouter.get("/paintings", optionalAuth, Painting);
 
-artCategoryRouter.get("/sculpture", auth, Sculpture);
+artCategoryRouter.get("/prints", optionalAuth, Print);
 
-artCategoryRouter.get("/photography", auth, Photography);
+artCategoryRouter.get("/sculpture", optionalAuth, Sculpture);
 
-artCategoryRouter.get("/inspiration", auth, Inspiration);
+artCategoryRouter.get("/photography", optionalAuth, Photography);
 
-artCategoryRouter.get("/drawings", auth, Drawings);
+artCategoryRouter.get("/inspiration", optionalAuth, Inspiration);
+
+artCategoryRouter.get("/drawings", optionalAuth, Drawings);
 
 artCategoryRouter.post("/addToCart", auth, addToCart);
 
 artCategoryRouter.get("/cart", auth, getArtInCart);
 
 artCategoryRouter.delete("/removeFromCart/:id",auth, removeFromCart)
+
+artCategoryRouter.patch("/updateCartQuantity/:id", auth, updateCartQuantity)
+
+artCategoryRouter.post("/wishlist", auth, addToWishlist);
+
+artCategoryRouter.get("/wishlist", auth, getWishlist);
+
+artCategoryRouter.delete("/wishlist/:artId", auth, removeFromWishlist);
 
 module.exports = {
   artCategoryRouter,
