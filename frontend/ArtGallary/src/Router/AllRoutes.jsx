@@ -1,4 +1,4 @@
-import { Route, Routes, useLocation } from "react-router-dom";
+import { Route, Routes, useLocation, Navigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 
 import Paint from "../Component/Paint/Paint";
@@ -21,15 +21,49 @@ import Dashboard from "../pages/Dashboard/Dashboard";
 import Footer from "../Component/Footer/Footer";
 import Contact from "../pages/ContactUs/Contact";
 import DashNav from "../pages/Dashboard/Dashbordnav";
-import ChatBotComponent from "../Component/ChatBot/chatBot";
+import Checkout from "../pages/Checkout/Checkout";
+import Orders from "../pages/Orders/Orders";
+import Artist from "../pages/Artist/Artist";
+import Search from "../pages/Search/Search";
+import Settings from "../pages/Settings/Settings";
+import Wishlist from "../pages/Wishlist/Wishlist";
+import ForgotPassword from "../pages/ForgotPassword/ForgotPassword";
+import Sales from "../pages/Sales/Sales";
+import NotFound from "../pages/NotFound/NotFound";
+
+// eslint-disable-next-line react/prop-types
+const RequireAuth = ({ children }) => {
+  const token = localStorage.getItem("token");
+  return token ? children : <Navigate to="/login" replace />;
+};
+
+// eslint-disable-next-line react/prop-types
+const GuestOnly = ({ children }) => {
+  const token = localStorage.getItem("token");
+  return token ? <Navigate to="/home" replace /> : children;
+};
+
+// eslint-disable-next-line react/prop-types
+const RequireArtist = ({ children }) => {
+  const token = localStorage.getItem("token");
+  const role = localStorage.getItem("role");
+  if (!token) return <Navigate to="/login" replace />;
+  return role === "artist" ? children : <Navigate to="/home" replace />;
+};
+
 const AllRoutes = () => {
   const location = useLocation();
   const [showNavbar, setShowNavbar] = useState(true);
   const [showFooter, setShowFooter] = useState(true);
   const [showDashNav, setDashNav] = useState(false)
   useEffect(() => {
-    
-    if (location.pathname === "/login" || location.pathname === "/signup") {
+    window.scrollTo(0, 0);
+
+    if (
+      location.pathname === "/login" ||
+      location.pathname === "/signup" ||
+      location.pathname === "/forgot-password"
+    ) {
       setShowNavbar(false);
       setShowFooter(false);
       setDashNav(false)
@@ -51,7 +85,14 @@ const AllRoutes = () => {
       {showNavbar && <Navbar isDashboardNavbar={false}  />}
       {showDashNav && <DashNav />}
       <Routes>
-        <Route path="/" element={<Dashboard />} />
+        <Route
+          path="/"
+          element={
+            <GuestOnly>
+              <Dashboard />
+            </GuestOnly>
+          }
+        />
         <Route path="/art/paintings" element={<Paint />} />
         <Route path="/art/prints" element={<Print />} />
         <Route path="/art/sculpture" element={<Sculpture />} />
@@ -59,19 +100,82 @@ const AllRoutes = () => {
         <Route path="/art/inspiration" element={<Inspiration />} />
         <Route path="/art/drawings" element={<Drawing />} />
         <Route path="/cart" element={<Cart />} />
-        <Route path="/profile" element={<Profile />} />
-        <Route path="/art-portfolio" element={<ArtProtfolio />} />
+        <Route
+          path="/profile"
+          element={
+            <RequireAuth>
+              <Profile />
+            </RequireAuth>
+          }
+        />
+        <Route
+          path="/art-portfolio"
+          element={
+            <RequireAuth>
+              <ArtProtfolio />
+            </RequireAuth>
+          }
+        />
         <Route path="/signup" element={<Signup />} />
         <Route path="/login" element={<Login />} />
         <Route path="/about" element={<About />} />
         <Route path="/art" element={<Art />} />
-        <Route path="/cart" element={<Cart />} />
-        <Route path="/home" element={<Home />} />
+        <Route
+          path="/home"
+          element={
+            <RequireAuth>
+              <Home />
+            </RequireAuth>
+          }
+        />
         <Route path="/contactus" element={<Contact />} />
         <Route path="/art/:id" element={<SingleArt />} />
+        <Route path="/artist/:username" element={<Artist />} />
+        <Route path="/search" element={<Search />} />
+        <Route
+          path="/checkout"
+          element={
+            <RequireAuth>
+              <Checkout />
+            </RequireAuth>
+          }
+        />
+        <Route
+          path="/orders"
+          element={
+            <RequireAuth>
+              <Orders />
+            </RequireAuth>
+          }
+        />
+        <Route
+          path="/settings"
+          element={
+            <RequireAuth>
+              <Settings />
+            </RequireAuth>
+          }
+        />
+        <Route
+          path="/wishlist"
+          element={
+            <RequireAuth>
+              <Wishlist />
+            </RequireAuth>
+          }
+        />
+        <Route path="/forgot-password" element={<GuestOnly><ForgotPassword /></GuestOnly>} />
+        <Route
+          path="/sales"
+          element={
+            <RequireArtist>
+              <Sales />
+            </RequireArtist>
+          }
+        />
+        <Route path="*" element={<NotFound />} />
       </Routes>
       {showFooter && <Footer />}
-      <ChatBotComponent/>
     </div>
   );
 };

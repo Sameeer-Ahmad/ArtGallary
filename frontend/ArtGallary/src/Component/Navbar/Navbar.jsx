@@ -17,12 +17,27 @@ import {
   Image,
   Text,
   Avatar,
+  Badge,
+  Spinner,
+  Button,
   Link as ChakraLink,
 } from "@chakra-ui/react";
 
 import { HamburgerIcon, CloseIcon, SearchIcon } from "@chakra-ui/icons";
-import { Link, useNavigate } from "react-router-dom";
-import LogoutButton from "../../pages/Logout/Logout";
+import {
+  FiShoppingCart,
+  FiUser,
+  FiPackage,
+  FiHeart,
+  FiSettings,
+  FiLogOut,
+} from "react-icons/fi";
+import { useEffect, useState } from "react";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import axios from "axios";
+import { useLogout } from "../../pages/Logout/Logout";
+import { API } from "../../API/api";
+import { guestCartCount } from "../../API/guestCart";
 
 const Links = [
   { ids: 1, name: "PAINTING", link: "/art/paintings" },
@@ -37,11 +52,82 @@ const Links = [
 export default function NavBar() {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const username = localStorage.getItem("username");
+  const isGuest = !localStorage.getItem("token");
+  const isArtist = localStorage.getItem("role") === "artist";
+  const [profilePic, setProfilePic] = useState(localStorage.getItem("profilePic") || "");
   const navigate = useNavigate();
-  const initials = username ? username.charAt(0).toUpperCase() : "";
+  const handleLogout = useLogout();
+  const location = useLocation();
+  const [cartCount, setCartCount] = useState(0);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [suggestions, setSuggestions] = useState([]);
+  const [suggestionsOpen, setSuggestionsOpen] = useState(false);
+  const [suggestionsLoading, setSuggestionsLoading] = useState(false);
+
+  useEffect(() => {
+    const fetchCartCount = () => {
+      const token = localStorage.getItem("token");
+      if (!token) {
+        setCartCount(guestCartCount());
+        return;
+      }
+
+      axios
+        .get(`${API}/art/cart`, {
+          headers: { Authorization: `Bearer ${token}` },
+        })
+        .then((response) => {
+          const totalQuantity = response.data.reduce(
+            (sum, item) => sum + item.quantity,
+            0
+          );
+          setCartCount(totalQuantity);
+        })
+        .catch((error) => console.error("Error fetching cart count:", error));
+    };
+
+    fetchCartCount();
+    window.addEventListener("cart:updated", fetchCartCount);
+    return () => window.removeEventListener("cart:updated", fetchCartCount);
+  }, [location]);
+
+  useEffect(() => {
+    const syncProfilePic = () => setProfilePic(localStorage.getItem("profilePic") || "");
+    window.addEventListener("profile:updated", syncProfilePic);
+    return () => window.removeEventListener("profile:updated", syncProfilePic);
+  }, []);
+
+  useEffect(() => {
+    if (!searchQuery.trim()) {
+      setSuggestions([]);
+      setSuggestionsLoading(false);
+      return;
+    }
+
+    setSuggestionsLoading(true);
+    const timer = setTimeout(() => {
+      const token = localStorage.getItem("token");
+      axios
+        .get(`${API}/art/search`, {
+          params: { q: searchQuery.trim() },
+          headers: { Authorization: `Bearer ${token}` },
+        })
+        .then((response) => {
+          setSuggestions(response.data.slice(0, 6));
+          setSuggestionsLoading(false);
+        })
+        .catch((error) => {
+          console.error("Error fetching search suggestions:", error);
+          setSuggestions([]);
+          setSuggestionsLoading(false);
+        });
+    }, 300);
+
+    return () => clearTimeout(timer);
+  }, [searchQuery]);
 
   return (
-    <>
+    <Box position="sticky" top={0} zIndex={100}>
       <Box bg={"rgb(250,248,244)"}>
         <HStack
           spacing={10}
@@ -53,86 +139,302 @@ export default function NavBar() {
           pb={2}
         >
           <Flex
-            justifyContent={"space-around"}
+            justifyContent={"space-between"}
             alignItems={"center"}
             width={["100%"]}
+            gap={4}
+            px={[0, 0, 6]}
           >
             <Menu>
               <Link to={"/home"}>
-                <Image
-                  h={[14, 14, 20, 20, 20, 20]}
-                  w={[14, 14, 20, 20, 20, 20]}
-                  src="https://theartling.com/build/_assets/TheArtlingLogo-BZIAGPLW.svg"
-                  alt="logo"
-                  ml={[0, 0, 16]}
-                />
+                <Text
+                  fontFamily="heading"
+                  fontSize={["20px", "22px", "26px"]}
+                  fontWeight={700}
+                  color="brand.500"
+                  ml={[0, 0, 4]}
+                  whiteSpace="nowrap"
+                >
+                  The Artline
+                </Text>
               </Link>
-              <Center width={["40%", "60%", "60%"]} display={["none", "flex", "flex"]}>
-                <InputGroup border={"none"}>
-                  <InputRightElement pointerEvents="none">
-                    <SearchIcon color="gray.300" />
+              <Center
+                flex="1"
+                maxW="600px"
+                display={["none", "flex", "flex"]}
+                position="relative"
+              >
+                <InputGroup
+                  as="form"
+                  h="44px"
+                  onSubmit={(e) => {
+                    e.preventDefault();
+                    if (searchQuery.trim()) {
+                      setSuggestionsOpen(false);
+                      navigate(`/search?q=${encodeURIComponent(searchQuery.trim())}`);
+                    }
+                  }}
+                >
+                  <InputRightElement h="44px" style={{ cursor: "pointer" }}>
+                    <SearchIcon
+                      color="gray.400"
+                      onClick={() => {
+                        if (searchQuery.trim()) {
+                          setSuggestionsOpen(false);
+                          navigate(`/search?q=${encodeURIComponent(searchQuery.trim())}`);
+                        }
+                      }}
+                    />
                   </InputRightElement>
                   <Input
                     bg={"white"}
-                    border={"none"}
-                    variant="unstyled"
+                    border="1px solid"
+                    borderColor="gray.200"
+                    borderRadius="full"
+                    h="44px"
+                    px={5}
+                    _focus={{ borderColor: "brand.500", boxShadow: "none" }}
                     type="text"
                     placeholder="Search for artworks"
+                    value={searchQuery}
+                    onChange={(e) => {
+                      setSearchQuery(e.target.value);
+                      setSuggestionsOpen(true);
+                    }}
+                    onFocus={() => setSuggestionsOpen(true)}
+                    onBlur={() => setTimeout(() => setSuggestionsOpen(false), 150)}
                   />
                 </InputGroup>
-              </Center>
-              <Link to={`/cart`}>
-                <Image
-                  h={8}
-                  w={8}
-                  src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAFwAAABcCAMAAADUMSJqAAAAaVBMVEX///8DAQQAAAD7+/uLi4sLCwszMzTa2trz8/P39/fi4uK5ubmwsLCdnZ3Hx8fNzc1VVVWFhYVLS0vp6eldXV3U1NR3d3d/f38XFheVlZUkIyRQUFA4ODgsLCxvb29lZWWlpaVEREQdHR1uxI0+AAAEBUlEQVRogdVZ2ZaqMBDEoIKA4oqiOC7//5EXBoZ0muosszzcevEckxRN72mi6K9xSLLDH1HnF/WJ4zr5de665Z319Opep7/KXbbUI1r++jfJPwj3J/3VoZz4VNTzovR6xYVJ3tFvLNtX58FCs4eHD0zIW/ZS3n770qJSbzf5cULenpOF0hZSC7dm8in5TDU+5Cpzi/5QQPZC2JxS1zq5yaP54OSUfBHjvRkltxlei1Pm+bq6Gw4viF7SPbkP+YDkpU+qLd6zoeTrAPIoqoi1sCtQ86t5EHm01Oz4nQtKXoWRa8HUDm5YU/KPMPJ4NKrg6nNK/ggj1/GqFFw/U3LB6CJ2mhwmR5pD1SuQPHdYdEvJ74HkiSaHjnaj5FIYS1hdRr1Aje6NsrUKFL0Zya/66OF4X/Ywsr8a/lzuPfJjB+0OJKl/qBEzivHfpR95gSz6ADnfeMjVjxxaNAEp3yD3zY86Rvf6z7WV3D/JvGCM7i3s6u7tksSixAdWb5EdlnPhcdCiFrUroPBi27x2qCBIMVpI5JP+L256/wTdT6pj9GYs7CA7yLtDZoXqeqEY7YC8XTUT7Z7G8yA7YYsaj9Xci2l6GXMbilvBoi1S7jKo6dI2m4F6Y8m6qeky0Ga696RROEKvTrJuYt4UQMtFdsC+poExOj0LMwoRHLY+skWjruUaH/0EZ6nGYXMiW7RDPrDjZo4KDpt83cnCh/fsmPtEtIZTZTrWMtw85Eq89G1dgpP8qt6wBG8WUN9Ggy3meKtFO6yE21BDBJdqtqszkpB7CE5jFPe6ApZujUe0jt7EPVM8XT7ewxajMpSX4KQu+Nw1B5DW3XqhITEqXUgnyKjgtibSEaMQ5Jpvv+atdIx6doH0Dqmu9j5GlypPpcdXQu5Q5dyVf+QDtqlEjw0xjs8Nn1Yo27Smh6vgMFx9An9ERXaro0sWY7d7xJOxmd2+2s1FVHTv0/2ebGin7CAbve6mB8dlAsPXc9Hsy03uo5QOuKu1c/tn6GB2n2HgiDpM78prXDeivATQe0UbRVxPbs2/xt1i9WwcTj7g4kwpEFl+PjbvhRVNHTrBoIjt+AHz/4r0VBQbSyNyKIui/N6noEPVe8NN8Ibs2K8//DucEfng5+0PLDG1Xg+bG0dde0SKDBiv0gwROjg2ZxVT2Yy87FfLNfasHvFIMa/UYVPMjKUVXgs2fD1E9Cc/zK7UZ75+DiCv+GHWTPExhjoGkPMJC5/A3Pk6GiVImLw2k5zP7IIk53MtfnjO10M8PeWzW9Ycnzh5UBGtmJ/zddOiQSpnooMIZMOdwNxlDG9AZsoDe20T2VJ9fQCHt5Hy/aMKXXyW/5n0XT1+Xrv19/ObFTpOEmufljrW/wb/AAtmKNAp48JkAAAAAElFTkSuQmCC"
-                />
-              </Link>
-              <MenuButton>
-                <Avatar
-                  size={["sm", "md", "md"]}
-                  bg={"rgb(230,228,224)"}
-                  color={"rgb(183,155,84)"}
-                  border={"3px solid rgb(183,155,84)"}
-                  name={username}
-                />
-              </MenuButton>
-
-              <MenuList bg={"rgb(250,248,244)"}>
-                <Center>
-                  <Text align={"flex-start"} fontSize={16} fontWeight={700}>
-                    {username}
-                  </Text>
-                </Center>
-                <MenuDivider />
-                <MenuItem
-                  onClick={() => {
-                    navigate("/art-portfolio");
-                  }}
-                  _hover={{ bg: "#f5f1ee" }}
-                  bg={"rgb(250,248,244)"}
-                >
-                  Your Profile
-                </MenuItem>
-                <MenuItem _hover={{ bg: "#f5f1ee" }} bg={"rgb(250,248,244)"}>
-                  Account Settings
-                </MenuItem>
-                <MenuItem _hover={{ bg: "#f5f1ee" }} bg={"rgb(250,248,244)"}>
-                  <Flex
-                    flexDir={"row"}
-                    _hover={{ bg: "#f5f1ee" }}
-                    bg={"rgb(250,248,244)"}
-                    width={"100%"}
+                {suggestionsOpen && searchQuery.trim() && (
+                  <Box
+                    position="absolute"
+                    top="100%"
+                    left={0}
+                    right={0}
+                    mt={1}
+                    bg="white"
+                    borderRadius="md"
+                    boxShadow="lg"
+                    zIndex={200}
+                    overflow="hidden"
+                    textAlign="left"
                   >
-                    <Image
-                      h={8}
-                      w={8}
-                      src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSGOVXjlJMidDtZrU0mrXlHzHdFE9_gVlvCGw&s"
-                    />{" "}
-                    <LogoutButton />
+                    {suggestionsLoading ? (
+                      <Flex justify="center" py={4}>
+                        <Spinner size="sm" color="brand.500" />
+                      </Flex>
+                    ) : suggestions.length === 0 ? (
+                      <Text px={4} py={3} color="gray.500">
+                        No matches found
+                      </Text>
+                    ) : (
+                      <>
+                        {suggestions.map((item) => (
+                          <ChakraLink
+                            as={Link}
+                            to={`/art/${item._id}`}
+                            key={item._id}
+                            display="flex"
+                            alignItems="center"
+                            gap={3}
+                            px={4}
+                            py={2}
+                            _hover={{ bg: "#f5f1ee", textDecoration: "none" }}
+                            onClick={() => setSuggestionsOpen(false)}
+                          >
+                            <Image
+                              src={item.artImage[0]}
+                              alt={item.artName}
+                              boxSize="36px"
+                              objectFit="cover"
+                              borderRadius="sm"
+                            />
+                            <Box>
+                              <Text fontSize="sm" fontWeight={600}>
+                                {item.artName}
+                              </Text>
+                              <Text fontSize="xs" color="gray.500">
+                                {item.username}
+                              </Text>
+                            </Box>
+                          </ChakraLink>
+                        ))}
+                        <ChakraLink
+                          as={Link}
+                          to={`/search?q=${encodeURIComponent(searchQuery.trim())}`}
+                          display="block"
+                          px={4}
+                          py={2}
+                          fontSize="sm"
+                          color="brand.500"
+                          fontWeight={600}
+                          borderTop="1px solid #eee"
+                          _hover={{ bg: "#f5f1ee", textDecoration: "none" }}
+                          onClick={() => setSuggestionsOpen(false)}
+                        >
+                          See all results
+                        </ChakraLink>
+                      </>
+                    )}
+                  </Box>
+                )}
+              </Center>
+              <HStack spacing={[1, 1, 2]} flexShrink={0}>
+                {!isGuest && (
+                  <Flex
+                    as={Link}
+                    to={"/wishlist"}
+                    align="center"
+                    justify="center"
+                    boxSize="44px"
+                    borderRadius="full"
+                    _hover={{ bg: "blackAlpha.100" }}
+                    transition="background 0.15s"
+                  >
+                    <FiHeart size={22} />
                   </Flex>
-                </MenuItem>
-              </MenuList>
+                )}
+                <Flex
+                  as={Link}
+                  to={"/cart"}
+                  position="relative"
+                  align="center"
+                  justify="center"
+                  boxSize="44px"
+                  borderRadius="full"
+                  _hover={{ bg: "blackAlpha.100" }}
+                  transition="background 0.15s"
+                >
+                  <FiShoppingCart size={22} />
+                  {cartCount > 0 && (
+                    <Badge
+                      position="absolute"
+                      top={0}
+                      right={0}
+                      borderRadius="full"
+                      bg="brand.500"
+                      color="white"
+                      fontSize="0.65rem"
+                      px={2}
+                      minW="18px"
+                      textAlign="center"
+                    >
+                      {cartCount}
+                    </Badge>
+                  )}
+                </Flex>
+                {isGuest ? (
+                  <Stack direction="row" spacing={2} align="center">
+                    <Button
+                      as={Link}
+                      to="/login"
+                      size="sm"
+                      variant="ghost"
+                      fontWeight={600}
+                    >
+                      Sign In
+                    </Button>
+                    <Button
+                      as={Link}
+                      to="/signup"
+                      size="sm"
+                      bg="brand.500"
+                      color="white"
+                      _hover={{ bg: "brand.600" }}
+                    >
+                      Sign Up
+                    </Button>
+                  </Stack>
+                ) : (
+                  <MenuButton
+                    borderRadius="full"
+                    transition="box-shadow 0.15s"
+                    _hover={{ boxShadow: "0 0 0 3px rgba(183,155,84,0.25)" }}
+                  >
+                    <Avatar
+                      size={["sm", "md", "md"]}
+                      bg={"rgb(230,228,224)"}
+                      color={"rgb(183,155,84)"}
+                      border={"3px solid rgb(183,155,84)"}
+                      name={username}
+                      src={profilePic || undefined}
+                    />
+                  </MenuButton>
+                )}
+              </HStack>
+
+              {!isGuest && (
+                <MenuList bg={"white"} borderRadius="md" boxShadow="lg" py={2} minW="220px">
+                    <Box px={4} py={2}>
+                      <Text fontSize={16} fontWeight={700}>
+                        {username}
+                      </Text>
+                    </Box>
+                    <MenuDivider />
+                    <MenuItem
+                      icon={<FiUser />}
+                      onClick={() => navigate("/profile")}
+                      _hover={{ bg: "#f5f1ee" }}
+                      bg={"white"}
+                    >
+                      Your Profile
+                    </MenuItem>
+                    {isArtist && (
+                      <>
+                        <MenuItem
+                          icon={<FiPackage />}
+                          onClick={() => navigate("/art-portfolio")}
+                          _hover={{ bg: "#f5f1ee" }}
+                          bg={"white"}
+                        >
+                          Your Art Portfolio
+                        </MenuItem>
+                        <MenuItem
+                          icon={<FiPackage />}
+                          onClick={() => navigate("/sales")}
+                          _hover={{ bg: "#f5f1ee" }}
+                          bg={"white"}
+                        >
+                          Your Sales
+                        </MenuItem>
+                      </>
+                    )}
+                    <MenuItem
+                      icon={<FiPackage />}
+                      onClick={() => navigate("/orders")}
+                      _hover={{ bg: "#f5f1ee" }}
+                      bg={"white"}
+                    >
+                      Your Orders
+                    </MenuItem>
+                    <MenuItem
+                      icon={<FiHeart />}
+                      onClick={() => navigate("/wishlist")}
+                      _hover={{ bg: "#f5f1ee" }}
+                      bg={"white"}
+                    >
+                      Your Wishlist
+                    </MenuItem>
+                    <MenuItem
+                      icon={<FiSettings />}
+                      onClick={() => navigate("/settings")}
+                      _hover={{ bg: "#f5f1ee" }}
+                      bg={"white"}
+                    >
+                      Account Settings
+                    </MenuItem>
+                    <MenuDivider />
+                    <MenuItem
+                      icon={<FiLogOut />}
+                      onClick={handleLogout}
+                      color="red.500"
+                      _hover={{ bg: "red.50" }}
+                      bg={"white"}
+                    >
+                      Logout
+                    </MenuItem>
+                  </MenuList>
+              )}
             </Menu>
           </Flex>
         </HStack>
@@ -160,7 +462,19 @@ export default function NavBar() {
           >
             <Flex justifyContent="center" alignItems="center" spacing={8}>
               {Links.map((el) => (
-                <ChakraLink as={Link} to={el.link} key={el.ids} mx={4}>
+                <ChakraLink
+                  as={Link}
+                  to={el.link}
+                  key={el.ids}
+                  mx={4}
+                  fontWeight={location.pathname === el.link ? 700 : 400}
+                  color={location.pathname === el.link ? "brand.500" : "inherit"}
+                  borderBottom={
+                    location.pathname === el.link ? "2px solid" : "none"
+                  }
+                  borderColor="brand.500"
+                  _hover={{ textDecoration: "none", color: "brand.500" }}
+                >
                   {el.name}
                 </ChakraLink>
               ))}
@@ -178,7 +492,7 @@ export default function NavBar() {
               fontSize={["xs", "sm", "sm", "sm", "md", "lg"]}
             >
               {Links.map((el) => (
-                <Link to={el.link} key={el.ids}>
+                <Link to={el.link} key={el.ids} onClick={onClose}>
                   {el.name}{" "}
                 </Link>
               ))}
@@ -186,6 +500,6 @@ export default function NavBar() {
           </Box>
         ) : null}
       </Box>
-    </>
+    </Box>
   );
 }
