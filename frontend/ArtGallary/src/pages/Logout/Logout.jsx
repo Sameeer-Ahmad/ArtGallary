@@ -1,10 +1,10 @@
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { API } from "../../API/api";
-// import { useHistory } from "react-router-dom";
 
-const LogoutButton = () => {
-    const navigate = useNavigate();
+export const useLogout = () => {
+  const navigate = useNavigate();
+
   const handleLogout = async () => {
     try {
       const response = await axios.post(
@@ -18,16 +18,23 @@ const LogoutButton = () => {
       );
       if (response.status === 200) {
         localStorage.removeItem("token");
+        localStorage.removeItem("userID");
+        localStorage.removeItem("username");
+        localStorage.removeItem("role");
+        localStorage.removeItem("profilePic");
         navigate("/login");
       }
     } catch (error) {
       console.error("Error during logout:", error);
-      // Handle error here
     }
   };
 
-  return <button onClick={handleLogout}>Logout</button>;
+  return handleLogout;
 };
 
+const LogoutButton = () => {
+  const handleLogout = useLogout();
+  return <button onClick={handleLogout}>Logout</button>;
+};
 
 export default LogoutButton;

@@ -2,23 +2,18 @@ const mongoose = require("mongoose");
 
 const otpSchema = new mongoose.Schema(
   {
-    user_id: { type: mongoose.Schema.Types.ObjectId, ref: "user" },
+    user_id: { type: mongoose.Schema.Types.ObjectId, ref: "user", required: true },
     otp: { type: Number, required: true },
-    timestamp: {
-      type: Date,
-      default: Date.now,
-      required: true,
-      get: (timestamp) => timestamp.getTime(),
-      set: (timestamp) => new Date(timestamp),
-    },
+    used: { type: Boolean, default: false },
+    expiresAt: { type: Date, required: true },
   },
-
   {
     versionKey: false,
+    timestamps: true,
   }
 );
 
-const otpModel = mongoose.model("otp", tokenSchema);
+const otpModel = mongoose.model("otp", otpSchema);
 module.exports = {
   otpModel,
 };
