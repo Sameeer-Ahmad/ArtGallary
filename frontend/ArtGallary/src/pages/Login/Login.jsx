@@ -1,20 +1,22 @@
 import { useState } from "react";
 import { ViewIcon, ViewOffIcon } from "@chakra-ui/icons";
 import {
-  Flex,
   Box,
   FormLabel,
   Input,
   Stack,
-  Heading,
   Button,
   InputGroup,
   InputRightElement,
-  Spinner // Import Spinner component
+  Text,
+  Spinner,
+  useToast,
 } from "@chakra-ui/react";
 import { Link, useNavigate } from "react-router-dom";
-import { useToast } from "@chakra-ui/react";
+import axios from "axios";
 import { API } from "../../API/api";
+import { getGuestCart, clearGuestCart } from "../../API/guestCart";
+import AuthLayout from "../../Component/AuthLayout/AuthLayout";
 
 function Login() {
   const [email, setEmail] = useState("");
@@ -40,128 +42,117 @@ function Login() {
       body: JSON.stringify(payload),
     })
       .then((res) => res.json())
-      .then((data) => {
+      .then(async (data) => {
         setIsLoading(false); // Set loading to false when login process completes
         if (data.token) {
+          localStorage.setItem("token", data.token);
+          localStorage.setItem("userID", data.userID);
+          localStorage.setItem("username", data.username);
+          localStorage.setItem("role", data.role || "collector");
+          localStorage.setItem("profilePic", data.profilePic || "");
+
+          const guestItems = getGuestCart();
+          if (guestItems.length > 0) {
+            await Promise.all(
+              guestItems.map((item) =>
+                axios
+                  .post(
+                    `${API}/art/addToCart`,
+                    { artId: item.artId, quantity: item.quantity },
+                    { headers: { Authorization: `Bearer ${data.token}` } }
+                  )
+                  .catch((err) => console.error("Error merging guest cart item:", err))
+              )
+            );
+            clearGuestCart();
+            window.dispatchEvent(new Event("cart:updated"));
+          }
+
           toast({
             title: "Logged in successfully",
             status: "success",
             duration: 3000,
             isClosable: true,
           });
-          localStorage.setItem("token", data.token);
-          localStorage.setItem("username", data.username);
-          navigate("/home");
+          navigate(guestItems.length > 0 ? "/cart" : "/home");
         } else {
-          alert("Invalid email or password");
+          toast({
+            title: data.error || "Invalid email or password",
+            status: "error",
+            duration: 3000,
+            isClosable: true,
+          });
         }
       })
       .catch((err) => {
         setIsLoading(false); // Set loading to false if login process encounters an error
         console.log(err);
+        toast({
+          title: "Could not reach the server. Please try again.",
+          status: "error",
+          duration: 3000,
+          isClosable: true,
+        });
       });
   };
 
   return (
-    <Stack
-      minH={"100vh"}
-      direction={{ base: "column", md: "row" }}
-      backgroundImage="url('https://images.unsplash.com/photo-1578926375605-eaf7559b1458?q=80&w=1963&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D')"
-      backgroundSize="cover"
-      backgroundPosition="center"
-      display="flex"
-      alignItems="center"
-      justifyContent="center"
+    <AuthLayout
+      title="Welcome back"
+      subtitle="Sign in to continue collecting."
     >
-      <Flex p={8} flex={1} align={"center"} justify={"center"}>
-        <Stack spacing={4} w={"full"} maxW={"md"}>
-          <Heading fontSize={"40px"} color={"#B79B54"}>
-            Sign in to your account
-          </Heading>
-          <Box as="form" onSubmit={handleLogin} flex={1} gap={"20px"}>
-            <FormLabel>Enter Email address</FormLabel>
+      <Box as="form" onSubmit={handleLogin}>
+        <Stack spacing={4}>
+          <Box>
+            <FormLabel>Email address</FormLabel>
             <Input
-              type="text"
-              placeholder="email"
+              type="email"
+              placeholder="you@example.com"
+              bg="white"
               value={email}
-              boxShadow={
-                "rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 1px 3px 1px"
-              }
-              border={"none"}
               onChange={(e) => setEmail(e.target.value)}
+              required
             />
-            <FormLabel mt={"10px"}> Enter Password</FormLabel>
+          </Box>
+          <Box>
+            <FormLabel>Password</FormLabel>
             <InputGroup>
               <Input
                 type={showPassword ? "text" : "password"}
-                placeholder="password"
+                placeholder="Password"
+                bg="white"
                 value={password}
-                boxShadow={
-                  "rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 1px 3px 1px"
-                }
-                border={"none"}
                 onChange={(e) => setPassword(e.target.value)}
+                required
               />
-              <InputRightElement h={"full"}>
+              <InputRightElement>
                 <Button
-                  variant={"ghost"}
-                  onClick={() =>
-                    setShowPassword((showPassword) => !showPassword)
-                  }
+                  variant="ghost"
+                  size="sm"
+                  onClick={() => setShowPassword((prev) => !prev)}
                 >
                   {showPassword ? <ViewIcon /> : <ViewOffIcon />}
                 </Button>
               </InputRightElement>
             </InputGroup>
-
-            <Stack spacing={6}>
-              <Stack
-                direction={{ base: "column", sm: "row" }}
-                align={"start"}
-                justify={"space-between"}
-              ></Stack>
-              <Button
-                _hover={{ bg: "white", color: "#B79B54" }}
-                variant={"solid"}
-                border={"2px solid #B79B54"}
-                boxShadow={
-                  "rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 1px 3px 1px"
-                }
-                color={"white"}
-                background={"#B79B54"}
-                borderRadius={"20px"}
-                type="submit"
-                disabled={isLoading}
-              >
-                {isLoading ? (
-                  <Spinner color="white" size="sm" />
-                ) : (
-                  "Sign in"
-                )}
-              </Button>
-              <Link to="/signup">
-                <Button
-                  _hover={{ bg: "white", color: "#B79B54" }}
-                  width={["100%", "100%"]}
-                  variant={"solid"}
-                  border={"2px solid #B79B54"}
-                  boxShadow={
-                    "rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 1px 3px 1px"
-                  }
-                  color={"white"}
-                  background={"#B79B54"}
-                  borderRadius={"20px"}
-                  type="submit"
-                >
-                  Sign Up
-                </Button>
+            <Text mt={2} textAlign="right">
+              <Link to="/forgot-password" style={{ color: "#B79B54", fontSize: "14px" }}>
+                Forgot password?
               </Link>
-            </Stack>
+            </Text>
           </Box>
+          <Button type="submit" isDisabled={isLoading} mt={2}>
+            {isLoading ? <Spinner color="white" size="sm" /> : "Sign In"}
+          </Button>
         </Stack>
-      </Flex>
-      <Flex flex={1}></Flex>
-    </Stack>
+      </Box>
+      <Text mt={6} textAlign="center" color="gray.600">
+        Don&apos;t have an account?{" "}
+        <Link to="/signup" style={{ color: "#B79B54", fontWeight: 600 }}>
+          Sign up
+        </Link>
+      </Text>
+    </AuthLayout>
   );
 }
 

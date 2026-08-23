@@ -13,7 +13,6 @@ import {
   PopoverContent,
   useColorModeValue,
   useDisclosure,
-  Image,
 } from "@chakra-ui/react";
 import {
   HamburgerIcon,
@@ -54,13 +53,15 @@ export default function DashNav() {
           />
         </Flex>
         <Flex flex={{ base: 1 }} justify={{ base: "center", md: "start" }}>
-          <Image
-            h={16}
-            w={16}
-            src="https://theartling.com/build/_assets/TheArtlingLogo-BZIAGPLW.svg"
-            alt="logo"
+          <Text
+            fontFamily="heading"
+            fontSize="26px"
+            fontWeight={700}
+            color="brand.500"
             pl={[3, 0, 0]}
-          />
+          >
+            The Artline
+          </Text>
 
           <Flex
             display={{ base: "none", md: "flex" }}
@@ -158,6 +159,7 @@ const DesktopNav = () => {
   );
 };
 
+// eslint-disable-next-line react/prop-types
 const DesktopSubNav = ({ label, href, subLabel }) => {
   return (
     <RouterLink 
@@ -204,6 +206,7 @@ const MobileNav = () => {
   );
 };
 
+// eslint-disable-next-line react/prop-types
 const MobileNavItem = ({ label, children, href }) => {
   const [isOpen, setIsOpen] = useState(false);
 

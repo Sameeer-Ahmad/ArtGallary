@@ -1,3 +1,5 @@
+import { useState } from "react";
+import { Link } from "react-router-dom";
 import {
   Box,
   Text,
@@ -7,12 +9,64 @@ import {
   Container,
   SimpleGrid,
   Heading,
- 
+  useToast,
 } from "@chakra-ui/react";
 
-import { FaInstagram, FaTwitter, FaYoutube } from "react-icons/fa";
+const LINK_COLUMNS = [
+  {
+    heading: "The Artline",
+    links: [
+      { label: "About", to: "/about" },
+      { label: "Contact Us", to: "/contactus" },
+      { label: "FAQs", to: "/contactus" },
+    ],
+  },
+  {
+    heading: "Shop",
+    links: [
+      { label: "Painting", to: "/art/paintings" },
+      { label: "Sculpture", to: "/art/sculpture" },
+      { label: "Photography", to: "/art/photography" },
+      { label: "Drawings", to: "/art/drawings" },
+      { label: "Prints", to: "/art/prints" },
+      { label: "Inspiration", to: "/art/inspiration" },
+    ],
+  },
+  {
+    heading: "Account",
+    links: [
+      { label: "Your Cart", to: "/cart" },
+      { label: "Your Orders", to: "/orders" },
+      { label: "Sign In", to: "/login" },
+      { label: "Sign Up", to: "/signup" },
+    ],
+  },
+];
 
 const Footer = () => {
+  const [email, setEmail] = useState("");
+  const toast = useToast();
+
+  const handleSubscribe = (e) => {
+    e.preventDefault();
+    if (!/\S+@\S+\.\S+/.test(email)) {
+      toast({
+        title: "Enter a valid email address",
+        status: "error",
+        duration: 3000,
+        isClosable: true,
+      });
+      return;
+    }
+    toast({
+      title: "Subscribed! You'll hear from us soon.",
+      status: "success",
+      duration: 3000,
+      isClosable: true,
+    });
+    setEmail("");
+  };
+
   return (
     <Box bg="#f5f1ee" w="100%" p={4} color="white">
       <Stack align={"flex-start"} alignItems={"center"}>
@@ -24,15 +78,18 @@ const Footer = () => {
         >
           Subscribe for the latest updates in contemporary art & design!
         </Text>
-        <Stack direction={"row"}>
+        <Stack as="form" direction={"row"} onSubmit={handleSubscribe}>
           <Input
             marginTop={"20px"}
             color="tomato"
             placeholder="Enter Your Email"
             bg="white"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
             _placeholder={{ opacity: 1.8, color: "grey" }}
           />
           <Button
+            type="submit"
             size="md"
             height="38px"
             width="140px"
@@ -47,159 +104,26 @@ const Footer = () => {
         </Stack>
       </Stack>
 
-      <Stack
-        direction={"row"}
-        marginTop={"30px"}
-        justifyContent={"center"}
-        spacing={6}
-      >
-        <Button label={"Twitter"} href={"#"}>
-          <FaTwitter color="#169bef" />
-        </Button>
-        <Button label={"YouTube"} href={"#"}>
-          <FaYoutube color="red" />
-        </Button>
-        <Button label={"Instagram"} href={"#"}>
-          <FaInstagram color="red" />
-        </Button>
-      </Stack>
-
-      {/* footer column */}
       <Container as={Stack} maxW={"6xl"} py={10}>
-        <SimpleGrid columns={{ base: 2, sm: 3, md: 6 }} spacing={7}>
-          <Stack align={"flex-start"}>
-            <Heading fontSize={"xl"} color={"#1e0e00"}>
-              The Artling
-            </Heading>
-            <Box as="a" color="#685253" href="#inner-link">
-              {" "}
-              Art Consulatancy
-            </Box>
-            <Box as="a" color="#685253" href="#inner-link">
-              {" "}
-              About us
-            </Box>
-            <Box as="a" color="#685253" href="#inner-link">
-              {" "}
-              The Team
-            </Box>
-            <Box as="a" color="#685253" href="#inner-link">
-              Press
-            </Box>
-            <Box as="a" color="#685253" href="#inner-link">
-              {" "}
-              Careers
-            </Box>
-            <Box as="a" color="#685253" href="#inner-link">
-              {" "}
-              Contact Us
-            </Box>
-          </Stack>
-          <Stack align={"flex-start"}>
-            <Heading fontSize={"xl"} color={"#1e0e00"}>
-              Customer Care{" "}
-            </Heading>
-            <Box as="a" color="#685253" href="#inner-link">
-              {" "}
-              FAQs
-            </Box>
-            <Box as="a" color="#685253" href="#inner-link">
-              {" "}
-              Shipping and Returns
-            </Box>
-            <Box as="a" color="#685253" href="#inner-link">
-              {" "}
-              Terms Of use
-            </Box>
-            <Box as="a" color="#685253" href="#inner-link">
-              Privacy Policy
-            </Box>
-            <Box as="a" color="#685253" href="#inner-link">
-              {" "}
-              Buy a gift card
-            </Box>
-          </Stack>
-          <Stack align={"flex-start"}>
-            <Heading fontSize={"xl"} color={"#1e0e00"}>
-              For Trade
-            </Heading>
-            <Box as="a" color="#685253" href="#inner-link">
-              {" "}
-              Trade Program
-            </Box>
-          </Stack>
-          <Stack align={"flex-start"}>
-            <Heading fontSize={"xl"} color={"#1e0e00"}>
-              Sell
-            </Heading>
-            <Box as="a" color="#685253" href="#inner-link">
-              {" "}
-              Seller Guide
-            </Box>
-            <Box as="a" color="#685253" href="#inner-link">
-              {" "}
-              Seller Resouces
-            </Box>
-          </Stack>
-          <Stack align={"flex-start"}>
-            <Heading fontSize={"xl"} color={"#1e0e00"}>
-              Discover
-            </Heading>
-            <Box as="a" color="#685253" href="#inner-link">
-              {" "}
-              Art
-            </Box>
-            <Box as="a" color="#685253" href="#inner-link">
-              {" "}
-              Design
-            </Box>
-            <Box as="a" color="#685253" href="#inner-link">
-              {" "}
-              Prints
-            </Box>
-            <Box as="a" color="#685253" href="#inner-link">
-              Artist and Designers
-            </Box>
-            <Box as="a" color="#685253" href="#inner-link">
-              {" "}
-              Galleries
-            </Box>
-            <Box as="a" color="#685253" href="#inner-link">
-              {" "}
-              Collections
-            </Box>
-            <Box as="a" color="#685253" href="#inner-link">
-              {" "}
-              Events
-            </Box>
-          </Stack>
-          <Stack align={"flex-start"}>
-            <Heading fontSize={"xl"} color={"#1e0e00"}>
-              Artzine
-            </Heading>
-            <Box as="a" color="#685253" href="#inner-link">
-              {" "}
-              Art 101
-            </Box>
-            <Box as="a" color="#685253" href="#inner-link">
-              {" "}
-              Design
-            </Box>
-            <Box as="a" color="#685253" href="#inner-link">
-              {" "}
-              Fetures and Interviews
-            </Box>
-            <Box as="a" color="#685253" href="#inner-link">
-              {" "}
-              Artling Social
-            </Box>
-            <Box as="a" color="#685253" href="#inner-link">
-              {" "}
-              Advisory Blog
-            </Box>
-          </Stack>
+        <SimpleGrid columns={{ base: 2, sm: 3 }} spacing={7}>
+          {LINK_COLUMNS.map((col) => (
+            <Stack align={"flex-start"} key={col.heading}>
+              <Heading fontSize={"xl"} color={"#1e0e00"}>
+                {col.heading}
+              </Heading>
+              {col.links.map((link) => (
+                <Box as={Link} to={link.to} color="#685253" key={link.label}>
+                  {link.label}
+                </Box>
+              ))}
+            </Stack>
+          ))}
         </SimpleGrid>
       </Container>
+
+      <Text textAlign="center" color="#685253" fontSize="sm" pb={4}>
+        &copy; {new Date().getFullYear()} The Artline. All rights reserved.
+      </Text>
     </Box>
   );
 };
